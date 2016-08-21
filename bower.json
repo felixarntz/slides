@@ -1,0 +1,21 @@
+{
+  "name": "leaves-and-love-slides",
+  "version": "1.0.0",
+  "description": "Slides for leaves-and-love.net",
+  "keywords": [
+    "wordpress",
+    "slides",
+    "reveal"
+  ],
+  "homepage": "https://slides.leaves-and-love.net",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "http://leaves-and-love.net"
+    }
+  ],
+  "dependencies": {
+    "reveal.js": "3.3.0"
+  }
+}

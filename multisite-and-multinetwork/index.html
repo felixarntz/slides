@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Multisite &amp; Multinetwork</title>
+
+		<meta name="description" content="The default template for a presentation.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						Multisite &amp; Multinetwork
+					</h1>
+
+					<p class="intro">
+						How it can help you and how you can help it
+					</p>
+				</section>
+
+				<section>
+					<ol>
+						<li>
+							Multisite
+							<small>Introduction, Benefits, Use Cases, Setup</small>
+						</li>
+						<li class="fragment">
+							Multinetwork
+							<small>Introduction, Benefits, Use Cases, Setup</small>
+						</li>
+						<li class="fragment">
+							Developer Best Practices
+							<small>History, Issues, Plugins</small>
+						</li>
+						<li class="fragment">
+							Gist
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Introduction</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/site.png">
+						<figcaption>A regular WordPress site</figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Introduction</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/multisite.png">
+						<figcaption>Multisite: a <strong>network</strong> of <strong>sites</strong></figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Benefits</small>
+					</h2>
+
+					<div class="row">
+						<div class="col-50">
+							<img data-src="assets/detail-site-dashboard.png">
+						</div>
+						<div class="col-50">
+							<img data-src="assets/detail-multisite-dashboard.png">
+						</div>
+					</div>
+
+					<ul>
+						<li class="fragment">
+							easy update management without a third-party tool
+						</li>
+						<li class="fragment">
+							sites can interact with each other directly (without a remote request)
+						</li>
+					</ul>
+
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Benefits</small>
+					</h2>
+
+					<img data-src="assets/multisite-network-dashboard.png" class="limited-landscape">
+
+					<ul>
+						<li class="fragment">
+							common user management across the entire multisite
+						</li>
+						<li class="fragment">
+							sites can have their individual admins while a network admin has control over the entire network
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Benefits</small>
+					</h2>
+
+					<div class="row">
+						<div class="col-50">
+							<img data-src="assets/detail-site-plugins.png">
+						</div>
+						<div class="col-50">
+							<img data-src="assets/detail-multisite-plugins.png">
+						</div>
+					</div>
+
+					<ul>
+						<li class="fragment">
+							plugins can be network-activated (so that they run on all sites)
+						</li>
+						<li class="fragment">
+							better user capabilities: network administrators manage plugins and themes while regular admins still have access to everything else
+						</li>
+					</ul>
+
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Use Cases</small>
+					</h2>
+
+					<ul>
+						<li>
+							outsourcing parts of a website (for example blog.example.com)
+						</li>
+						<li class="fragment">
+							managing clients that have multiple websites
+						</li>
+						<li class="fragment">
+							hosting client sites in one WordPress installation
+						</li>
+						<li class="fragment">
+							running a social network where users can create their own sites
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Use Cases</small>
+					</h2>
+
+					<img data-src="assets/wordpress.com.png" class="limited-landscape">
+				</section>
+
+				<section>
+					<h2>
+						Multisite
+						<small>Setup</small>
+					</h2>
+
+					<a href="https://codex.wordpress.org/Create_A_Network"><code>https://codex.wordpress.org/Create_A_Network</code></a>
+
+					<img data-src="assets/create-a-network.png" class="limited-landscape">
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Introduction</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/multisite.png">
+						<figcaption>Multisite: a <strong>network</strong> of <strong>sites</strong></figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Introduction</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/multinetwork.png">
+						<figcaption>Multinetwork: multiple <strong>networks</strong> of <strong>sites</strong></figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Benefits</small>
+					</h2>
+
+					<img data-src="assets/multinetwork-network-dashboard.png" class="limited-landscape">
+
+					<p class="intro">
+						Why not just have a multisite?
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Benefits</small>
+					</h2>
+
+					<img data-src="assets/multisite-vs-multinetwork.png" class="limited-landscape">
+
+					<p class="intro">
+						BECAUSE WAPUU SAY SO.
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Benefits</small>
+					</h2>
+
+					<img data-src="assets/multinetwork-network-networks.png" class="limited-landscape">
+
+					<ul>
+						<li class="fragment">
+							sites can be separated into groups of sites
+						</li>
+						<li class="fragment">
+							each network can have individual network admins, network-activated plugins etc.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Use Cases</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/smftampa.png" class="limited-landscape">
+						<figcaption>Separate sites based on their functionality or ownership.</figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Use Cases</small>
+					</h2>
+
+					<figure>
+						<img data-src="assets/washington-state-university.png" class="limited-landscape">
+						<figcaption>Host huge infrastructures with complex hierarchies.</figcaption>
+					</figure>
+				</section>
+
+				<section>
+					<h2>
+						Multinetwork
+						<small>Setup</small>
+					</h2>
+
+					<a href="https://wordpress.org/plugins/wp-multi-network/"><code>https://wordpress.org/plugins/wp-multi-network/</code></a>
+
+					<img data-src="assets/wp-multi-network.png" class="limited-landscape">
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>History</small>
+					</h2>
+
+					<ul>
+						<li>
+							WordPress was not invented with Multisite and (especially) Multinetwork in mind
+						</li>
+						<li class="fragment">
+							Multisite started as „WordPress MU“ and was merged into WordPress Core in version 3.0 (see <a href="https://mu.wordpress.org/">https://mu.wordpress.org/</a>)
+						</li>
+						<li class="fragment">
+							therefore some things are not solved in an optimal way
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>History</small>
+					</h2>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Old naming conventions</th>
+								<th>Current naming conventions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Blog</td>
+								<td>Site</td>
+							</tr>
+							<tr>
+								<td>Site</td>
+								<td>Network</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<ul>
+						<li>
+							because of backwards compatibility, these naming conventions are used interchangeably in WordPress Core
+							<ul>
+								<li>
+									everything new uses the current conventions
+								</li>
+								<li>
+									old code uses the old conventions
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+					<img data-src="assets/wtf.png">
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Issues</small>
+					</h2>
+
+					<ul>
+						<li>
+							when working with Multisite / Multinetwork, you might encounter minor issues or features you‘re missing (but everything can be fixed)
+						</li>
+						<li class="fragment">
+							methods to fix these:
+							<ul>
+								<li>
+									write a must-use plugin or create your own <code>sunrise.php</code> (short-term solution)
+								</li>
+								<li>
+									contribute to WordPress Core and actually fix it at its base (long-term solution)
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Issues</small>
+					</h2>
+
+					<img data-src="assets/404.jpg" class="limited-landscape">
+
+					<ul>
+						<li class="fragment">
+							a site like <code>www.example.com</code> is not properly redirected to when entering <code>example.com</code>
+						</li>
+						<li class="fragment">
+							the URL scheme is also not considered for possible redirections (HTTP vs HTTPS)
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Issues</small>
+					</h2>
+
+					<img data-src="assets/multinetwork-without-manager.png" class="limited-landscape">
+
+					<ul>
+						<li class="fragment">
+							What is the next step in the hierarchy, beyond networks? There is none.
+						</li>
+						<li class="fragment">
+							Any network admin can create new networks which is usually undesirable.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Issues</small>
+					</h2>
+
+					<img data-src="assets/network-manager.png" class="limited-landscape">
+
+					<ul>
+						<li>
+							Idea: a network manager (or global admin)
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Issues</small>
+					</h2>
+
+					<a href="https://github.com/felixarntz/multisite-fixes"><code>https://github.com/felixarntz/multisite-fixes</code></a>
+
+					<img data-src="assets/multisite-fixes.png" class="limited-landscape">
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Plugins</small>
+					</h2>
+
+					<h3 class="intro">
+						Don't keep Multisite and Multinetwork out!
+					</h3>
+
+					<p class="intro">
+						Supporting them in your plugin is very easy.
+						<br>
+						<small>(usually it's only about activation/deactivation/uninstallation routines)</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Plugins</small>
+					</h2>
+
+					<pre><code class="php">function myplugin_activate( $network_wide ) {
+	myplugin_install_table();
+}
+</code></pre>
+
+					<p class="intro">
+						<strong>Bad Example:</strong>
+						Multisite is not handled at all.
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Plugins</small>
+					</h2>
+
+					<pre><code class="php">function myplugin_activate( $network_wide ) {
+	global $wpdb;
+
+	if ( $network_wide ) {
+		$site_ids = $wpdb->get_col(
+			"SELECT blog_id FROM $wpdb->blogs"
+		);
+		foreach ( $site_ids as $site_id ) {
+			switch_to_blog( $site_id );
+			myplugin_install_table();
+			restore_current_blog();
+		}
+	} else {
+		myplugin_install_table();
+	}
+}
+</code></pre>
+
+					<p class="intro">
+						<strong>Bad Example:</strong>
+						Multisite is handled, but Multinetwork is ignored.
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Developer Best Practices
+						<small>Plugins</small>
+					</h2>
+
+					<pre><code class="php">function myplugin_activate( $network_wide ) {
+	global $wpdb;
+
+	if ( $network_wide ) {
+		$site_ids = $wpdb->get_col(
+			"SELECT blog_id FROM $wpdb->blogs WHERE site_id = $wpdb->siteid"
+		);
+		foreach ( $site_ids as $site_id ) {
+			switch_to_blog( $site_id );
+			myplugin_install_table();
+			restore_current_blog();
+		}
+	} else {
+		myplugin_install_table();
+	}
+}
+</code></pre>
+
+					<p class="intro">
+						<strong>Good Example:</strong>
+						Multisite and Multinetwork are handled.
+					</p>
+				</section>
+
+				<section>
+					<h2>
+						Gist
+					</h2>
+
+					<ul>
+						<li>
+							if this session got you interested, I‘d love for you to start playing around with Multisite (and Multinetwork)
+						</li>
+						<li class="fragment">
+							if you‘re a plugin developer, please make sure your code runs properly on Multisite/Multinetwork
+						</li>
+						<li class="fragment">
+							if you find issues with Multisite, consider contributing to the Multisite component in WordPress Core – it is a pretty small team, so your help will be much appreciated
+						</li>
+						<li class="fragment">
+							if you find issues with Multinetwork, consider helping out with the WP Multi Network plugin
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Contributor / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer">
+				<a href="/multisite-and-multinetwork/" class="left">Multisite &amp; Multinetwork</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
