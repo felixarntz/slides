@@ -22,7 +22,7 @@ body {
 	background: #98bdef;
 	text-shadow: none; }
 
-.reveal .slides {
+body.has-footer .reveal .slides {
 	padding-bottom: 40px !important;
 }
 
@@ -162,12 +162,18 @@ body {
 	margin: 20px auto;
 	padding: 5px;
 	font-style: italic;
-	background: rgba(255, 255, 255, 0.05);
-	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+	text-align: left;
+	background: rgba(255, 255, 255, 0.05); }
 
 .reveal blockquote p:first-child,
 .reveal blockquote p:last-child {
 	display: inline-block; }
+
+.reveal blockquote cite {
+	display: block;
+	text-align: right;
+	font-size: 80%;
+}
 
 .reveal q {
 	font-style: italic; }
@@ -362,7 +368,7 @@ body {
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
-.reveal .controls {
+body.has-footer .reveal .controls {
 	bottom: 40px;
 }
 
@@ -431,6 +437,17 @@ body {
 .reveal .footer .left,
 .reveal .footer .right {
 	margin: 0 12px;
+}
+
+.reveal .slides > section.has-credit {
+	padding-bottom: 40px;
+}
+
+.reveal .credit {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	font-style: italic;
 }
 
 @media screen and (max-width: 420px) {

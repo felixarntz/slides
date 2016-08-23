@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Where are the Core Contributors?</title>
+
+		<meta name="description" content="WordPress philosophies, code quality and how you can benefit from contributing - an investigative experience report from a young Core contributor.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						Where are the Core Contributors?
+					</h1>
+
+					<p>
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</p>
+				</section>
+
+				<section class="has-credit">
+					<p>
+						There are <strong>&gt; 300</strong> employees across <strong>12</strong> VIP partners.
+						<br>
+						<small><a href="https://vip.wordpress.com/partners/">https://vip.wordpress.com/partners/</a></small>
+					</p>
+					<p class="fragment">
+						There are <strong>4081</strong> themes in the WordPress repository.
+						<br>
+						<small><a href="https://wordpress.org/themes/">https://wordpress.org/themes/</a></small>
+					</p>
+					<p class="fragment">
+						There are <strong>46290</strong> plugins in the WordPress repository.
+						<br>
+						<small><a href="https://wordpress.org/plugins/">https://wordpress.org/plugins/</a></small>
+					</p>
+					<p class="fragment" style="margin-top:60px;">
+						<strong>57</strong> people contributed to 10 or more releases between 3.2 and 4.3 versions.
+						<br>
+						<small><a href="https://daily.jorb.in/2016/07/27/wordpress-contributor-continuity-and-other-stats/">https://daily.jorb.in/2016/07/27/wordpress-contributor-continuity-and-other-stats/</a></small>
+					</p>
+
+					<small class="credit">(as of: 2016/08/23)</small>
+				</section>
+
+				<section data-background-color="#444444" data-background-image="assets/wordpress-code.jpg">
+					<h2>
+						Benefits of contributing to Core
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							work on a software that powers more than a quarter of the web
+						</li>
+						<li class="fragment">
+							get to know WordPress Core from the inside out
+						</li>
+						<li class="fragment">
+							develop clean with a focus on documentation and unit tests
+						</li>
+						<li class="fragment">
+							write code with accessibility in mind
+						</li>
+						<li class="fragment">
+							put emphasis on areas that you would like to see improved
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Research Methods
+					</h2>
+
+					<ul>
+						<li>Twitter Survey</li>
+						<li>Detailed Survey for Core Developers</li>
+						<li>several blog posts</li>
+					</ul>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wceu-2015.jpg">
+					<h2>
+						My Personal Experience
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							<strong>Excited:</strong> first contribution and (guided) patch at a Contributor Day
+						</li>
+						<li class="fragment">
+							<strong>Motivated:</strong> several tickets and patches immediately afterwards here or there
+						</li>
+						<li class="fragment">
+							<strong>Frustrated:</strong> quite a few rejected
+						</li>
+					</ul>
+
+					<small class="credit">original photo by <a href="https://florianziegler.com/wordcamp-europe-2015-contributor-day/">Florian Ziegler</a></small>
+				</section>
+
+				<section data-background="assets/wontfix.png">
+					<h2>
+						Why I was frustrated
+					</h2>
+
+					<p class="intro fragment">
+						I was rushing it too much and had not read the handbook enough.
+					</p>
+
+					<p class="intro fragment">
+						I had no clear goal in mind.
+					</p>
+				</section>
+
+				<section>
+					<blockquote>
+						<p>
+							&quot;Start with something small to get to know the code and the community. Learn the WordPress philosophies.&quot;
+						</p>
+						<cite>- Pascal Birchler, Guest Committer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;Find something you care about or that motivates you - contributing for the sake of contributing does not work for anybody as a long-term plan. This might be a component, or project, or triage, or testing, or whatever.&quot;
+						</p>
+						<cite>- Helen Hou-Sandi, Lead Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>
+						Why do people not contribute to Core?
+					</h2>
+
+					<img data-src="assets/twitter-results.png">
+				</section>
+
+				<section class="has-credit" data-background="assets/piece-of-pie.jpg">
+					<p class="intro">
+						I really don't have enough time!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;I think a good rule of thumb that will scale with the community as it continues to grow is that organizations that want to grow the WordPress pie (and not just their piece of it) should dedicate 5% of their people to working on something to do with core — be it development, documentation, security, support forums, theme reviews, training, testing, translation or whatever it might be that helps move WordPress mission forward.&quot;
+						</p>
+						<cite>- Matt Mullenweg, Co-Founder in <a href="https://ma.tt/2014/09/five-for-the-future/">Five for the Future</a></cite>
+					</blockquote>
+
+					<small class="credit">original photo by <a href="https://commons.wikimedia.org/wiki/File:Pumpkin-Pie-Whole-Slice.jpg">Evan-Amos, via Wikimedia Commons</a></small>
+				</section>
+
+				<section data-background="assets/core-handbook.png">
+					<h2>
+						WordPress Core philosophies
+					</h2>
+
+					<a href="https://make.wordpress.org/core/handbook/about/philosophies/" style="display:block;margin-bottom:60px;">https://make.wordpress.org/core/handbook/about/philosophies/</a>
+
+					<ul>
+						<li class="fragment">
+							only features for the majority are built-in
+						</li>
+						<li class="fragment">
+							"Decisions not Options"
+						</li>
+						<li class="fragment">
+							no squeezing-in of possibly unfinished features or enhancements
+						</li>
+						<li class="fragment">
+							no refactoring for refactoring's sake
+						</li>
+						<li class="fragment">
+							developer-focussed enhancements must lay a foundation for user-focussed enhancements
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<p class="intro">
+						But the code quality is terrible!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;The code you wrote yesterday is almost always worse than the code you wrote today. WordPress has been writing code for 13 years—that's a lot of code written in yesterdays.&quot;
+						</p>
+						<cite>- Jeremy Felt, Core Developer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;If you want to judge a piece of software by the "newness" of it's codebase, then WordPress isn't going to win any awards. [...] However, if you want to judge software by its commitment to maintaining backwards compatibility, WordPress is a model example. There are tradeoffs, to be sure, but figuring out how to keep improving the software without breaking things for existing users is part of the engineering challenge that makes developing for WordPress fun, in my opinion.&quot;
+						</p>
+						<cite>- Joe McGill, Contributing Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						But when will PHP 5.2 be dropped?
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;WordPress is <em>not</em> prohibiting any hosting services from upgrading to more modern, secure versions of PHP. However, WordPress has decided there is much more to be lost (in user trust, etc.) by artificially breaking sites that are running on older versions of PHP (which most users know nothing about) rather than trying to be a model of modern code.&quot;
+						</p>
+						<cite>- Joe McGill, Contributing Developer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;Pitting the minimum PHP compatibility of WordPress against other software packages in the PHP space is a bit of a straw man exercise. WordPress powers 26 percent of the web *because* it puts users first – a particular philosophy and feat no other package in the space can claim.&quot;
+						</p>
+						<cite>- Drew Jaynes, Core Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						But I think this is all the wrong approach!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;I think it's important to contribute to projects that align with your philosophies. If philosophically you are opposed to the reasons why WordPress does or has done these things, then it is probably not a good fit. There is a much bigger ecosystem of open source software that is also critical to the web - I think encouraging open source stewardship in general is a better approach than perpetuating a WordPress-centric bubble.&quot;
+						</p>
+						<cite>- Helen Hou-Sandi, Lead Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>
+						Getting Started with Contributing
+					</h2>
+
+					<a href="https://make.wordpress.org/core/handbook/tutorials/" style="display:block;margin-bottom:60px;">https://make.wordpress.org/core/handbook/tutorials/</a>
+
+					<ul>
+						<li class="fragment">
+							recommended way is <a href="https://make.wordpress.org/core/handbook/tutorials/installing-a-local-server/installing-vvv/">VVV</a>; looks complicated at first if you haven't used Vagrant before, but it sets up the entire development suite required to develop for Core
+						</li>
+						<li class="fragment">
+							tickets are filed on <a href="https://core.trac.wordpress.org/">Trac</a>
+						</li>
+						<li class="fragment">
+							patching happens via SVN (recommended) or Git
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<p class="intro">
+						But SVN sucks!
+					</p>
+
+					<p>
+						Even if you prefer to use Git, using SVN for Core development shouldn't be too hard.
+					</p>
+
+					<pre><code>svn update
+grunt patch:12345
+grunt upload_patch:12345
+svn revert -R *
+</code></pre>
+
+					<p>
+						Plus you don't even need to set it up on your local machine if you use VVV.
+					</p>
+				</section>
+
+				<section>
+					<p class="intro">
+						But I really hate SVN and wanna use Git!
+					</p>
+
+					<p class="intro">
+						For some reason it's not commonly known, but you can <a href="https://make.wordpress.org/core/handbook/tutorials/installing-a-local-server/installing-vvv/#5-create-github-repo-optional">use Git for contributing</a>.
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;If developers wanted to contribute through git, there are a myriad of tools enabling them to do so. We already get many patches from a git checkout of WordPress. The amount of existing SVN infrastructure around WordPress makes moving to Git a very hard sell, the work needed to port everything over still outweighs the benefit of using Git over SVN.&quot;
+						</p>
+						<cite>- Konstantin Obenland, Guest Committer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						But Trac sucks!
+					</p>
+
+					<p>
+						Let's step back a little and compare Trac with GitHub. While GitHub looks nicer and you're probably used to it, it has several problems for a large project like WordPress.
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;If development happened mainly through GitHub, there would be so many open issues that new contributors would feel even more lost than they might be already. Pull Requests becoming outdated and, having to fork contributor's forks of WP to continue working on their PR—there are quite a few things that git advocates have not thought through when it comes to workflow. Things that are necessary to have a plan for with a project of the size of WordPress.&quot;
+						</p>
+						<cite>- Konstantin Obenland, Guest Committer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>
+						Technical Recommendations
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							use VVV and the tools it provides you
+						</li>
+						<li class="fragment">
+							if you'd rather have a walkthrough, attend a Contributor Day
+							<ul>
+								<li>
+									proposal for the handbook: video walkthroughs
+								</li>
+							</ul>
+						</li>
+						<li class="fragment">
+							get familiar with Best Practices (Coding Standards etc.)
+						</li>
+						<li class="fragment">
+							look for tickets with the <em>good-first-bug</em> tag first
+						</li>
+						<li class="fragment">
+							if you don't find any unclaimed tickets that you feel capable of working on...
+							<ul>
+								<li>
+									find bugs, open your own and work on them
+								</li>
+								<li>
+									don't worry - at some point you'll get a better overview of Trac
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section data-background-image="assets/wontfix.png">
+					<h2>
+						Dealing with Frustration
+					</h2>
+
+					<p class="intro">
+						You open an enhancement ticket. It's closed as wontfix.
+					</p>
+					<p class="intro">
+						You work on a patch for hours. It gets rejected.
+					</p>
+					<p class="intro">
+						You're happy to have reported a bug, but it's a duplicate.
+					</p>
+					<p class="intro">
+						Your ticket remains without any interaction for weeks.
+					</p>
+				</section>
+
+				<section>
+					<p class="intro">
+						That person closed my ticket although I know others who want it too!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;Lack of traction is bad for WordPress and all the involved contributors on a ticket. It usually isn't because of 1 specific developer, and if it is, it's a lead developer who knows what they are talking about. But valid points have always helped changing people's opinions.&quot;
+						</p>
+						<cite>- Pascal Birchler, Guest Committer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						On Slack everyone's so nice, but Trac feels rude.
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;I do think the tone on tickets can be a bit more "official" than the Slack channel. My own personal anecdote would be that Trac feels like a more "historic" document, which makes me want to be more precise in my feedback/contributions, rather than adding conversational comments like I would during a Slack conversation.&quot;
+						</p>
+						<cite>- Joe McGill, Contributing Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						That person rejected my proposal, and didn't even thank me for my initiative!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;We do have notifications now that show when a ticket is a contributor's first, second, third, or fourth. That helps guide others to be more welcoming while responding. The <em>strictness</em> can come from the conversations needing to be technical and clear so that the right message is being conveyed.&quot;
+						</p>
+						<cite>- Jeremy Felt, Core Developer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;We're often used to give short answers, missing little stuff like "thank you", "a quick note", "not a big deal", "please" etc. Even if you do add that, with text-only communication there will be misunderstandings.&quot;
+						</p>
+						<cite>- Pascal Birchler, Guest Committer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						Wontfix.
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;The issue isn't the idea that the patch or ticket was rejected. That is a normal part of software. It’s the verbiage. The label should be called, and I’m joking here, 'OMG thank you soooo much for this awesome work you’ve done but at this point, for one of a variety of reasons, we can’t roll this in and I hope to get you more info on it but right now I’m doing tons of additional work, sometimes for free.'&quot;
+						</p>
+						<cite>- Chris Lema, WordPress Evangelist in <a href="http://chrislema.com/always-us-always/">There is always an us but not always a them</a></cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<p class="intro">
+						My ticket hasn't received any attention in weeks!
+					</p>
+
+					<blockquote>
+						<p>
+							&quot;A new idea with or without a patch and no followup is in all likelihood going to be missed. Creating a ticket and walking away is a recipe for inactivity. New contributors need to be actively advocating for their ideas, participating in the weekly dev chats, and generally be open to feedback of all types.&quot;
+						</p>
+						<cite>- Drew Jaynes, Core Developer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;Patch/ticket review has gotten better but can still be a bottleneck, and this often comes down to a lack of active component maintainers and the perception that only committers can review patches. Anybody can review a patch, which includes testing it.&quot;
+						</p>
+						<cite>- Helen Hou-Sandi, Lead Developer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>
+						Becoming a persistant contributor
+					</h2>
+
+					<p class="intro">
+						There is some kind of trust level around - as in every community.
+					</p>
+
+					<ul>
+						<li class="fragment">
+							Be persistent and continue contributing - then you can too.
+						</li>
+						<li class="fragment">
+							When you become more known among contributors and have proven that your ideas, mindset and code comply with the project’s goals, it will be easier to push bigger initiatives.
+						</li>
+						<li class="fragment">
+							If you face frustration along the way but still think the project is a fit for you, shake it off and continue – you will get there.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Final Advices
+					</h2>
+
+					<blockquote>
+						<p>
+							&quot;After you've worked on a few individual tickets and have a sense of the workflow, I would highly recommend finding a component or feature project that you're interested in and join the effort to build or maintain that component.&quot;
+						</p>
+						<cite>- Joe McGill, Contributing Developer</cite>
+					</blockquote>
+
+					<blockquote>
+						<p>
+							&quot;Keep at it, trust the more seasoned contributors, ask them questions, don't take it personal when a proposal or a patch doesn't get accepted.&quot;
+						</p>
+						<cite>- Konstantin Obenland, Guest Committer</cite>
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Contributor / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
