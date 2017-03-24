@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="robots" content="noindex,nofollow">
+
+		<title>Getting the REST API ready for Multisite</title>
+
+		<meta name="description" content="This session is a case study about the efforts of bringing Multisite endpoints to the REST API and the challenges that arise as a result.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style type="text/css">
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						Getting the REST API<br>ready for Multisite
+					</h1>
+
+					<h2 style="margin-bottom:100px;">
+						A WordPress Core case study
+					</h2>
+
+					<small class="credit">
+						Presented by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>Multisite contributor</li>
+							<li>Case study from Multisite POV</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						REST API endpoints are merged into core. 🎉
+					</h2>
+
+					<p>
+						<a href="https://core.trac.wordpress.org/changeset/38832">https://core.trac.wordpress.org/changeset/38832</a>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>WordPress 4.4: API infrastructure</li>
+							<li>WordPress 4.7: API content endpoints</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						REST API is one of the 3 focuses. 🎉
+					</h2>
+
+					<p>
+						<a href="http://wordpress.tv/2016/12/07/matt-mullenweg-state-of-the-word-2016/">http://wordpress.tv/2016/12/07/matt-mullenweg-state-of-the-word-2016/</a>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Editor and Customizer only apply to single site</li>
+							<li>Therefore REST API is most interesting for multisite</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Multisite is not one of the 3 focuses. 😩
+					</h2>
+
+					<p style="text-decoration:line-through;">
+						<a href="http://wordpress.tv/2016/12/07/matt-mullenweg-state-of-the-word-2016/">http://wordpress.tv/2016/12/07/matt-mullenweg-state-of-the-word-2016/</a>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Multisite is probably installed on less than 1% of all WordPress sites.</li>
+							<li>I still had a tiny little piece of hope at WCUS that Matt would say Multisite.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						But we can sneak our way in there. 😏
+					</h2>
+
+					<img data-src="assets/slackchat-1.png">
+
+					<img data-src="assets/slackchat-2.png">
+
+					<img data-src="assets/slackchat-3.png">
+
+					<aside class="notes">
+						<ul>
+							<li>Multisite: first core component to announce REST API efforts.</li>
+							<li>James Nylen: driving force with REST API development.</li>
+							<li>K. Adam White: design lead for the REST API focus.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer">
+				<a href="/getting-the-rest-api-ready-for-multisite/" class="left">Getting the REST API ready for Multisite</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
