@@ -60,6 +60,7 @@
 						<ul>
 							<li>Multisite contributor</li>
 							<li>Case study from Multisite POV</li>
+							<li>Basic understanding of REST API required</li>
 						</ul>
 					</aside>
 				</section>
@@ -128,12 +129,384 @@
 
 					<aside class="notes">
 						<ul>
-							<li>Multisite: first core component to announce REST API efforts.</li>
+							<li>Multisite: first core component to announce REST API efforts and collaboration.</li>
 							<li>James Nylen: driving force with REST API development.</li>
 							<li>K. Adam White: design lead for the REST API focus.</li>
 						</ul>
 					</aside>
 				</section>
+
+				<section>
+					<h2>
+						What do we need to do?
+					</h2>
+
+					<ol>
+						<li class="fragment" data-fragment-index="1">
+							Enhance the <code>wp/v2/users</code> endpoint to support Multisite functionality
+						</li>
+						<li class="fragment" data-fragment-index="2">
+							Introduce a <code>wp/v2/sites</code> endpoint for access to sites in a network
+						</li>
+						<li class="fragment" data-fragment-index="3">
+							<span class="fragment" data-fragment-index="4">(</span>Introduce a <code>wp/v2/networks</code> endpoint for access to networks<span class="fragment" data-fragment-index="4">) <span style="color:red;">&rarr; Later</span></span>
+						</li>
+					</ol>
+
+					<aside class="notes">
+						<ul>
+							<li><code>users</code>: some functionality implemented wrong, others not supported at all</li>
+							<li><code>sites</code>: obvious, since these are the main objects we deal with in Multisite</li>
+							<li><code>networks</code>: edge-case functionality; as plugin first, in core later</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						1. Enhancing the <code>wp/v2/users</code> endpoint
+					</h2>
+
+					<ol style="list-style-type:lower-latin;">
+						<li class="fragment">
+							Fix what's wrong
+						</li>
+						<li class="fragment">
+							Implement missing functionality
+						</li>
+					</ol>
+
+					<aside class="notes">
+						<ul>
+							<li>Unfortunately the merged API included some rushed code to account for Multisite compatibility.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						1.<span style="text-transform:lowercase;">a</span>. Fix what's wrong with <code>wp/v2/users</code>
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							4.7 allowed to read and edit users even when they weren't a member of the current site.
+						</li>
+						<li class="fragment">
+							In 4.7 editing a user from another site would automatically result in that user being added to the current site.
+						</li>
+					</ul>
+
+					<p class="fragment">
+						This is wrong, but implementing a solid solution will take time.<br>
+						<span class="fragment" style="color:red;">&rarr; Quick fix: Remove the functionality now!</span>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>The current site is always the one you access the REST API through.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Backward compatibility issues?
+					</h3>
+
+					<img class="fragment" data-src="assets/why-40106-was-okay.png">
+
+					<p class="fragment">
+						✅ Fixed in <a href="https://core.trac.wordpress.org/changeset/40106">https://core.trac.wordpress.org/changeset/40106</a> (4.7.3)
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Did you know one could do these things?</li>
+							<li>If not, we can rest assured we made the right assumptions. 🙃</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						1.<span style="text-transform:lowercase;">a</span>. Fix what's wrong with <code>wp/v2/users</code>
+					</h2>
+
+					<p>
+						In 4.7 the capabilities checked in the REST API when updating a user are wrong.
+					</p>
+
+					<ul>
+						<li class="fragment">
+							In multisite, only network administrators can edit other users than themselves. Regular site administrators can only change roles of other users.
+						</li>
+						<li class="fragment">
+							In the REST API, network administrators can do these things, however site administrators cannot change user roles.
+						</li>
+					</ul>
+
+					<p class="fragment" style="color:red;">
+						&rarr; Quick fix will go into next minor release.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Capability issues are unfortunately common with the REST API.</li>
+							<li>Learn more: <a href="https://speakerdeck.com/johnbillion/a-deep-dive-into-the-roles-and-capabilities-api">A Deep Dive into the Roles and Capabilities API</a></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<small>Current code</small>
+					<pre><code class="php">if ( ! current_user_can( 'edit_user', $user->ID ) ) {
+	return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to edit this user.' ), array( 'status' => rest_authorization_required_code() ) );
+}
+
+if ( ! empty( $request['roles'] ) && ! current_user_can( 'edit_users' ) ) {
+	return new WP_Error( 'rest_cannot_edit_roles', __( 'Sorry, you are not allowed to edit roles of this user.' ), array( 'status' => rest_authorization_required_code() ) );
+}
+
+return true;
+</code></pre>
+
+					<small class="fragment" data-fragment-index="1">Possible fix</small>
+					<pre class="fragment" data-fragment-index="1"><code class="php" style="max-height:none;">if ( ! empty( $request['roles'] ) ) {
+	if ( ! current_user_can( 'promote_user', $user->ID ) ) {
+		return new WP_Error( 'rest_cannot_edit_roles', __( 'Sorry, you are not allowed to edit roles of this user.' ), array( 'status' => rest_authorization_required_code() ) );
+	}
+
+	$request_params = $request->get_params();
+	if ( count( $request_params ) === 2 ) {
+		return true;
+	}
+}
+
+if ( ! current_user_can( 'edit_user', $user->ID ) ) {
+	return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to edit this user.' ), array( 'status' => rest_authorization_required_code() ) );
+}
+
+return true;
+</code></pre>
+
+					<!-- TODO: Maybe it's fixed at the time of the presentation. -->
+					<!--<p class="fragment" data-fragment-index="2">
+						✅ Fixed in <a href="https://core.trac.wordpress.org/changeset/40106">https://core.trac.wordpress.org/changeset/40106</a> (4.7.3)
+					</p>-->
+
+					<aside class="notes">
+						<ul>
+							<li><code>promote_users</code> is the correct capability for role updates (site administrators have it).</li>
+							<li><code>promote_user</code> is a meta capability that maps to <code>promote_users</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						1.<span style="text-transform:lowercase;">b</span>. Implement missing functionality for <code>wp/v2/users</code>
+					</h2>
+
+					<p>Current state:</p>
+
+					<ul>
+						<li class="fragment" data-fragment-index="1">
+							You cannot view or edit users from another site.
+						</li>
+						<li class="fragment" data-fragment-index="1">
+							You cannot add existing users to a site.
+						</li>
+						<li class="fragment" data-fragment-index="2">
+							You cannot remove users from a site.
+						</li>
+						<li class="fragment" data-fragment-index="2">
+							You cannot delete users.
+						</li>
+					</ul>
+
+					<p class="fragment" data-fragment-index="2">
+						The latter two features were discussed and disabled in Ticket <a href="https://core.trac.wordpress.org/ticket/38962">#38962</a> prior to 4.7.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>This is what we need to implement.</li>
+							<li>We have a clean starting base to work from.</li>
+							<li>That the latter two features were disabled, confirms our decision for the first two.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Challenge: Users are global objects in a Multisite.
+					</h3>
+
+					<p class="fragment">
+						Solution: Introduce a <code>global</code> parameter.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>It will determine whether a user from another site is being requested.</li>
+							<li>It will only be available to network administrators.</li>
+							<li>It will be available redundantly on all sites (easier interaction, no CORS issues).</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Read access to users
+					</h3>
+
+					<ul>
+						<li class="fragment">
+							<code>GET wp/v2/users</code> will list users from the current site.</code>
+						</li>
+						<li class="fragment">
+							<code>GET wp/v2/users?global=true</code> will list all users.</code>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>
+						Read access to a user
+					</h3>
+
+					<ul>
+						<li class="fragment">
+							<code>GET wp/v2/users/&lt;id&gt;</code> displays a user from the current site.</code>
+						</li>
+						<li class="fragment">
+							<code>GET wp/v2/users/&lt;id&gt;?global=true</code> displays any user.</code>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>
+						Edit access to a user
+					</h3>
+
+					<ul>
+						<li class="fragment">
+							<code>POST/PUT/PATCH wp/v2/users/&lt;id&gt;</code> allows editing a user of the current site.</code>
+						</li>
+						<li class="fragment">
+							<code>POST/PUT/PATCH wp/v2/users/&lt;id&gt;?global=true</code> allows editing a user from any site.</code>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Only network administrators can edit users.</li>
+							<li>Regular admins can only change user roles for the current site.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Creating and adding a user
+					</h3>
+
+					<!-- TODO: Maybe the following has changed at the time of the presentation. -->
+
+					<ul>
+						<li class="fragment">
+							<code>POST wp/v2/users</code> creates a new user and adds it to the current site.</code>
+						</li>
+						<li class="fragment">
+							<code>POST wp/v2/users?email=&lt;existing-email-address&gt;</code> adds an existing user to the current site.</code>
+						</li>
+					</ul>
+
+					<p class="fragment" style="color:red;">
+						&rarr; This is not very clear and we might need to find a better solution.
+					</p>
+
+					<p class="fragment">
+						Related problem: Site administrators can create users, but not edit them. ¯\_(ツ)_/¯
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Do we consider creating a user and adding them to the current site a global operation or not?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Deleting and removing a user
+					</h3>
+
+					<ul>
+						<li class="fragment">
+							<code>DELETE wp/v2/users/&lt;id&gt;</code> removes a user from the current site.</code>
+						</li>
+						<li class="fragment">
+							<code>DELETE wp/v2/users/&lt;id&gt;?global=true</code> deletes a user completely.</code>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Deleting a user will probably require passing parameters about how to remove that user from each site.</li>
+							<li>The <code>reassign</code> parameter is required for removing a user.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						2. Introducing a <code>wp/v2/sites</code> endpoint
+					</h2>
+
+					<ol style="list-style-type:lower-latin;">
+						<li class="fragment">
+							Implement a set of functions for a real sites API
+						</li>
+						<li class="fragment">
+							Figure out how to support queries by certain site data
+						</li>
+					</ol>
+
+					<aside class="notes">
+						<ul>
+							<li>Actually building the API endpoint will be straightforward once we have this.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="slide-in fade-out">
+					<p class="h1">
+						Getting the REST API<br>ready for Multisite
+					</p>
+
+					<p class="h2" style="margin-bottom:100px;">
+						A WordPress Core case study
+					</p>
+
+					<aside class="notes">
+						<p>The complex part about the REST API is not the REST API itself, but to bring the necessary structure to all the different parts of Core.</p>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in slide-out">
+					<p class="h1">
+						Getting Multisite<br>ready for the REST API
+					</p>
+
+					<p class="h2" style="margin-bottom:100px;">
+						A WordPress Core case study
+					</p>
+				</section>
+
+				<!-- TODO -->
 
 				<section>
 					<h2>
