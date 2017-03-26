@@ -60,7 +60,7 @@
 						<ul>
 							<li>Multisite contributor</li>
 							<li>Case study from Multisite POV</li>
-							<li>Basic understanding of REST API required</li>
+							<li>Basic understanding of REST API and multisite required</li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +185,7 @@
 
 				<section>
 					<h2>
-						1.<span style="text-transform:lowercase;">a</span>. Fix what's wrong with <code>wp/v2/users</code>
+						1.a. Fix what's wrong with <code>wp/v2/users</code>
 					</h2>
 
 					<ul>
@@ -230,7 +230,7 @@
 
 				<section>
 					<h2>
-						1.<span style="text-transform:lowercase;">a</span>. Fix what's wrong with <code>wp/v2/users</code>
+						1.a. Fix what's wrong with <code>wp/v2/users</code>
 					</h2>
 
 					<p>
@@ -305,7 +305,7 @@ return true;
 
 				<section>
 					<h2>
-						1.<span style="text-transform:lowercase;">b</span>. Implement missing functionality for <code>wp/v2/users</code>
+						1.b. Implement missing functionality for <code>wp/v2/users</code>
 					</h2>
 
 					<p>Current state:</p>
@@ -344,7 +344,7 @@ return true;
 					</h3>
 
 					<p class="fragment">
-						Solution: Introduce a <code>global</code> parameter.
+						Possible solution: Introduce a <code>global</code> parameter.
 					</p>
 
 					<aside class="notes">
@@ -504,9 +504,258 @@ return true;
 					<p class="h2" style="margin-bottom:100px;">
 						A WordPress Core case study
 					</p>
+
+					<aside class="notes">
+						<p>We haven't even really talked about the actual REST API endpoint yet. It's rather straightforward though, all we know is that it will be restricted to network administrators.</p>
+					</aside>
 				</section>
 
-				<!-- TODO -->
+				<section>
+					<h2>
+						2.a. Implementing a real sites API
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							<code>WP_Site</code> class
+							<span class="fragment"><br><span style="margin-left:40px;">&rarr; ✅ in 4.5</span></span>
+						</li>
+						<li class="fragment">
+							<code>WP_Site_Query</code> class
+							<span class="fragment"><br><span style="margin-left:40px;">&rarr; ✅ in 4.6</span></span>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						2.a. Implementing a real sites API
+					</h2>
+
+					<ul>
+						<li class="fragment">
+							<code>wpmu_create_blog( $domain, $path, $title, $user_id, $meta, $site_id )</code> function
+							<span class="fragment">
+								<br>
+								<span style="margin-left:40px;color:red;">&rarr; <code>wp_insert_site( $args )</code></span>
+								<br>
+								<span style="margin-left:40px;color:red;">&rarr; <code>wp_install_site( $site_id, $args )</code></span>
+							</span>
+						</li>
+						<li class="fragment">
+							<code>update_blog_details( $blog_id, $details )</code> function
+							<span class="fragment">
+								<br>
+								<span style="margin-left:40px;color:red;">&rarr; <code>wp_update_site( $site_id, $args )</code></span>
+							</span>
+						</li>
+						<li class="fragment">
+							<code>wpmu_delete_blog( $blog_id, $drop )</code> function
+							<span class="fragment">
+								<br>
+								<span style="margin-left:40px;color:red;">&rarr; <code>wp_delete_site( $site_id )</code></span>
+								<br>
+								<span style="margin-left:40px;color:red;">&rarr; <code>wp_uninstall_site( $site_id )</code></span>
+							</span>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>There's <code>install_blog( $blog_id, $blog_title )</code> and <code>wp_install_defaults( $user_id )</code> as well.</li>
+							<li><code>wpmu_delete_blog()</code> is only loaded when in the admin which does not make much sense.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						2.b. Figuring out better query support
+					</h2>
+
+					<p>
+						Current state:
+					</p>
+
+					<ul>
+						<li>
+							You cannot query sites by their title, description, language or other important piece of data.
+						</li>
+						<li>
+							Retrieving those pieces of data requires use of the rather expensive <code>switch_to_blog()</code> function.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li><code>switch_to_blog()</code> is not crazy expensive (does not make a database request), but still overhead we should avoid.</li>
+							<li>Example: To provide a list of 20 sites, <code>switch_to_blog()</code> needs to be called 20 times.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Challenge: These values are stored per site in individual <code>wp_options</code> tables.
+					</h3>
+
+					<p class="fragment" data-fragment-index="1">
+						Possible solution:
+					</p>
+
+					<img class="fragment" data-fragment-index="1" data-src="assets/introduce-blogmeta-table.png">
+				</section>
+
+				<section>
+					<h3>
+						Approach: Site metadata
+					</h3>
+
+					<ul>
+						<li>
+							<code>wp_posts</code> &rarr; <code>wp_postmeta</code>
+						</li>
+						<li>
+							<code>wp_comments</code> &rarr; <code>wp_commentmeta</code>
+						</li>
+						<li>
+							<code>wp_users</code> &rarr; <code>wp_usermeta</code>
+						</li>
+						<li>
+							<code>wp_terms</code> &rarr; <code>wp_termmeta</code>
+						</li>
+						<li>
+							<code>wp_site</code> &rarr; <code>wp_sitemeta</code> (Networks!)
+						</li>
+						<li>
+							<span style="color:red;"><code>wp_blogs</code> &rarr; <code>wp_blogmeta</code>? (Sites!)</span>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Old naming conventions: <em>site</em> used to be <em>blog</em>, <em>network</em> used to be <em>site</em>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Approach: Site metadata
+					</h3>
+
+					<p>
+						<strong>Initial plan:</strong> Determine a whitelist of options that should be migrated to the new site metadata table.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>There's no way we can migrate all options over to site metadata, as this will cause a massive table.</li>
+							<li><code>wp_options</code> is bad enough as is performance-wise.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						Approach: Site metadata?
+					</h3>
+
+					<img data-src="assets/why-blogmeta-might-not-be-okay.png">
+
+					<aside class="notes">
+						<ul>
+							<li>Andy Skelton: Has worked at Automattic on wordpress.com since the beginning.</li>
+							<li>How do we want the data to be stored?</li>
+							<li>Core obviously cannot require something like Elasticsearch, but is there a viable alternative?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						What is metadata?
+					</h3>
+
+					<ul>
+						<li class="fragment">
+							Are all options actually site metadata?
+						</li>
+						<li class="fragment">
+							Are options a subset of site metadata?
+						</li>
+						<li class="fragment">
+							Are options and site metadata something completely different?
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Conceptual issue, still ongoing discussion.</li>
+							<li>Which data do we migrate?</li>
+							<li>Do we even need <code>wp_blogmeta</code>?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>
+						What is metadata?
+					</h3>
+
+					<p>Looking at the current state of WordPress:</p>
+
+					<ul>
+						<li class="fragment">
+							For networks, there is no meta API, instead it has its own options API.
+						</li>
+						<li class="fragment">
+							However, all network options are stored in a table called <code>wp_sitemeta</code>.
+						</li>
+						<li class="fragment">
+							<code>wpmu_create_blog()</code> accepts a <code>$meta</code> array, and the values in it are then stored as options.
+						</li>
+					</ul>
+
+					<p class="fragment">¯\_(ツ)_/¯</p>
+
+					<aside class="notes">
+						<ul>
+							<li>This has apparently never been questioned in Core.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						We can use your help!
+					</h2>
+
+					<!-- TODO: Maybe more major tickets will be open at the time of the presentation. -->
+
+					<ul>
+						<li>
+							Site metadata ticket: <a href="https://core.trac.wordpress.org/ticket/37923">https://core.trac.wordpress.org/ticket/37923</a>
+						</li>
+						<li>
+							Users endpoint ticket: <a href="https://core.trac.wordpress.org/ticket/39544">https://core.trac.wordpress.org/ticket/39544</a>
+						</li>
+						<li>
+							Background information: <a href="https://make.wordpress.org/core/tag/multisite/">https://make.wordpress.org/core/tag/multisite/</a>
+						</li>
+						<li>
+							Weekly meetings: <a href="https://wordpress.slack.com/messages/core-multisite/">https://wordpress.slack.com/messages/core-multisite/</a>
+							<br>
+							(every Tuesday at 17:00 UTC)
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Please join us if you're interested or have ideas to help!</li>
+						</ul>
+					</aside>
+				</section>
 
 				<section>
 					<h2>
