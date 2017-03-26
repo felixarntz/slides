@@ -79,23 +79,17 @@ body.has-footer .reveal .slides {
 	font-weight: 600;
 	line-height: 1.2;
 	letter-spacing: normal;
-	text-transform: uppercase;
 	text-shadow: none;
 	word-wrap: break-word;
 }
 
+.reveal h1,
+.reveal .h1 {
+	text-transform: uppercase;
+}
+
 .reveal h1 small,
-.reveal h2 small,
-.reveal h3 small,
-.reveal h4 small,
-.reveal h5 small,
-.reveal h6 small,
-.reveal .h1 small,
-.reveal .h2 small,
-.reveal .h3 small,
-.reveal .h4 small,
-.reveal .h5 small,
-.reveal .h6 small {
+.reveal .h1 small {
 	text-transform: none;
 }
 
