@@ -59,7 +59,7 @@
 					<aside class="notes">
 						<ul>
 							<li>Multisite contributor</li>
-							<li>Case study from Multisite POV</li>
+							<li>Not about decision, but how we're getting there</li>
 							<li>Basic understanding of REST API and multisite required</li>
 						</ul>
 					</aside>
@@ -247,7 +247,7 @@
 					</ul>
 
 					<p class="fragment" style="color:red;">
-						&rarr; Quick fix will go into next minor release.
+						&rarr; That has not been discussed yet.
 					</p>
 
 					<aside class="notes">
@@ -289,11 +289,6 @@ if ( ! current_user_can( 'edit_user', $user->ID ) ) {
 
 return true;
 </code></pre>
-
-					<!-- TODO: Maybe it's fixed at the time of the presentation. -->
-					<!--<p class="fragment" data-fragment-index="2">
-						✅ Fixed in <a href="https://core.trac.wordpress.org/changeset/40106">https://core.trac.wordpress.org/changeset/40106</a> (4.7.3)
-					</p>-->
 
 					<aside class="notes">
 						<ul>
@@ -412,8 +407,6 @@ return true;
 					<h3>
 						Creating and adding a user
 					</h3>
-
-					<!-- TODO: Maybe the following has changed at the time of the presentation. -->
 
 					<ul>
 						<li class="fragment">
@@ -674,6 +667,16 @@ return true;
 
 				<section>
 					<h3>
+						Approach: Site metadata
+					</h3>
+
+					<p>
+						<strong>Currently discussed:</strong> Introduce a site meta table independently from options, as this will open up the new `wp/v2/sites` endpoint to developers.
+					</p>
+				</section>
+
+				<section>
+					<h3>
 						What is metadata?
 					</h3>
 
@@ -703,7 +706,7 @@ return true;
 						What is metadata?
 					</h3>
 
-					<p>Looking at the current state of WordPress:</p>
+					<p>Looking at the current state of network data in WordPress:</p>
 
 					<ul>
 						<li class="fragment">
@@ -719,9 +722,13 @@ return true;
 
 					<p class="fragment">¯\_(ツ)_/¯</p>
 
+					<p class="fragment" style="color:red;">
+						&rarr; We're working on that as well.
+					</p>
+
 					<aside class="notes">
 						<ul>
-							<li>This has apparently never been questioned in Core.</li>
+							<li>Apparently Core has not decided itself what metadata is.</li>
 						</ul>
 					</aside>
 				</section>
@@ -731,14 +738,21 @@ return true;
 						We can use your help!
 					</h2>
 
-					<!-- TODO: Maybe more major tickets will be open at the time of the presentation. -->
-
 					<ul>
+						<li>
+							Users endpoint ticket: <a href="https://core.trac.wordpress.org/ticket/39544">https://core.trac.wordpress.org/ticket/39544</a>
+						</li>
+						<li>
+							Sites endpoint ticket: <a href="https://core.trac.wordpress.org/ticket/40365">https://core.trac.wordpress.org/ticket/40365</a>
+						</li>
+						<li>
+							Site management API ticket: <a href="https://core.trac.wordpress.org/ticket/40364">https://core.trac.wordpress.org/ticket/40364</a>
+						</li>
 						<li>
 							Site metadata ticket: <a href="https://core.trac.wordpress.org/ticket/37923">https://core.trac.wordpress.org/ticket/37923</a>
 						</li>
 						<li>
-							Users endpoint ticket: <a href="https://core.trac.wordpress.org/ticket/39544">https://core.trac.wordpress.org/ticket/39544</a>
+							Network metadata ticket: <a href="https://core.trac.wordpress.org/ticket/25344">https://core.trac.wordpress.org/ticket/25344</a>
 						</li>
 						<li>
 							Background information: <a href="https://make.wordpress.org/core/tag/multisite/">https://make.wordpress.org/core/tag/multisite/</a>
