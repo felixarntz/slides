@@ -183,7 +183,8 @@ body.has-footer .reveal .slides {
 .reveal ol ol,
 .reveal ol ul {
 	display: block;
-	margin-left: 40px; }
+	margin: 10px 0 20px 40px;
+	font-size: 90%; }
 
 .reveal dt {
 	font-weight: bold; }
