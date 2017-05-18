@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Contributing to WordPress Core</title>
+
+		<meta name="description" content="Following up on your first WordPress contributor day efforts is not always as straightforward as one may expect, and the goal of this workshop is to prepare you for a beneficial long-term relationship as a Core contributor.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style type="text/css">
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						Contributing to WordPress Core
+					</h1>
+
+					<h2 style="margin-bottom:100px;">
+						Moving beyond your first patch
+					</h2>
+
+					<small class="credit">
+						A workshop by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>Goal: Being more efficient with contributing</li>
+							<li>Goal: Preparation for long-term contributing</li>
+							<li>Goal: Making you think about your goals</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<ul>
+						<li>
+							Make WordPress Core
+							<ul>
+								<li>Blog</li>
+								<li>Tickets</li>
+								<li>Components</li>
+								<li>Handbook</li>
+							</ul>
+						</li>
+						<li>
+							WordPress Core Trac
+							<ul>
+								<li>Opening a ticket</li>
+								<li>Creating a patch</li>
+								<li>Finding tickets</li>
+							</ul>
+						</li>
+						<li>
+							WordPress Slack
+							<ul>
+								<li>Channels</li>
+								<li>Meetings</li>
+								<li>Bug-Scrubs</li>
+							</ul>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Even if you already know about the ticket/patch workflow, we go through it in depth.</li>
+							<li>This is not only a technical workshop. As we're moving through the areas, we also deal with more human-interaction/philosophical/psychological factors.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div class="h2">Please ask questions anytime!</div>
+
+					<aside class="notes">
+						<ul>
+							<li>Recommendation: Use your laptops to go along with the areas we're walking through and get yourself setup.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Your key to the gate: A wordpress.org account</h2>
+
+					<ul>
+						<li>Grants you access to opening tickets, submitting patches, publishing plugins and themes, translating, slacking, ... - everything!</li>
+						<li>If you do not already have an account, create one at <a href="https://login.wordpress.org/register">https://login.wordpress.org/register</a>. <small>Reminder: You can never change your username, so choose a good one!</small></li>
+					</ul>
+
+					<img data-src="assets/make-register.png" style="max-width:35%;">
+				</section>
+
+				<section>
+					<h2>Make WordPress Core</h2>
+
+					<a href="https://make.wordpress.org/core/">https://make.wordpress.org/core/</a>
+				</section>
+
+				<section>
+					<h3>Blog</h3>
+
+					<img data-src="assets/make-blog.png" style="max-width:70%;">
+
+					<p class="fragment">
+						Subscribe to this blog to know about anything important
+						<br>
+						that happens in Core development!
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Sidebar: Chat / Meeting times (more on this later).</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Tickets</h3>
+
+					<img data-src="assets/make-reports.png" style="max-width:70%;">
+
+					<p class="fragment">
+						Here is where you get a good first overview about tickets,
+						<br>
+						categorized by important metrics.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>This is basically a duplicate of the ticket overview on Trac.</li>
+							<li>More information on this later!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Components</h3>
+
+					<img data-src="assets/make-components.png" style="max-width:70%;">
+
+					<p class="fragment">
+						You should find a component that interests you
+						<br>
+						and focus on in it order to streamline your efforts.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>36 components with 20 sub-components</li>
+							<li>Maintainers are people to ask if you have questions getting started with contributing to a component.</li>
+							<li>Becoming a component maintainer for your focus component is a good first goal.</li>
+							<li>Nobody can do everything!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Handbook</h3>
+
+					<img data-src="assets/make-handbook.png" style="max-width:70%;">
+
+					<p class="fragment">
+						Your source of information for everything related to contributing to Core.
+						<br>
+						Learn the WordPress philosophies!
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Learn the WordPress philosophies!</li>
+							<li>Always follow the WordPress coding standards!</li>
+							<li>Almost everything from this workshop can be found in more detail there.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>WordPress Core Trac</h2>
+
+					<a href="https://core.trac.wordpress.org">https://core.trac.wordpress.org</a>
+				</section>
+
+				<!-- TODO: Core Trac, Slack sections -->
+
+				<section>
+					<h2>Summary: Recommendations for a successful contribution path</h2>
+
+					<ul>
+						<li class="fragment">Learn and follow the WordPress philosophies.</li>
+						<li class="fragment">Find a Core component to focus on.</li>
+						<li class="fragment">Attend and participate in relevant Slack meetings.</li>
+						<li class="fragment">Discuss ideas and bugfixes before writing code.</li>
+						<!-- TODO: use this somewhere else: <li class="fragment">Be patient and consider edge-cases.</li>-->
+						<li class="fragment">Be persistent, but patient.</li>
+						<li class="fragment">Don't take anything personally.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer">
+				<a href="/contributing-to-wordpress-core/" class="left">Contributing to WordPress Core</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
