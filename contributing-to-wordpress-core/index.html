@@ -79,8 +79,8 @@
 							WordPress Core Trac
 							<ul>
 								<li>Opening a ticket</li>
-								<li>Creating a patch</li>
 								<li>Finding tickets</li>
+								<li>Creating a patch</li>
 							</ul>
 						</li>
 						<li>
@@ -126,6 +126,12 @@
 					<h2>Make WordPress Core</h2>
 
 					<a href="https://make.wordpress.org/core/">https://make.wordpress.org/core/</a>
+
+					<aside class="notes">
+						<ul>
+							<li>Website for all things contributing to WordPress Core</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -212,7 +218,154 @@
 					<a href="https://core.trac.wordpress.org">https://core.trac.wordpress.org</a>
 				</section>
 
-				<!-- TODO: Core Trac, Slack sections -->
+				<section>
+					<div class="row">
+						<div class="col-50">
+							<img data-src="assets/make-reports.png">
+
+							<a href="https://make.wordpress.org/core/">https://make.wordpress.org/core/</a>
+						</div>
+						<div class="col-50">
+							<img data-src="assets/trac-home.png">
+
+							<a href="https://core.trac.wordpress.org">https://core.trac.wordpress.org</a>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>Make: Website about contributing</li>
+							<li>Trac: Open-source project management and bug tracking system</li>
+							<li>Both are closely connected internally</li>
+							<li>Explain the three icon links in navbar</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Opening a ticket</h3>
+
+					<img data-src="assets/trac-newticket-form.png" style="max-width:85%;">
+
+					<aside class="notes">
+						<ul>
+							<li>Let's go through all fields in detail.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-summary.png">
+
+					<ul>
+						<li class="fragment">
+							Brief summary of the ticket description.
+						</li>
+						<li class="fragment">
+							Best practice: If you're filing a bug, describe what's wrong.
+							<br>
+							&rarr; Example: &quot;HTML comments in posts aren't handled correctly&quot;
+						</li>
+						<li class="fragment">
+							Best practice: If you're filing an enhancement or feature request, use a call-to-action-type direction.
+							<br>
+							&rarr; Example: &quot;Encourage people to change default tagline&quot;
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-description.png">
+
+					<ul>
+						<li class="fragment">
+							Ticket content: May be as long or as short as you like, but be precise.
+						</li>
+						<li class="fragment">
+							Best practice: Do not use empty phrases, be on point. Tone on Trac is rather formal, so try to avoid things like &quot;I would love to see this!&quot; or similar.
+						</li>
+						<li class="fragment">
+							Pro tip: You may reference another ticket by entering <code>#{ticket_id}</code>, and it will automatically become a link.
+							<br>
+							&rarr; Example: &quot;This was previously discussed in #40000.&quot;
+						</li>
+						<li class="fragment">
+							Pro tip: You may reference a specific changeset by entering <code>[{changeset_id}]</code>, and it will automatically become a link.
+							<br>
+							&rarr; Example: &quot;The original bug was fixed in [40000].&quot;
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>All of this applies to comments on tickets as well.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-type.png">
+
+					<ul>
+						<li class="fragment">
+							Ticket type: Either &quot;defect (bug)&quot;, &quot;enhancement&quot; or &quot;feature request&quot;.
+						</li>
+						<li class="fragment">
+							The vast majority of tickets are for bugs or enhancements.
+						</li>
+						<li class="fragment">
+							It's usually not a good idea to open a feature request ticket out of the blue. New feature ideas should be discussed in advance with others and only be transformed into a ticket once the idea has enough traction to be viable for a possible inclusion in WordPress Core.
+							<br>
+							&rarr; Furthermore, new features need to go through a special feature project workflow. See <a href="https://make.wordpress.org/core/features/">https://make.wordpress.org/core/features/</a> and <a href="https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/">https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/</a> for more information.
+						</li>
+						<li class="fragment">
+							There is a fourth ticket type called &quot;task (blessed)&quot;. It is only available to component maintainers and committers and is intended to be used for task tickets, i.e. tickets that usually span multiple smaller sub-tickets to reach a bigger goal.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Differentiate between enhancements and feature requests!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-version.png">
+
+					<ul>
+						<li class="fragment">
+							This field should only be used when filing a bug.
+						</li>
+						<li class="fragment">
+							It should contain the number of the earliest version where the bug occurred. This is <em>not</em> necessarily the version of WordPress you are using.
+						</li>
+						<li class="fragment">
+							If you're not sure which version to enter, leave the field blank, so someone else can add the information later.
+						</li>
+						<li class="fragment">
+							Pro tip: If you already know where in the code the bug is coming from, you can use <code>svn blame {file}@r{changeset_id} | less</code> to work your way backwards and find out the earliest affected version.
+							<br>
+							&rarr; Example: <code>svn blame src/wp-includes/post.php@r40000 | less</code><br>You can then use <code>400G</code> to go to line 400 and see the changeset number when that line was last changed.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Several TODO pages here</h3>
+				</section>
+
+				<!-- TODO: Ticket component and focus -->
+
+				<!-- TODO: Advanced open ticket view -->
+
+				<!-- TODO: Finding tickets -->
+
+				<!-- TODO: Creating a patch -->
+
+				<!-- TODO: Trac preferences -->
+
+				<!-- TODO: Slack -->
 
 				<section>
 					<h2>Summary: Recommendations for a successful contribution path</h2>
