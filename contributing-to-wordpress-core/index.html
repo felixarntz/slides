@@ -502,25 +502,165 @@
 
 					<img data-src="assets/close-ticket-commit.png">
 
-					<p>A ticket is automatically closed as <em>fixed</em>, when a commit message contains the phrase "Fixes #{ticket_id}."</p>
+					<p style="margin-top:0;font-size:75%;">
+						A ticket is automatically closed as <em>fixed</em>, when a commit message contains the phrase "Fixes #{ticket_id}.".
+					</p>
 
-					<img data-src="assets/close-ticket-invalid.png">
+					<img class="fragment" data-fragment-index="1" data-src="assets/close-ticket-invalid.png">
 
-					<p>If a ticket should not be fixed for a specific reason, it can be manually be closed with a proper resolution:</p>
+					<p class="fragment" data-fragment-index="1" style="margin-top:0;font-size:75%;">
+						If a ticket should not be fixed for a specific reason, it can be manually be closed with a proper resolution:
+					</p>
 
-					<ul>
+					<ul class="fragment" data-fragment-index="1" style="font-size:60%;">
 						<li><em>invalid</em>: The ticket was not opened for a valid reason, for example when a bug only occurred because the reporter or a plugin clearly did something wrong.</li>
 						<li><em>wontfix</em>: This may be considered a bug, but is not critical and cannot be fixed for (usually complex) legacy reasons.</li>
 						<li><em>worksforme</em>: The issue described in the ticket cannot be recreated.</li>
-						<li><em>maybelater</em>: This may be considered a bug, but is not critical and involves heavy changes related to the benefits. It may be reconsidered later.</li>
+						<li><em>maybelater</em>: This may be considered a bug, but is not critical and involves too heavy changes compared to the benefits. It may be reconsidered later.</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Several TODO pages here</h3>
+					<h3>Finding tickets</h3>
+
+					<p>There are currently over 4700 open tickets in WordPress Trac.</p>
+
+					<p class="fragment">&rarr; How do you find the ones that you wanna work on?</p>
 				</section>
 
-				<!-- TODO: Finding tickets -->
+				<section>
+					<p>
+						A good starting point: <a href="https://make.wordpress.org/core/reports/">https://make.wordpress.org/core/reports/</a>
+					</p>
+
+					<img data-src="assets/make-reports.png" style="max-width:70%;">
+
+					<aside class="notes">
+						<ul>
+							<li>The page shows a selected list of important reports.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Reports</h4>
+
+					<p>
+						Reports are lists of tickets to which certain predefined criteria apply. Examples:
+					</p>
+
+					<ul>
+						<li>All open tickets that are scheduled for the next major release.</li>
+						<li>All open tickets that deal with the Customizer.</li>
+						<li>All open tickets that need unit tests.</li>
+						<li>All open tickets that are good for new contributors.</li>
+						<li>All open tickets that are ready for commit.</li>
+						<li>All open bug tickets that have been reported against trunk.</li>
+					</ul>
+
+					<p class="fragment">
+						&rarr; Can you name the criteria (from our previous <em>Opening a ticket</em> section) that a ticket needs to match in order to fall under each of the above reports respectively?
+					</p>
+				</section>
+
+				<section>
+					<p>
+						The full list of available reports can be found at <a href="https://core.trac.wordpress.org/report">https://core.trac.wordpress.org/report</a>.
+					</p>
+
+					<img data-src="assets/trac-reports.png" style="max-width:80%;">
+
+					<aside class="notes">
+						<ul>
+							<li>It's hard to find a link to that page, so try to remember the URL.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Dynamic Reports</h4>
+
+					<img data-src="assets/trac-reports-dynamic-required.png">
+
+					<p style="margin-top:0;">
+						Some reports require a dynamic parameter. Example usages:
+					</p>
+
+					<ul>
+						<li><a href="https://core.trac.wordpress.org/report/30?FOCUS=rest-api">https://core.trac.wordpress.org/report/30?FOCUS=rest-api</a>
+						<li><a href="https://core.trac.wordpress.org/report/31?COMPONENT=Taxonomy">https://core.trac.wordpress.org/report/31?COMPONENT=Taxonomy</a></li>
+					</ul>
+
+					<img class="fragment" data-fragment-index="1" data-src="assets/trac-reports-dynamic-optional.png">
+
+					<p class="fragment" data-fragment-index="1" style="margin-top:0;">
+						Some reports support an optional dynamic parameter. Example usages:
+					</p>
+
+					<ul class="fragment" data-fragment-index="1">
+						<li><a href="https://core.trac.wordpress.org/report/62">https://core.trac.wordpress.org/report/62</a>
+						<li><a href="https://core.trac.wordpress.org/report/62?USER=nacin">https://core.trac.wordpress.org/report/62?USER=nacin</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						Your most powerful tool: <a href="https://core.trac.wordpress.org/query">https://core.trac.wordpress.org/query</a>
+					</p>
+
+					<img data-src="assets/trac-reports-query-link.png" style="max-width:80%;">
+
+					<aside class="notes">
+						<ul>
+							<li>The link to that page is pretty hidden, so try to remember the URL.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Query</h4>
+
+					<img data-src="assets/trac-query.png" style="max-width:80%;">
+
+					<p>
+						This page allows you to query by any information available with granular control about relations, columns to show and orderby field.
+					</p>
+
+					<p class="fragment">
+						&rarr; Let's go back to our previous reports. Can you generate these reports by using the custom query feature?
+					</p>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-query.png" style="max-width:65%;">
+
+					<p>
+						Can you generate the following reports by using the custom query feature?
+					</p>
+
+					<ul>
+						<li>All open tickets that are scheduled for the next major release.</li>
+						<li>All open tickets that deal with the Customizer.</li>
+						<li>All open tickets that need unit tests.</li>
+						<li>All open tickets that are good for new contributors.</li>
+						<li>All open tickets that are ready for commit.</li>
+						<li>All open bug tickets that have been reported against trunk.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>You can do much more than the reports allow, for example: Show all tickets for the next major release that are either in the <em>REST API</em> component or have the <em>rest-api</em> focus.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-query.png" style="max-width:80%;">
+
+					<p>
+						Pro tip: Now that you know how to use Trac's powerful query functionality, try to figure out over time which queries are useful to you regularly, and bookmark them for quick access.
+					</p>
+				</section>
 
 				<!-- TODO: Trac preferences -->
 
