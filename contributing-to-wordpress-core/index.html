@@ -80,6 +80,7 @@
 							WordPress Core Trac
 							<ul>
 								<li>Opening a ticket</li>
+								<li>Closing a ticket</li>
 								<li>Finding tickets</li>
 								<li>Creating a patch</li>
 							</ul>
@@ -309,7 +310,7 @@
 
 					<ul>
 						<li class="fragment">
-							Ticket type: Either &quot;defect (bug)&quot;, &quot;enhancement&quot; or &quot;feature request&quot;.
+							Ticket type: Either <em>defect (bug)</em>, <em>enhancement</em> or <em>feature request</em>.
 						</li>
 						<li class="fragment">
 							The vast majority of tickets are for bugs or enhancements.
@@ -320,7 +321,7 @@
 							&rarr; Furthermore, new features need to go through a special feature project workflow. See <a href="https://make.wordpress.org/core/features/">https://make.wordpress.org/core/features/</a> and <a href="https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/">https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/</a> for more information.
 						</li>
 						<li class="fragment">
-							There is a fourth ticket type called &quot;task (blessed)&quot;. It is only available to component maintainers and committers and is intended to be used for task tickets, i.e. tickets that usually span multiple smaller sub-tickets to reach a bigger goal.
+							There is a fourth ticket type called <em>task (blessed)</em>. It is only available to component maintainers and committers and is intended to be used for task tickets, i.e. tickets that usually span multiple smaller sub-tickets to reach a bigger goal.
 						</li>
 					</ul>
 
@@ -353,20 +354,181 @@
 				</section>
 
 				<section>
+					<img data-src="assets/trac-newticket-form-component.png">
+
+					<ul>
+						<li class="fragment">
+							The component to which the ticket belongs.
+						</li>
+						<li class="fragment">
+							If it affects multiple components, choose the one it affects the most. You may further specify the related area by using focuses.
+						</li>
+					</ul>
+
+					<img class="fragment" data-src="assets/trac-newticket-form-focuses.png">
+
+					<ul>
+						<li class="fragment">
+							A focus is something more general that usually spans across many, if not all WordPress Core components.
+						</li>
+						<li class="fragment">
+							While specifying a component is required, focuses are optional.
+						</li>
+						<li class="fragment">
+							If you file a ticket relates to multiple components and one of them is also available as a focus, use a mixture of component and focuses.
+							<br>
+							&rarr; Example: If you want to file a bug in the REST API taxonomy controller, use the <em>Taxonomy</em> component and the <em>rest-api</em> focus.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Please do not simply choose <em>General</em>, unless it's truly a general ticket!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>The advanced New Ticket form</h4>
+
+					<img data-src="assets/trac-newticket-form-advanced.png">
+
+					<aside class="notes">
+						<ul>
+							<li>Available to component maintainers and committers.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-advanced-milestone.png">
+
+					<ul>
+						<li class="fragment">
+							The milestone to which to assign the tickets. You may specify <em>Awaiting Review</em>, <em>Future Release</em>, the next major release or next minor release.
+						</li>
+						<li class="fragment">
+							When opening a ticket, you should usually keep this on <em>Awaiting Review</em> and ask for some initial feedback - especially if you're not filing a clear bug for which WordPress Core is responsible.
+						</li>
+						<li class="fragment">
+							Minor releases should only be used to fix regressions (bugs) from the latest major release. This has changed a bit since the new release cycle, but it's still something to strive for.
+						</li>
+						<li class="fragment">
+							Best practice: Only assign tickets to the upcoming release if sufficient discussions have already happened and you consider it realistic for the changes to be done in time.
+						</li>
+						<li class="fragment">
+							Best practice: If you close a ticket without a successful resolution (more on that later), you should completely remove any milestone from the ticket.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-advanced-keywords.png">
+
+					<ul style="font-size:80%;">
+						<li class="fragment">
+							Specify one or more keywords to indicate the current status of the ticket and required steps.
+						</li>
+						<li class="fragment">
+							This is supposed to be dynamic throughout the ticket's lifecycle, so you can (and should) change it after opening the ticket as necessary.
+						</li>
+						<li class="fragment">
+							Available keywords are:
+							<ul style="font-size:60%;">
+								<li><em>has-patch</em>: A working patch has been uploaded.</li>
+								<li><em>needs-patch</em>: The ticket still requires a working patch.</li>
+								<li><em>needs-refresh</em>: There is a working patch, but the circumstances have changed, so a new patch is required.</li>
+								<li><em>reporter-feedback</em>: Feedback by the person who opened the ticket requested.</li>
+								<li><em>dev-feedback</em>: Feedback by developers requested, for example to review a patch.</li>
+								<li><em>2nd-opinion</em>: Feedback requested for concepts / ideas, to start a discussion.</li>
+								<li><em>close</em>: The ticket should probably be closed, but another voice would be welcome.</li>
+								<li><em>needs-testing</em>: The patch on the ticket needs to be thoroughly tested (usually used for new features).</li>
+								<li><em>ui-feedback</em>: Feedback requested for the UI changes the ticket deals with.</li>
+								<li><em>ux-feedback</em>: Feedback requested for the UX changes the ticket deals with.</li>
+								<li><em>has-unit-tests</em>: Comprehensive unit tests have been uploaded for the ticket.</li>
+								<li><em>needs-unit-tests</em>: The ticket still requires unit tests.</li>
+								<li><em>needs-docs</em>: The patch on the ticket still needs proper documentation.</li>
+								<li><em>needs-codex</em>: The changes from the ticket require changes in the WordPress Codex.</li>
+								<li><em>has-screenshots</em>: Screenshots for UI issues / changes have been uploaded.</li>
+								<li><em>needs-screenshots</em>: The ticket still requires screenshots for UI issues / changes.</li>
+								<li><em>commit</em>: The ticket, patch and everything related has been properly reviewed and is ready for commit.</li>
+								<li><em>early</em>: The changes proposed in the ticket should be committed early in a release cycle to allow for thorough testing.</li>
+								<li><em>i18n-change</em>: The changes in the ticket include i18n string changes.</li>
+								<li><em>good-first-bug</em>: The ticket qualifies as a bug that should be relatively easy to fix for new contributors. Experienced contributors should preferably keep off, unless it's urgent.</li>
+								<li><em>fixed-major</em>: The ticket has already been fixed in trunk, but requires back-porting to an older release.</li>
+							</ul>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Component maintainers and committers may furthermore enter manual keywords, for example <em>needs-dev-note</em> for when a ticket requires a dev-note.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/trac-newticket-form-advanced-priority.png">
+
+					<ul>
+						<li class="fragment">
+							The priority of the ticket. Can be <em>normal</em>, <em>low</em>, <em>high</em>, <em>lowest</em> or <em>highest omg bbq</em>. No, this is not a joke. 🔥
+						</li>
+						<li class="fragment">
+							Always keep this at <em>normal</em>, unless specific circumstances dictate the value to be different or the ticket changes are nit-picking and not really needed.
+						</li>
+						<li class="fragment">
+							Don't ever use this to mark something as important because you want it to happen!
+						</li>
+					</ul>
+
+					<img class="fragment" data-src="assets/trac-newticket-form-advanced-severity.png">
+
+					<ul>
+						<li class="fragment">
+							The severity of the ticket, if it is a bug. Can be <em>normal</em>, <em>major</em>, <em>minor</em>, <em>trivial</em>, <em>critical</em> or <em>blocker</em>.
+						</li>
+						<li class="fragment">
+							Should usually remain <em>normal</em> as well. <em>critical</em> can be used if the bug needs to be fixed as soon as possible, while <em>blocker</em> indicates that it should be fixed soon so that work on another related ticket can proceed.
+						</li>
+						<li class="fragment">
+							Again, don't ever use this to mark something as important because you want it to happen!
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Closing a ticket</h3>
+
+					<img data-src="assets/close-ticket-commit.png">
+
+					<p>A ticket is automatically closed as <em>fixed</em>, when a commit message contains the phrase "Fixes #{ticket_id}."</p>
+
+					<img data-src="assets/close-ticket-invalid.png">
+
+					<p>If a ticket should not be fixed for a specific reason, it can be manually be closed with a proper resolution:</p>
+
+					<ul>
+						<li><em>invalid</em>: The ticket was not opened for a valid reason, for example when a bug only occurred because the reporter or a plugin clearly did something wrong.</li>
+						<li><em>wontfix</em>: This may be considered a bug, but is not critical and cannot be fixed for (usually complex) legacy reasons.</li>
+						<li><em>worksforme</em>: The issue described in the ticket cannot be recreated.</li>
+						<li><em>maybelater</em>: This may be considered a bug, but is not critical and involves heavy changes related to the benefits. It may be reconsidered later.</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>Several TODO pages here</h3>
 				</section>
 
-				<!-- TODO: Ticket component and focus -->
-
-				<!-- TODO: Advanced open ticket view -->
-
 				<!-- TODO: Finding tickets -->
-
-				<!-- TODO: Creating a patch -->
 
 				<!-- TODO: Trac preferences -->
 
+				<!-- TODO: Creating a patch -->
+
 				<!-- TODO: Slack -->
+
+				<!-- TODO: Becoming a component maintainer -->
 
 				<section>
 					<h2>Summary: Recommendations for a successful contribution path</h2>
