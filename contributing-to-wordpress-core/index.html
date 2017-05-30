@@ -79,10 +79,9 @@
 						<li>
 							WordPress Core Trac
 							<ul>
-								<li>Opening a ticket</li>
-								<li>Closing a ticket</li>
+								<li>Managing tickets</li>
 								<li>Finding tickets</li>
-								<li>Creating a patch</li>
+								<li>Creating patches</li>
 							</ul>
 						</li>
 						<li>
@@ -90,7 +89,7 @@
 							<ul>
 								<li>Channels</li>
 								<li>Meetings</li>
-								<li>Bug-Scrubs</li>
+								<li>Bug Scrubs</li>
 							</ul>
 						</li>
 					</ul>
@@ -131,7 +130,7 @@
 
 					<aside class="notes">
 						<ul>
-							<li>Website for all things contributing to WordPress Core</li>
+							<li>Website for all things contributing to WordPress core</li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +143,7 @@
 					<p class="fragment">
 						Subscribe to this blog to know about anything important
 						<br>
-						that happens in Core development!
+						that happens in core development!
 					</p>
 
 					<aside class="notes">
@@ -200,14 +199,15 @@
 					<img data-src="assets/make-handbook.png" style="max-width:70%;">
 
 					<p class="fragment">
-						Your source of information for everything related to contributing to Core.
+						Your source of information for everything related to contributing to core.
 						<br>
 						Learn the WordPress philosophies!
 					</p>
 
 					<aside class="notes">
 						<ul>
-							<li>Learn the WordPress philosophies!</li>
+							<li>Reminder: Setting up the dev environment.</li>
+							<li>The WordPress philosophies are what makes the project what it is.</li>
 							<li>Always follow the WordPress coding standards!</li>
 							<li>Almost everything from this workshop can be found in more detail there.</li>
 						</ul>
@@ -245,12 +245,13 @@
 				</section>
 
 				<section>
-					<h3>Opening a ticket</h3>
+					<h3>Managing tickets</h3>
 
 					<img data-src="assets/trac-newticket-form.png" style="max-width:85%;">
 
 					<aside class="notes">
 						<ul>
+							<li>This is the form for opening a new ticket.</li>
 							<li>Let's go through all fields in detail.</li>
 						</ul>
 					</aside>
@@ -316,7 +317,7 @@
 							The vast majority of tickets are for bugs or enhancements.
 						</li>
 						<li class="fragment">
-							It's usually not a good idea to open a feature request ticket out of the blue. New feature ideas should be discussed in advance with others and only be transformed into a ticket once the idea has enough traction to be viable for a possible inclusion in WordPress Core.
+							It's usually not a good idea to open a feature request ticket out of the blue. New feature ideas should be discussed in advance with others and only be transformed into a ticket once the idea has enough traction to be viable for a possible inclusion in WordPress core.
 							<br>
 							&rarr; Furthermore, new features need to go through a special feature project workflow. See <a href="https://make.wordpress.org/core/features/">https://make.wordpress.org/core/features/</a> and <a href="https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/">https://make.wordpress.org/core/2016/03/31/iterating-on-feature-plugins/</a> for more information.
 						</li>
@@ -369,7 +370,7 @@
 
 					<ul>
 						<li class="fragment">
-							A focus is something more general that usually spans across many, if not all WordPress Core components.
+							A focus is something more general that usually spans across many, if not all WordPress core components.
 						</li>
 						<li class="fragment">
 							While specifying a component is required, focuses are optional.
@@ -408,7 +409,7 @@
 							The milestone to which to assign the tickets. You may specify <em>Awaiting Review</em>, <em>Future Release</em>, the next major release or next minor release.
 						</li>
 						<li class="fragment">
-							When opening a ticket, you should usually keep this on <em>Awaiting Review</em> and ask for some initial feedback - especially if you're not filing a clear bug for which WordPress Core is responsible.
+							When opening a ticket, you should usually keep this on <em>Awaiting Review</em> and ask for some initial feedback - especially if you're not filing a clear bug for which WordPress core is responsible.
 						</li>
 						<li class="fragment">
 							Minor releases should only be used to fix regressions (bugs) from the latest major release. This has changed a bit since the new release cycle, but it's still something to strive for.
@@ -498,7 +499,43 @@
 				</section>
 
 				<section>
-					<h3>Closing a ticket</h3>
+					<h4>Ticket Statuses</h4>
+
+					<p>
+						When you open a new ticket, its initial status will always be set to <em>new</em>.
+					</p>
+
+					<p data-fragment-index="1" class="fragment">
+						There are a few more statuses however:
+					</p>
+
+					<ul data-fragment-index="1" class="fragment">
+						<li>
+							<em>accepted</em>: The changes proposed by the ticket are accepted for a future merge. Used rarely, as this is mostly implicit by the comments on the ticket.
+						</li>
+						<li>
+							<em>assigned</em>: The ticket is assigned to an owner who will take care of the necessary work.
+						</li>
+						<li>
+							<em>closed</em>: The ticket has been closed with a specific resolution, either as <em>fixed</em> or a negative resolution.
+						</li>
+						<li>
+							<em>reopened</em>: The ticket had already been closed, but was reopened because it was not actually completed properly.
+						</li>
+						<li>
+							<em>reviewing</em>: The ticket has an owner who will review the changes.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>A ticket owner is someone who is responsible for moving that ticket forward.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Ticket Resolutions</h4>
 
 					<img data-src="assets/close-ticket-commit.png">
 
@@ -559,8 +596,75 @@
 					</ul>
 
 					<p class="fragment">
-						&rarr; Can you name the criteria (from our previous <em>Opening a ticket</em> section) that a ticket needs to match in order to fall under each of the above reports respectively?
+						&rarr; Can you name the criteria (from our previous <em>Managing tickets</em> section) that a ticket needs to match in order to fall under each of the above reports respectively?
 					</p>
+				</section>
+
+				<section>
+					<p>
+						<strong>Example:</strong> All open tickets that are scheduled for the next major release.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Milestone: <em>4.9</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						All open tickets that deal with the Customizer.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Component: <em>Customize</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						All open tickets that need unit tests.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Keywords: must contain <em>needs-unit-tests</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						All open tickets that are good for new contributors.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Keywords: must contain <em>good-first-bug</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						All open tickets that are ready for commit.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Keywords: must contain <em>commit</em></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>
+						All open bug tickets that have been reported against trunk.
+					</p>
+
+					<ul class="fragment">
+						<li>Status: <em>new</em>, <em>accepted</em>, <em>assigned</em>, <em>reopened</em> or <em>reviewing</em></li>
+						<li>Type: <em>defect (bug)</em></li>
+						<li>Version: <em>trunk</em></li>
+					</ul>
 				</section>
 
 				<section>
@@ -625,10 +729,14 @@
 					<p>
 						This page allows you to query by any information available with granular control about relations, columns to show and orderby field.
 					</p>
+				</section>
 
-					<p class="fragment">
-						&rarr; Let's go back to our previous reports. Can you generate these reports by using the custom query feature?
+				<section>
+					<p>
+						<strong>Example:</strong> All open tickets that are scheduled for the next major release.
 					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-1.png">
 				</section>
 
 				<section>
@@ -639,19 +747,61 @@
 					</p>
 
 					<ul>
-						<li>All open tickets that are scheduled for the next major release.</li>
 						<li>All open tickets that deal with the Customizer.</li>
 						<li>All open tickets that need unit tests.</li>
 						<li>All open tickets that are good for new contributors.</li>
 						<li>All open tickets that are ready for commit.</li>
 						<li>All open bug tickets that have been reported against trunk.</li>
+						<li>All open tickets that are in the <em>REST API</em> component or have the <em>rest-api</em> focus.</li>
 					</ul>
+				</section>
 
-					<aside class="notes">
-						<ul>
-							<li>You can do much more than the reports allow, for example: Show all tickets for the next major release that are either in the <em>REST API</em> component or have the <em>rest-api</em> focus.</li>
-						</ul>
-					</aside>
+				<section>
+					<p>
+						All open tickets that deal with the Customizer.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-2.png">
+				</section>
+
+				<section>
+					<p>
+						All open tickets that need unit tests.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-3.png">
+				</section>
+
+				<section>
+					<p>
+						All open tickets that are good for new contributors.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-4.png">
+				</section>
+
+				<section>
+					<p>
+						All open tickets that are ready for commit.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-5.png">
+				</section>
+
+				<section>
+					<p>
+						All open bug tickets that have been reported against trunk.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-6.png">
+				</section>
+
+				<section>
+					<p>
+						All open tickets that are in the <em>REST API</em> component or have the <em>rest-api</em> focus.
+					</p>
+
+					<img class="fragment" data-src="assets/trac-query-example-7.png">
 				</section>
 
 				<section>
@@ -660,25 +810,244 @@
 					<p>
 						Pro tip: Now that you know how to use Trac's powerful query functionality, try to figure out over time which queries are useful to you regularly, and bookmark them for quick access.
 					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>As you can see, you can do much more than the reports allow!</li>
+							<li>The previous REST API example is a good example that's helpful if you're interested in the REST API.</li>
+						</ul>
+					</aside>
 				</section>
 
-				<!-- TODO: Trac preferences -->
+				<section>
+					<h4>Trac notifications</h4>
 
-				<!-- TODO: Creating a patch -->
+					<p>
+						Once you open a ticket or comment on a ticket, you will automatically receive emails when that ticket is updated. In addition, you may manually subscribe to any ticket you're interested in.
+						<br>
+						But wait, there's more...
+					</p>
 
-				<!-- TODO: Slack -->
+					<img data-fragment-index="1" class="fragment" data-src="assets/trac-notifications-link.png">
 
-				<!-- TODO: Becoming a component maintainer -->
+					<ul data-fragment-index="1" class="fragment">
+						<li>
+							On that page you can check components and focuses that you would like to receive all ticket updates for.
+						</li>
+						<li>
+							You could also subscribe to the &quot;firehose&quot;, so that you receive emails for every update on every ticket.
+							<br>
+							&rarr; Go ahead if you wanna spend your entire life on WordPress. 🤡
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Creating patches</h3>
+
+					<p>
+						Patches are the code changes that are uploaded to the related ticket as attachments.
+						<br>
+						&rarr; How do you do it right?
+					</p>
+				</section>
+
+				<section>
+					<h4>The workflow for creating a patch</h4>
+
+					<p>
+						Either download and apply the patch manually and upload your new patch manually, or do it like a pro...
+					</p>
+
+					<pre data-fragment-index="1" class="fragment"><code>svn update
+grunt patch:12345
+# Do the code changes you need.
+grunt upload_patch:12345
+svn revert -R *
+</code></pre>
+
+					<small data-fragment-index="1" class="fragment"><em>12345</em> should be the ticket number.</small>
+
+					<p data-fragment-index="1" class="fragment">
+						If you wanna upload the patch manually, use <code>svn diff > 12345.diff</code> and then upload the file as an attachment to the ticket manually.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>Always apply patches to the current trunk state.</li>
+							<li>If there are multiple patches on the ticket, you can select which one to apply.</li>
+							<li>Don't forget to <code>svn add</code> new files.</li>
+							<li>Reset all your changes back to trunk state after you are done.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Best practices for writing patches</h4>
+
+					<ul>
+						<li class="fragment">
+							Creating a patch should usually be one of the last things you do in a ticket lifecycle. Of course, you can always write a patch to have a better explanation of what you're trying to achieve, but keep in mind that it might not be accepted.
+						</li>
+						<li class="fragment">
+							Be patient, consider and discuss edge-cases. Letting a problem sink in for a while will improve the outcome.
+						</li>
+						<li class="fragment">
+							Name your patch after the ticket number and use the <code>.diff</code> file extension in favor of <code>.patch</code>. If there are multiple patches on the ticket, an index number will automatically be appended once the patch is uploaded.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Writing a comment for the patch</h4>
+
+					<ul>
+						<li>
+							After uploading a patch, always leave a comment on the ticket describing what you changed and why you changed it. A patch upload itself does not trigger a notification, and furthermore people wouldn't know the reasoning behind your changes.
+						</li>
+						<li class="fragment">
+							Pro tip: Use <code>[attachment:{filename}]</code> to directly reference a specific patch on the ticket, and it will be automatically transformed into a link.
+						</li>
+						<li class="fragment">
+							Make sure to adjust the keywords as necessary:
+							<ul>
+								<li>Add the <em>has-patch</em> keyword if you uploaded the initial patch.</li>
+								<li>Add the <em>has-unit-tests</em> keyword if your patch already contains sufficient unit tests.</li>
+								<li>Use the <em>dev-feedback</em> keyword if the patch is rather complex and could use thorough feedback on the approach.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Dealing with feedback</h4>
+
+					<ul>
+						<li class="fragment">
+							If nobody responds to the ideas from your ticket or reviews your patch, it may be useful to bring that ticket forward in a related chat (more on that in just a bit). Make sure to ask kindly though, and don't annoy people. They're usually busy.
+						</li>
+						<li class="fragment">
+							If the consensus is that your idea is not viable for inclusion in WordPress core, or if your patch does not fulfill the discussed requirements, stay focused. It is easy to get frustrated by such decisions. Try to move the discussion forward in a constructive way.
+						</li>
+						<li class="fragment">
+							If you feel like your idea was rejected without a clear explanation, ask for the reasoning behind it. Contributors' times are often limited, so they unfortunately tend to write brief messages and omit things.
+						</li>
+						<li class="fragment">
+							Always remember to not take anything personally. The other people (probably) don't know you, so why should they have any negative impression?
+						</li>
+					</ul>
+
+					<p class="fragment">
+						If you wanna learn more about philosophical and psychological challenges: <a href="http://wordpress.tv/2016/09/12/felix-arntz-where-are-the-core-contributors/">http://wordpress.tv/2016/09/12/felix-arntz-where-are-the-core-contributors/</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>WordPress Slack</h2>
+
+					<a href="https://wordpress.slack.com">https://wordpress.slack.com</a>
+				</section>
+
+				<section>
+					<img data-src="assets/slack.png">
+
+					<p>
+						Slack is a real-time communication platform used for contributing to WordPress. It is used by all areas of contributions with core being a significant part of it.
+					</p>
+				</section>
+
+				<section>
+					<img data-src="assets/slack-invite.png" style="max-width:50%;">
+
+					<p>
+						To get access to the Slack team, you need to request an (automated) invite at <a href="https://make.wordpress.org/chat/">https://make.wordpress.org/chat/</a>.
+					</p>
+
+					<small>Recommendation: Use the same username as your wordpress.org account.</small>
+				</section>
+
+				<section>
+					<h3>Channels</h3>
+
+					<p>
+						There are 73 channels which you can join - however it is very unlikely you'll need all of them.
+					</p>
+
+					<ul>
+						<li class="fragment">
+							You should definitely join the <a href="https://wordpress.slack.com/archives/core">#core</a> channel. This is where the weekly development chat happens and where general discussions take place.
+						</li>
+						<li class="fragment">
+							The rest depends on your preferences. There are several channels for specific core components, such as <a href="https://wordpress.slack.com/archives/core-media">#core-media</a> or <a href="https://wordpress.slack.com/archives/core-multisite">#core-multisite</a>, with separate meetings taking place in these channels.
+						</li>
+						<li class="fragment">
+							If you're interested in focuses that overlap with other contributor groups, feel free to join their channels as well - examples are <a href="https://wordpress.slack.com/archives/accessibility">#accessibility</a> or <a href="https://wordpress.slack.com/archives/design">#design</a>.
+						</li>
+						<li class="fragment">
+							Last but not least, there are some channels dealing with specific feature projects, such as <a href="https://wordpress.slack.com/archives/feature-shortcode">#feature-shortcode</a> or <a href="https://wordpress.slack.com/archives/feature-shinyupdates">#feature-shinyupdates</a>.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Meetings</h3>
+
+					<p>
+						There are several weekly meetings related to core,
+						<br>
+						which can be found in the sidebar of <a href="https://make.wordpress.org/core/">https://make.wordpress.org/core/</a>.
+					</p>
+
+					<ul>
+						<li class="fragment">
+							<strong>Joining a meeting for your component is the best way to push forward your ideas and make yourself known.</strong> Be patient though: You should use the first couple of meetings to simply attend and get a feeling for how they work and who is responsible.
+						</li>
+						<li class="fragment">
+							Joining the weekly dev-chat in <a href="https://wordpress.slack.com/archives/core">#core</a> is also a good idea. You don't need to be around every week and you will realize it is mostly updates about what's currently being focused on. However, the most important decisions in WordPress development happen here - not one every week, but occasionally, so you might wanna be around to influence these decisions.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>If there is no meeting specific to your component, maybe ping the component maintainer or ask in the dev-chat.</li>
+							<li>Some components are so small that it probably does not make sense for them to have a weekly meeting. You could still try to figure out a way to move them forward - maybe a less regular meeting every two months or so?</li>
+							<li>As you gain more trust among the more seasoned contributors, it is a good idea to ask them to become a component maintainer.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Bug Scrubs</h3>
+
+					<p>
+						Bug scrubs are a special kind of meeting with the goal to reduce the number of open tickets (in general, or in a specific milestone).
+					</p>
+
+					<ul>
+						<li class="fragment">
+							<strong>Running a bug scrub is a great way to show your involvement.</strong> You should preferably have attended at least one scrub before, but leading a bug scrub is generally easier than leading a regular meeting.
+						</li>
+						<li class="fragment">
+							The core team is always happy about volunteers to help with scrubbing bugs. If you're interested, respond to some of the calls that happen regularly, or just offer to run one during dev-chat or by pinging <a href="https://profiles.wordpress.org/jorbin">@jorbin</a> or <a href="https://profiles.wordpress.org/jbpaul17">@jbpaul17</a>.
+						</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>In a bug scrub, you go through a specific report (or custom query).</li>
+							<li>This may for example be all tickets in the current major release (when it comes closer to Beta and Release Candidates), or all tickets in a specific component.</li>
+						</ul>
+					</aside>
+				</section>
 
 				<section>
 					<h2>Summary: Recommendations for a successful contribution path</h2>
 
 					<ul>
 						<li class="fragment">Learn and follow the WordPress philosophies.</li>
-						<li class="fragment">Find a Core component to focus on.</li>
+						<li class="fragment">Find a core component to focus on.</li>
 						<li class="fragment">Attend and participate in relevant Slack meetings.</li>
 						<li class="fragment">Discuss ideas and bugfixes before writing code.</li>
-						<!-- TODO: use this somewhere else: <li class="fragment">Be patient and consider edge-cases.</li>-->
 						<li class="fragment">Be persistent, but patient.</li>
 						<li class="fragment">Don't take anything personally.</li>
 					</ul>
