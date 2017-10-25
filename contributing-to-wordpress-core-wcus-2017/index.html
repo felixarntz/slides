@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Contributing to WordPress Core: Techniques and expectations for successful long-term contributions</title>
+
+		<meta name="description" content="While a contributor day in the core team gives you a basic idea on how the development environment is setup and the processes involved, it is often hard to follow up on that. This talk addresses what comes next.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style type="text/css">
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						Contributing to WordPress Core
+					</h1>
+
+					<h2 style="margin-bottom:100px;">
+						Techniques and expectations
+						<br>
+						for successful long-term contributions
+					</h2>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>What are the benefits of contributing to core?</li>
+							<li>How do I start contributing to core?</li>
+							<li><strong>How can I keep contributing to core?</strong></li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" style="padding-top:600px;" data-background-color="#444444" data-background-image="assets/wceu-2015.jpg">
+					<small class="credit">original photo by <a href="https://florianziegler.com/wordcamp-europe-2015-contributor-day/">Florian Ziegler</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>WCEU 2015: first contributor day</li>
+							<li>core table led by Konstantin Obenland (release lead 4.3)</li>
+							<li>task: test the heck out of the new Site Icon feature</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>#16434 🤓</h2>
+
+					<img data-src="assets/first-patch.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>first contribution: small bug-fix that occurred sometimes when having JavaScript disabled</li>
+							<li>modified 16 lines of code out of the hundreds for the feature</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>[32994] 🤓</h2>
+
+					<img data-src="assets/first-props.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>by the end of the day: first props!</li>
+							<li>only a small fix shared with several people, but big feature (motivating!)</li>
+							<li>so eager that I even worked on another ticket later that day while I was in my hotel room for an hour</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-image="assets/wordcamp-us-2015.jpg">
+					<h3>Takeaways</h3>
+
+					<table>
+						<tr>
+							<th>Contributor Day attendee</th>
+							<th>Very disciplined self-learner</th>
+						</tr>
+						<tr class="fragment">
+							<td>Processes explained at the core table or through a workshop</td>
+							<td>Processes explained in <a href="https://make.wordpress.org/core/handbook/">core handbook</a> or <a href="https://wordpress.tv/tag/contributing+core/">wordpress.tv videos</a></td>
+						</tr>
+						<tr class="fragment">
+							<td>Questions answered in person</td>
+							<td>Questions answered in new contributors meeting (every Wednesday on Slack)</td>
+						</tr>
+						<tr class="fragment">
+							<td>Good tickets to be worked on are provided, possibly both major and minor</td>
+							<td>Good tickets to be worked on can be found through the <a href="https://core.trac.wordpress.org/query?status=accepted&status=assigned&status=new&status=reopened&status=reviewing&keywords=~good-first-bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority"><code>good-first-bug</code> keyword</a></td>
+						</tr>
+					</table>
+
+					<p class="fragment">&rarr; If possible, attend a contributor day!</p>
+
+					<small class="credit">original photo by <a href="https://www.flickr.com/photos/wordcampunitedstates/">Florian Ziegler</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>first props either with a small contribution to a major feature</li>
+							<li>or by completing a smaller ticket on your own</li>
+							<li>depends on personal preference, both is equally valuable</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/contributing-to-wordpress-core-wcus-2017/" class="left">Contributing to WordPress Core</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
