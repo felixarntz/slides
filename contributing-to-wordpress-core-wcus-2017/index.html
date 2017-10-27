@@ -273,6 +273,7 @@
 							<li>joined multisite channel</li>
 							<li>followed tickets (notification preferences)</li>
 							<li>worked on only a few things, but generally kept an eye out</li>
+							<li>at some point I was working on a ticket where I didn't receive any feedback</li>
 						</ul>
 					</aside>
 				</section>
@@ -284,7 +285,6 @@
 
 					<aside class="notes">
 						<ul>
-							<li>at some point I was working on a ticket where I didn't receive any feedback</li>
 							<li>had noticed there are multisite meetings</li>
 							<li>so I joined one and expressed my willingness to contribute more</li>
 						</ul>
@@ -493,8 +493,8 @@
 					<h2>Learning and iterating</h2>
 
 					<ul>
-						<li class="fragment">Keep contributing, learn from mistakes, improve your skillset over time.</li>
 						<li class="fragment">You don't need to be a code genius to play an important role in core.</li>
+						<li class="fragment">Keep contributing, learn from mistakes, improve your skillset over time.</li>
 						<li class="fragment">You need to be passionate, willing to learn, and understand the core philosophies.</li>
 						<li class="fragment">Your goal should not be becoming a committer, but a valuable contributor.</li>
 						<li class="fragment">The latter is very likely to eventually give you commit anyway at some point.</li>
@@ -511,11 +511,103 @@
 					<aside class="notes">
 						<ul style="font-size:80%;">
 							<li>at contributor day I did my first commit</li>
-							<li>was super careful, didn't wanna break anything</li>
-							<li>really, from the moment on I perfectly understood why commits take time; you don't wanna mess anything up</li>
 							<li>it suddenly made sense to me why some of the tickets and patches I had written and pushed for earlier had not been committed as quickly as I would have liked them to</li>
 							<li>it was great to give someone else their first props in my first commit</li>
 							<li>my first commits I would always run by my committer mentor Jeremy Felt, before eventually receiving green light to go by myself</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Pay attention to details</h2>
+
+					<ul>
+						<li class="fragment">Consider edge cases.</li>
+						<li class="fragment">Keep in mind that even a small change might break BC at another location.</li>
+						<li class="fragment">Write precise ticket descriptions and commit messages.</li>
+						<li class="fragment">Write tests to verify functionality and integrity, don't break any through a commit.</li>
+						<li class="fragment">Always make sure your code is reviewed by (other) experts in the respective area.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Of course sometimes unit tests break through a commit, but the mindset is you should never break them.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-background-color="#444444" data-background-image="assets/wcbio-2017.jpg">
+					<h2 style="margin-bottom:500px;">WordCampMania</h2>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>went to quite a few WordCamps earlier this year, to keep in touch</li>
+							<li>of course I didn't stop, I've been still contributing regularly</li>
+							<li>less time now than when I wrote my thesis, but I still make sure I do a few hours per week</li>
+							<li>started working on an Enhanced Settings API project with the accessibility team</li>
+							<li>started working on Roles/Capabilities more and more (became a maintainer there later)</li>
+						</ul>
+					</aside>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/community-summit-2017.jpg">
+					<h2 style="margin-bottom:500px;">Community Summit 2017</h2>
+
+					<small class="credit">original photo by <a href="https://files.slack.com/files-tmb/T024MFP4J-F5THNCMH8-7d958729c0/dscf0151_1024.jpg">Alex Shiels</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>attended my first Community Summit before WCEU in Paris</li>
+							<li>participated in a few interesting discussions</li>
+							<li>a result of some chats there was the new core PHP team that I started with a few others like Alain Schlesser</li>
+							<li>with these new tasks, I noticed that I'm very likely at the limit of my available core time for now</li>
+							<li>multisite is still my most important focus, but these other areas matter too</li>
+							<li>however, e.g. the Settings API project is now on hold, partly because I can't spend enough time on it</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Taking on more work</h2>
+
+					<ul>
+						<li class="fragment">Keep your eyes open for new valuable tasks that interest you.</li>
+						<li class="fragment">Be responsible about your available time, don't take on too much work.</li>
+						<li class="fragment">Let other people involved know when you need to take time off of a project.</li>
+						<li class="fragment">Explore how much time you can reasonably spend on core.</li>
+						<li class="fragment">If it's not enough from your perspective, look into sponsoring opportunities.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>this is a challenge I'm currently facing</li>
+							<li>that is another topic though, and I'm happy to share my thoughts once I have figured out a solid plan</li>
+							<li>this is probably nothing you should worry about for now; just keep it in the back of your head</li>
+							<li>it confirms again that focus matters: focusing on multiple things only works out when you have lots of time</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Summary</h2>
+
+					<ul>
+						<li class="fragment">Learn the WordPress philosophies.</li>
+						<li class="fragment">Always be polite and open-minded.</li>
+						<li class="fragment">Be persistent, but patient with tickets and patches.</li>
+						<li class="fragment">Explain issues with as much detail as necessary, but as little as possible.</li>
+						<li class="fragment">Find an area that interests you and focus on it.</li>
+						<li class="fragment">Participate in meetings regularly.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>small anecdote: circling back to #15691: if I had known it would still be open today without much more feedback, I would have felt quite terrible about it</li>
+							<li>today I just accept it: while valuable, it is a complex task and not a priority to be worth the effort</li>
+							<li>at some point though it will be</li>
+							<li>I'm not pushing for it at all atm, there's enough other great things to be worked on</li>
+							<li>last but not least: such tasks not being worked on because it's not a priority can only change with more regular contributors onboard: so attend the contributor day tomorrow!</li>
 						</ul>
 					</aside>
 				</section>
