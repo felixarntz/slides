@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Using proper Object-Oriented Programming in your Plugins</title>
+		<meta name="robots" content="noindex,nofollow">
+
+		<meta name="description" content="This workshop will explain some of the core concepts of object-oriented programming with the example of creating an abstraction layer around the WordPress Admin Menu API.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						<span style="display:block;font-size:40%;">Using proper</span>
+						<span style="display:block;margin:0 auto;max-width:750px;text-align:left;">
+							<span style="color:#21759b;">O</span>bject<br>
+							<span style="color:#21759b;">O</span>riented<br>
+							<span style="color:#21759b;">P</span>rogramming
+						</span>
+						<span style="display:block;font-size:40%;">in your Plugins</span>
+					</h1>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+					<h2>Why OOP</h2>
+
+					<ul>
+						<li>Code Organization <small>(e.g. classes)</small></li>
+						<li>Abstraction <small>(e.g. class inheritance)</small></li>
+						<li>Encapsulation <small>(e.g. private properties)</small></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Benefits of proper OOP</h2>
+
+					<ul>
+						<li>Modularity</li>
+						<li>Reusability</li>
+						<li>Maintainability</li>
+						<li>Extensibility</li>
+						<li>Portability</li>
+						<li>...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>But: Classes and Objects ≠ OOP</h2>
+
+					<p class="fragment">To truly leverage OOP, you need to learn about design principles, design patterns, standards.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>WordPress sometimes throws in classes to group functionality together or to represent an object</li>
+							<li>but it is still procedural code for the very most part</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is a design principle?</h2>
+
+					<p>&rarr; Set of guidelines that help avoiding a bad software design.</p>
+				</section>
+
+				<section>
+					<h3>Example: Single Responsibility Principle</h3>
+
+					<p>Bad:</p>
+					<pre><code class="php">interface Car {
+	public function set_price( float $price );
+
+	public function sell();
+}
+</code></pre>
+
+					<p>Better:</p>
+					<pre><code class="php">interface Car {
+	public function set_price( float $price );
+}
+
+interface Car_Dealership {
+	public function sell_car( Car $car );
+}
+</code></pre>
+
+					<p class="fragment">SRP is part of <a href="https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID</a>, the first five object-oriented design principles made popular by Robert C. Martin.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>every module or class should have responsibility over a single part of the functionality</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is a design pattern?</h2>
+
+					<p>&rarr; Formalized best practices to solve common software problems.</p>
+				</section>
+
+				<section>
+					<h3>Example: The Singleton Pattern</h3>
+
+					<pre><code class="php">class My_Plugin {
+	private static $instance = null;
+
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	private function __constructor() {
+		My_Plugin_Settings_Controller::instance()->initialize();
+	}
+}
+</code></pre>
+
+					<p class="fragment">This is an anti-pattern!</p>
+
+					<aside class="notes">
+						<ul>
+							<li>violates SRP: class instantiates itself!</li>
+							<li>testability issues: you cannot create an encapsulated instance for tests</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Singleton Pattern Alternative</h3>
+
+					<pre><code class="php">class My_Plugin {
+	private $settings;
+
+	public function __constructor( My_Plugin_Settings_Controller $settings ) {
+		$this->settings = $settings;
+
+		$this->settings->initialize();
+	}
+}
+</code></pre>
+
+					<p class="fragment">Oh, another pattern: Dependency Injection!</p>
+
+					<aside class="notes">
+						<ul>
+							<li>bundle canonical instances somewhere that they can be easily retrieved, without limiting their creation</li>
+							<li>pass the dependencies in so that using them is independent of the actual instance and where it comes from</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Three Categories</h3>
+
+					<ul>
+						<li>Creational Patterns</li>
+						<li>Structural Patterns</li>
+						<li>Behavioral Patterns</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Creational: Instantiating objects (e.g. Singleton)</li>
+							<li>Structural: Relationships between objects (e.g. Dependency Injection)</li>
+							<li>Behavioral: Communication between objects (e.g. Observer Pattern: object notifies its dependants; rudimentary example: Hooks API)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is a standard?</h2>
+
+					<p>&rarr; Improves interoperability of otherwise independent projects.</p>
+				</section>
+
+				<section>
+					<h3>Example: WordPress Coding Standard</h3>
+
+					<pre><code class="php" style="max-height:none;">class My_Plugin {
+
+	/**
+	 * The settings controller instance.
+	 *
+	 * @since 1.0.0
+	 * @var My_Plugin_Settings_Controller
+	 */
+	private $settings;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param My_Plugin_Settings_Controller Settings controller instance to use.
+	 */
+	public function __constructor( My_Plugin_Settings_Controller $settings ) {
+		$this->settings = $settings;
+
+		$this->settings->initialize();
+	}
+}
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Example: PSR-2 Standard</h3>
+
+					<pre><code class="php" style="max-height:none;">class MyPlugin
+{
+
+	/** @var MyPluginSettingsController The settings controller instance. */
+	private $settings;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param My_Plugin_Settings_Controller Settings controller instance to use.
+	 */
+	public function __constructor(MyPluginSettingsController $settings)
+	{
+		$this->settings = $settings;
+
+		$this->settings->initialize();
+	}
+}
+</code></pre>
+
+					<p class="fragment">PSR-2 is a standard established by the <a href="http://www.php-fig.org/">PHP-FIG</a>,<br>a group whose goal is to define standards for PHP projects.</p>
+				</section>
+
+				<section>
+					<h2>Further Learning</h2>
+
+					<h3 style="font-size:80%;">General</h3>
+
+					<ul style="font-size:80%;">
+						<li><a href="https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design">SOLID Introduction with Examples</a></li>
+						<li><a href="https://github.com/domnikl/DesignPatternsPHP">Design Patterns PHP Examples</a></li>
+						<li><a href="http://www.php-fig.org/">PHP-FIG Standards</a></li>
+						<li><a href="https://cleancoders.com/">Clean Coders Video Trainings</a></li>
+					</ul>
+
+					<h3 style="font-size:80%;">More targeted towards WordPress</h3>
+
+					<ul style="font-size:80%;">
+						<li><a href="https://knowthecode.io/">Video Courses (by Tonya Mork)</a></li>
+						<li><a href="https://wpengine.com/resources/ultimate-guide-object-oriented-php-wordpress-developer/">Ebook (by Josh Pollock)</a></li>
+						<li><a href="https://carlalexander.ca/">Carl Alexander's Blog</a></li>
+						<li><a href="https://tommcfarlin.com/">Tom McFarlin's Blog</a></li>
+						<li><a href="https://www.alainschlesser.com/">Alain Schlesser's Blog</a></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>This workshop should not become a university class, but it is important to dive in deeper into all the principles, patterns and standards.</li>
+							<li>Read through these resources, look at software projects that do it better than WordPress, learn applying those best practices.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Let's Get Started With Code!</h2>
+
+					<p>This project implements a reusable abstraction layer around the WordPress Admin Menu API. We will go through it one by one.</p>
+
+					<a href="https://github.com/felixarntz/oop-admin-pages">https://github.com/felixarntz/oop-admin-pages</a>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages">Project Setup</a></h3>
+
+					<pre><code>cd my-wordpress-site
+cd wp-content/plugins
+git clone git@github.com:felixarntz/oop-admin-pages.git oop-admin-pages
+cd oop-admin-pages
+composer install
+cd ../../..
+wp plugin activate oop-admin-pages
+cd wp-content/plugins/oop-admin-pages
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/8f4f979ee4318570557d0e855fe06977ce57f9ec">The generic <code>Admin_Page</code> Interface</a></h3>
+
+					<pre><code>git checkout 8f4f979ee4318570557d0e855fe06977ce57f9ec
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/f6ef1da22f4ab20a79192f5b3b88970aba561a6a">The <code>Abstract_Admin_Page</code> Class</a></h3>
+
+					<pre><code>git checkout f6ef1da22f4ab20a79192f5b3b88970aba561a6a
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/255b4d4af50d9f0bc753cd2f8e8cd53f3bc0fec5">The <code>Admin_Page_Factory</code> Interface</a></h3>
+
+					<pre><code>git checkout 255b4d4af50d9f0bc753cd2f8e8cd53f3bc0fec5
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/84b6d689821b820fbd6cfc93123ef6db1f9a7cd4">The <code>Admin_Page_Collection</code> Interface</a></h3>
+
+					<pre><code>git checkout 84b6d689821b820fbd6cfc93123ef6db1f9a7cd4
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/e7e6a21f32f1305bee47cf127707d1ef599065cc">The <code>Base_Admin_Page_Collection</code> Class</a></h3>
+
+					<pre><code>git checkout e7e6a21f32f1305bee47cf127707d1ef599065cc
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/3f73ca49e15d6c11338f3812afb55d014b092b9d">The <code>WordPress_Admin_Page</code> Class</a></h3>
+
+					<pre><code>git checkout 3f73ca49e15d6c11338f3812afb55d014b092b9d
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/76281736965958e01446abcdf1031b277530a4e6">The <code>WordPress_Admin_Menu_Page</code> Class</a></h3>
+
+					<pre><code>git checkout 76281736965958e01446abcdf1031b277530a4e6
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/fc6019694dc7c73d03f9bfa67bf5badd21f82858">The <code>WordPress_Admin_Submenu_Page</code> Class</a></h3>
+
+					<pre><code>git checkout fc6019694dc7c73d03f9bfa67bf5badd21f82858
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/758c3f1aac6aa67a13f4935d28543f8545a32a80">The <code>WordPress_Admin_Page_Factory</code> Class</a></h3>
+
+					<pre><code>git checkout 758c3f1aac6aa67a13f4935d28543f8545a32a80
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/76d65113b43aa780049ddbf52ce6e7d3181f9bf4">Examples Using The Abstraction Layer</a></h3>
+
+					<pre><code>git checkout 76d65113b43aa780049ddbf52ce6e7d3181f9bf4
+</code></pre>
+				</section>
+
+				<section>
+					<h2>😳</h2>
+
+					<blockquote>Okay, we just turned two simple functions <code>add_menu_page()</code> and <code>add_submenu_page()</code> plus the <code>admin_menu</code> hook into 3 interfaces and 8 classes. WTF?</blockquote>
+				</section>
+
+				<section>
+					<ul>
+						<li>Applying OOP practices mostly helps in the long run, as projects get more complex or requirements change.</li>
+						<li>You only need to instantiate a <code>Base_Admin_Page_Collection</code> instance and pass in an array instead of looking up the parameter order of the WordPress functions multiple times.</li>
+						<li>The base implementation is system-agnostic and can be used in other environments as well. All you'd need to add is simple <code>Drupal_Admin_Page</code> and <code>Drupal_Admin_Page_Factory</code> implementations for example.</li>
+						<li>Keep in mind that in a real-world scenario, this would actually be a library you would reuse throughout all your plugins that need it.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>For simplicity sake, I kept everything in one library. It would actually be better though if the WordPress implementation was in a separate library.</li>
+							<li>The initial development work is always more, but eventually it will pay off.</li>
+							<li>Of course, if there's a lack of time and money for a project, you can't always dive deep like this.</li>
+							<li>Try to aggregate a toolset consisting of such libraries over time, built by yourself or other developers. It will significantly improve your workflow.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Enhancing Our Project</h2>
+
+					<p>In WordPress Multisite there is not only a site admin panel,<br>but also network and user administration panels.</p>
+					<p><strong>How can we enhance our project so that<br>admin pages for these panels can also be registered?</strong></p>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/2e08d5bb50734f594c011eb43727f8bbb5761d42">First (Naive) Approach</a></h3>
+
+					<pre><code>git checkout 2e08d5bb50734f594c011eb43727f8bbb5761d42
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/6326675a7b408992eb8af8de514dcb0f905a2bd6">Second (Better) Approach</a></h3>
+
+					<pre><code>git checkout 6326675a7b408992eb8af8de514dcb0f905a2bd6
+</code></pre>
+				</section>
+
+				<section>
+					<h3><a href="https://github.com/felixarntz/oop-admin-pages/commit/857892236e62ce932715919f213aa47b81ffd29c">Adjusted Examples</a></h3>
+
+					<pre><code>git checkout 857892236e62ce932715919f213aa47b81ffd29c
+</code></pre>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/using-proper-object-oriented-programming-in-your-plugins/" class="left">Using proper Object-Oriented Programming in your Plugins</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
