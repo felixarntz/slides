@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Capability-Driven Development</title>
+		<meta name="robots" content="noindex,nofollow">
+
+		<meta name="description" content="This session explains how to use the WordPress Capabilities API by looking at examples and diving in deeper from there, both from the view of a plugin developer as well as of an external developer who needs to tweak a third-party plugin.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../components/reveal.js/lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>Capability-Driven Development</h1>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+				</section>
+
+				<section>
+					<h2>Definitions</h2>
+
+					<p><strong>Capabilities</strong> in WordPress describe certain tasks<br>a user may or may not be allowed to perform.</p>
+
+					<p><strong>Roles</strong> in WordPress are responsible for determining<br>which capabilities a user has or does not have.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>In other words, roles define what a user can or cannot do, by the means of granting capabilities.</li>
+							<li>WordPress roles are Administrator, Editor, Author, Contributor and Subscriber, as widely known.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Internals: The <code>options</code> Table</h2>
+
+					<p>The available <strong>roles</strong> for a site are stored in the <code>options</code> database table<br>as a serialized array.</p>
+					<p>The <strong>capabilities</strong> that a specific role grants are also part of that array.</p>
+
+					<pre class="fragment"><code class="php">array(
+	'administrator' => array(
+		'name'         => 'Administrator',
+		'capabilities' => array(
+			'switch_themes'          => true,
+			'edit_themes'            => true,
+			'activate_plugins'       => true,
+			'edit_plugins'           => true,
+			'edit_users'             => true,
+			'edit_files'             => true,
+			'manage_options'         => true,
+			'moderate_comments'      => true,
+			'manage_categories'      => true,
+			'manage_links'           => true,
+			'upload_files'           => true,
+			'import'                 => true,
+			'unfiltered_html'        => true,
+			'edit_posts'             => true,
+			'edit_others_posts'      => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'edit_pages'             => true,
+			'read'                   => true,
+			'level_10'               => true,
+			'level_9'                => true,
+			'level_8'                => true,
+			'level_7'                => true,
+			'level_6'                => true,
+			'level_5'                => true,
+			'level_4'                => true,
+			'level_3'                => true,
+			'level_2'                => true,
+			'level_1'                => true,
+			'level_0'                => true,
+			'edit_others_pages'      => true,
+			'edit_published_pages'   => true,
+			'publish_pages'          => true,
+			'delete_pages'           => true,
+			'delete_others_pages'    => true,
+			'delete_published_pages' => true,
+			'delete_posts'           => true,
+			'delete_others_posts'    => true,
+			'delete_published_posts' => true,
+			'delete_private_posts'   => true,
+			'edit_private_posts'     => true,
+			'read_private_posts'     => true,
+			'delete_private_pages'   => true,
+			'edit_private_pages'     => true,
+			'read_private_pages'     => true,
+			'delete_users'           => true,
+			'create_users'           => true,
+			'unfiltered_upload'      => true,
+			'edit_dashboard'         => true,
+			'update_plugins'         => true,
+			'delete_plugins'         => true,
+			'install_plugins'        => true,
+			'update_themes'          => true,
+			'install_themes'         => true,
+			'update_core'            => true,
+			'list_users'             => true,
+			'remove_users'           => true,
+			'promote_users'          => true,
+			'edit_theme_options'     => true,
+			'delete_themes'          => true,
+			'export'                 => true,
+		),
+	),
+	'editor'        => array(
+		'name'         => 'Editor',
+		'capabilities' => array(
+			'moderate_comments'      => true,
+			'manage_categories'      => true,
+			'manage_links'           => true,
+			'upload_files'           => true,
+			'unfiltered_html'        => true,
+			'edit_posts'             => true,
+			'edit_others_posts'      => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'edit_pages'             => true,
+			'read'                   => true,
+			'level_7'                => true,
+			'level_6'                => true,
+			'level_5'                => true,
+			'level_4'                => true,
+			'level_3'                => true,
+			'level_2'                => true,
+			'level_1'                => true,
+			'level_0'                => true,
+			'edit_others_pages'      => true,
+			'edit_published_pages'   => true,
+			'publish_pages'          => true,
+			'delete_pages'           => true,
+			'delete_others_pages'    => true,
+			'delete_published_pages' => true,
+			'delete_posts'           => true,
+			'delete_others_posts'    => true,
+			'delete_published_posts' => true,
+			'delete_private_posts'   => true,
+			'edit_private_posts'     => true,
+			'read_private_posts'     => true,
+			'delete_private_pages'   => true,
+			'edit_private_pages'     => true,
+			'read_private_pages'     => true,
+		),
+	),
+	'author'        => array(
+		'name'         => 'Author',
+		'capabilities' => array(
+			'upload_files'           => true,
+			'edit_posts'             => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'read'                   => true,
+			'level_2'                => true,
+			'level_1'                => true,
+			'level_0'                => true,
+			'delete_posts'           => true,
+			'delete_published_posts' => true,
+		),
+	),
+	'contributor'   => array(
+		'name'         => 'Contributor',
+		'capabilities' => array(
+			'edit_posts'   => true,
+			'read'         => true,
+			'level_1'      => true,
+			'level_0'      => true,
+			'delete_posts' => true,
+		),
+	),
+	'subscriber'    => array(
+		'name'         => 'Subscriber',
+		'capabilities' => array(
+			'read'    => true,
+			'level_0' => true,
+		),
+	),
+);</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Ignore all the strings starting with <code>level_</code>. That is legacy stuff, not actual capabilities.</li>
+							<li>When looking through this array, you recognize that WordPress user roles are not actually hierarchical. They are just setup that way by default.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Internals: The <code>usermeta</code> Table</h2>
+
+					<p>The <strong>roles</strong> that a user has are stored in the <code>usermeta</code> database table<br>under that user's ID, also as a serialized array.</p>
+					<p>Additional <strong>capabilities</strong> can theoretically also be part of that array,<br>independent of roles.</p>
+
+					<pre class="fragment"><code class="php">array(
+	'administrator' => true,
+);</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>A user can technically easily have multiple roles, but WordPress's UI only exposes functionality to have one role per user.</li>
+							<li>Theoretically you don't even need roles, you could just add capabilities for each user. That would easily become messy though.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Guidelines for Plugin Developers</h2>
+
+					<ol class="h4">
+						<li>Check for capabilities, don't worry about roles.</li>
+						<li>Do not make use of these tables ever.</li>
+					</ol>
+
+					<aside class="notes">
+						<ul>
+							<li>So how do we check for capabilities? That's next.</li>
+							<li>So how do we add new capabilities? That comes later.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Checking for Capabilities</h2>
+
+					<p><code class="signature">current_user_can( <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
+
+					<p class="fragment" data-fragment-index="0">or</p>
+
+					<p class="fragment" data-fragment-index="0"><code class="signature">user_can( <span class="arg-type">int|WP_User</span> <span class="arg-name">$user</span>, <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
+
+					<aside class="notes">
+						<ul>
+							<li><code>$capability</code> can basically be any string identifying a capability.</li>
+							<li>Capabilities are either handled by WordPress, or they can be custom, meaning you must handle them.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>WordPress Capabilities</h2>
+
+					<ul>
+						<li><code>read</code><!--<span class="fragment" data-fragment-index="0"> (Subscriber)</span>--></li>
+						<li><code>edit_posts</code><!--<span class="fragment" data-fragment-index="0"> (Contributor)</span>--></li>
+						<li><code>upload_files</code><!--<span class="fragment" data-fragment-index="0"> (Author)</span>--></li>
+						<li><code>manage_categories</code><!--<span class="fragment" data-fragment-index="0"> (Editor)</span>--></li>
+						<li><code>manage_options</code><!--<span class="fragment" data-fragment-index="0"> (Administrator)</span>--></li>
+						<li>...</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>You can also see here which minimum user role is required to have the respective capability.</li>
+							<li>But remember: Capabilities are not technically hierarchical. Therefore talking about "minimum user role" is kind of inaccurate.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Custom Capabilities</h2>
+
+					<ul>
+						<li><code>read_ct_tutorials</code></li>
+						<li><code>edit_ct_tutorials</code></li>
+						<li><code>manage_ct_options</code></li>
+						<li>...</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Make sure to prefix everything in plugin space, to prevent conflicts.</li>
+							<li>Let's imagine we write a plugin called "Capability Tutorials", therefore our prefix is <code>ct_</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/capability-driven-development/" class="left">Capability-Driven Development</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
