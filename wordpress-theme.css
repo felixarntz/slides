@@ -312,6 +312,22 @@ body.has-footer .reveal .slides {
 	display: block;
 }
 
+.reveal .signature {
+	padding-left: 100px;
+	text-indent: -100px;
+	color: #24831d;
+	font-family: monospace;
+}
+
+.reveal .signature .arg-type {
+	color: #cd2f23;
+	font-style: italic;
+}
+
+.reveal .signature .arg-name {
+	color: #0f55c8;
+}
+
 /*********************************************
  * LINKS
  *********************************************/
