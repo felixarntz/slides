@@ -319,6 +319,10 @@ body.has-footer .reveal .slides {
 	font-family: monospace;
 }
 
+.reveal .signature .hook-func {
+	color: #888;
+}
+
 .reveal .signature .arg-type {
 	color: #cd2f23;
 	font-style: italic;
