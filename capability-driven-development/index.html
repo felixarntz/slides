@@ -48,6 +48,13 @@
 					<small class="credit">
 						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
 					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>Some of this may seem rather complex, particularly because I need to go through it fairly quickly.</li>
+							<li>Therefore, please ask questions also during the presentation in case something isn't clear.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -94,17 +101,6 @@
 			'publish_posts'          => true,
 			'edit_pages'             => true,
 			'read'                   => true,
-			'level_10'               => true,
-			'level_9'                => true,
-			'level_8'                => true,
-			'level_7'                => true,
-			'level_6'                => true,
-			'level_5'                => true,
-			'level_4'                => true,
-			'level_3'                => true,
-			'level_2'                => true,
-			'level_1'                => true,
-			'level_0'                => true,
 			'edit_others_pages'      => true,
 			'edit_published_pages'   => true,
 			'publish_pages'          => true,
@@ -152,14 +148,6 @@
 			'publish_posts'          => true,
 			'edit_pages'             => true,
 			'read'                   => true,
-			'level_7'                => true,
-			'level_6'                => true,
-			'level_5'                => true,
-			'level_4'                => true,
-			'level_3'                => true,
-			'level_2'                => true,
-			'level_1'                => true,
-			'level_0'                => true,
 			'edit_others_pages'      => true,
 			'edit_published_pages'   => true,
 			'publish_pages'          => true,
@@ -185,9 +173,6 @@
 			'edit_published_posts'   => true,
 			'publish_posts'          => true,
 			'read'                   => true,
-			'level_2'                => true,
-			'level_1'                => true,
-			'level_0'                => true,
 			'delete_posts'           => true,
 			'delete_published_posts' => true,
 		),
@@ -197,8 +182,6 @@
 		'capabilities' => array(
 			'edit_posts'   => true,
 			'read'         => true,
-			'level_1'      => true,
-			'level_0'      => true,
 			'delete_posts' => true,
 		),
 	),
@@ -206,14 +189,13 @@
 		'name'         => 'Subscriber',
 		'capabilities' => array(
 			'read'    => true,
-			'level_0' => true,
 		),
 	),
 );</code></pre>
 
 					<aside class="notes">
 						<ul>
-							<li>Ignore all the strings starting with <code>level_</code>. That is legacy stuff, not actual capabilities.</li>
+							<li>Excluded here are the user levels. WordPress used to have levels instead of capabilities, but that is legacy stuff, not actual capabilities.</li>
 							<li>When looking through this array, you recognize that WordPress user roles are not actually hierarchical. They are just setup that way by default.</li>
 						</ul>
 					</aside>
@@ -617,17 +599,6 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 				</section>
 
 				<section>
-					<h2>Did you know...?</h2>
-
-					<ul style="font-size:90%;">
-						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials">github.com/felixarntz/capability-tutorials</a>.</li>
-						<li style="margin-bottom:20px;">Unfortunately, WordPress core itself does not a great job of handling capabilities granularly enough in several areas. There are several tickets to improve that though which you can find at <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a>.</li>
-						<li style="margin-bottom:20px;">If you're using a multisite, you may have encountered the term "Super Admin" or "Network Administrator". However, this is not an actual role, it is simply an option, and whichever user it applies to, that user can do everything. Except <code>do_not_allow</code>, of course.</li>
-						<li>There is an experimental plugin for implementing actual network roles for multisite in WordPress, to add support for granular handling on the network level as well. See <a href="https://github.com/felixarntz/wp-network-roles">github.com/felixarntz/wp-network-roles</a>.</li>
-					</ul>
-				</section>
-
-				<section>
 					<h2>
 						Thank you!
 					</h2>
@@ -653,6 +624,17 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 						<li>
 							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
 						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Further Resources</h2>
+
+					<ul style="font-size:90%;">
+						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials">github.com/felixarntz/capability-tutorials</a>.</li>
+						<li style="margin-bottom:20px;">Unfortunately, WordPress core itself does not a great job of handling capabilities granularly enough in several areas. There are several tickets to improve that though which you can find at <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a>.</li>
+						<li style="margin-bottom:20px;">If you're using a multisite, you may have encountered the term "Super Admin" or "Network Administrator". However, this is not an actual role, it is simply an option, and whichever user it applies to, that user can do everything. Except <code>do_not_allow</code>, of course.</li>
+						<li>There is an experimental plugin for implementing actual network roles for multisite in WordPress, to add support for granular handling on the network level as well. See <a href="https://github.com/felixarntz/wp-network-roles">github.com/felixarntz/wp-network-roles</a>.</li>
 					</ul>
 				</section>
 			</div>
