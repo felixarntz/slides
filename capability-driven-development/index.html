@@ -73,6 +73,22 @@
 				</section>
 
 				<section>
+					<h2>Why worry about capabilities?</h2>
+
+					<ul>
+						<li><strong>Security:</strong> Don't give access to someone who shouldn't have access.</li>
+						<li><strong>Usability:</strong> Only show the areas which the user actually needs.</li>
+						<li><strong>Customizability:</strong> Allow other developers to tweak access to your functionality for their needs.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Ever wanted your client to be able to edit widgets and menus, but not switch the theme or change settings?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h2>Internals: The <code>options</code> Table</h2>
 
 					<p>The available <strong>roles</strong> for a site are stored in the <code>options</code> database table<br>as a serialized array.</p>
@@ -418,7 +434,14 @@
 
 				<section>
 					<pre><code class="php">function ct_add_settings_page() {
-	$hook_suffix = add_submenu_page( 'edit.php?post_type=' . CT_POST_TYPE_SINGULAR, __( 'Tutorial Settings', 'capability-tutorials' ), __( 'Settings', 'capability-tutorials' ), 'manage_ct_options', 'ct_settings_page', 'ct_render_settings_page' );
+	$hook_suffix = add_submenu_page(
+		'edit.php?post_type=' . CT_POST_TYPE_SINGULAR,
+		__( 'Tutorial Settings', 'capability-tutorials' ),
+		__( 'Settings', 'capability-tutorials' ),
+		'manage_ct_options',
+		'ct_settings_page',
+		'ct_render_settings_page'
+	);
 
 	add_action( "load-{$hook_suffix}", 'ct_initialize_settings_page' );
 }
@@ -544,9 +567,19 @@ add_filter( 'map_meta_cap', 'ct_map_meta_capabilities', 10, 4 );</code></pre>
 				<section>
 					<h2>So what's the benefit of all that?</h3>
 
-					<p class="fragment" data-fragment-index="0"><strong>&rarr; By using granular capability checks for all your plugin functionality, you significantly improve the customizability of it.</strong></p>
-					<p class="fragment" data-fragment-index="1">Custom setups often rely heavily on granular capability management, adjusting WordPress defaults to their custom needs.</p>
-					<p class="fragment" data-fragment-index="1">So although your default granting and mapping implementation doesn't make any functional difference, without having custom capabilities it would be impossible to tweak access to your plugin's areas individually.</p>
+					<p>While the default behavior may not be much different compared to if you had not used custom capability checks, you allow other developers to improve:</p>
+
+					<ul>
+						<li><strong>Security</strong></li>
+						<li><strong>Usability</strong></li>
+						<li><strong>Customizability</strong></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Next, there are some examples of how other developers can tweak your plugin's capabilities to their needs.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
