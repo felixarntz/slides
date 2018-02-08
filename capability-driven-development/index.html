@@ -73,12 +73,43 @@
 				</section>
 
 				<section>
+					<h2>WordPress Capabilities</h2>
+
+					<ul>
+						<li><code>read</code></li>
+						<li><code>edit_posts</code></li>
+						<li><code>upload_files</code></li>
+						<li><code>manage_categories</code></li>
+						<li><code>manage_options</code></li>
+						<li>...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Custom Capabilities</h2>
+
+					<ul>
+						<li><code>read_ct_tutorials</code></li>
+						<li><code>edit_ct_tutorials</code></li>
+						<li><code>manage_ct_options</code></li>
+						<li>...</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Make sure to prefix everything in plugin space, to prevent conflicts.</li>
+							<li>Let's imagine we write a plugin called "Capability Tutorials", therefore our prefix is <code>ct_</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h2>Why worry about capabilities?</h2>
 
 					<ul>
 						<li><strong>Security:</strong> Don't give access to someone who shouldn't have access.</li>
 						<li><strong>Usability:</strong> Only show the areas which the user actually needs.</li>
-						<li><strong>Customizability:</strong> Allow other developers to tweak access to your functionality for their needs.</li>
+						<li><strong>Customizability:</strong> Allow other developers to tweak access to your functionality.</li>
 					</ul>
 
 					<aside class="notes">
@@ -221,7 +252,7 @@
 					<h2>Internals: The <code>usermeta</code> Table</h2>
 
 					<p>The <strong>roles</strong> that a user has are stored in the <code>usermeta</code> database table<br>under that user's ID, also as a serialized array.</p>
-					<p>Additional <strong>capabilities</strong> can theoretically also be part of that array,<br>independent of roles.</p>
+					<p>Additional <strong>capabilities</strong> can <em>theoretically</em> also be part of that array,<br>independent of roles.</p>
 
 					<pre class="fragment"><code class="php">array(
 	'editor' => true,
@@ -240,7 +271,8 @@
 
 					<ol class="h4">
 						<li>Check for capabilities, don't worry about roles.</li>
-						<li class="fragment">Never add capabilities to the database, unless you introduce an entire new role.<br><span class="fragment">(You should only do that if your plugin has tons of entirely custom functionality where it would truly make sense.)</span></li>
+						<li class="fragment">Never add capabilities to the database, unless you introduce an entire new role.</li>
+						<li class="fragment">Use custom capabilities for your code instead of existing core capabilities.</li>
 					</ol>
 
 					<aside class="notes">
@@ -265,46 +297,6 @@
 						<ul>
 							<li><code>$capability</code> can basically be any string identifying a capability.</li>
 							<li>Capabilities are either handled by WordPress, or they can be custom, meaning you must handle them.</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>WordPress Capabilities</h2>
-
-					<ul>
-						<li><code>read</code><!--<span class="fragment" data-fragment-index="0"> (Subscriber)</span>--></li>
-						<li><code>edit_posts</code><!--<span class="fragment" data-fragment-index="0"> (Contributor)</span>--></li>
-						<li><code>upload_files</code><!--<span class="fragment" data-fragment-index="0"> (Author)</span>--></li>
-						<li><code>manage_categories</code><!--<span class="fragment" data-fragment-index="0"> (Editor)</span>--></li>
-						<li><code>manage_options</code><!--<span class="fragment" data-fragment-index="0"> (Administrator)</span>--></li>
-						<li>...</li>
-					</ul>
-
-					<aside class="notes">
-						<ul>
-							<li>You can also see here which minimum user role is required to have the respective capability.</li>
-							<li>But remember: Capabilities are not technically hierarchical. Therefore talking about "minimum user role" is kind of inaccurate.</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Custom Capabilities</h2>
-
-					<ul>
-						<li><code>read_ct_tutorials</code></li>
-						<li><code>edit_ct_tutorials</code></li>
-						<li><code>manage_ct_options</code></li>
-						<li>...</li>
-					</ul>
-
-					<p><strong>As a plugin developer, make sure to prefix your stuff!</strong></p>
-
-					<aside class="notes">
-						<ul>
-							<li>Make sure to prefix everything in plugin space, to prevent conflicts.</li>
-							<li>Let's imagine we write a plugin called "Capability Tutorials", therefore our prefix is <code>ct_</code>.</li>
 						</ul>
 					</aside>
 				</section>
@@ -350,6 +342,8 @@
 
 					<aside class="notes">
 						<ul>
+							<li><code>edit_post</code> is an example where the meta capability is mapped to one or more capabilities.</li>
+							<li><code>activate_plugin</code> is a simpler example.</li>
 							<li>If mapped to multiple primitive capabilities, the user must have all of them.</li>
 						</ul>
 					</aside>
@@ -364,6 +358,13 @@
 						<li><code>exist</code>: <strong>Everybody</strong> has this capability, even non logged-in users.</li>
 						<li><code>do_not_allow</code>: <strong>Nobody</strong> has this capability, not even super admins.</li>
 					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Those only exist to map meta capabilities to them, in rare cases.</li>
+							<li>Be careful: Don't map <code>manage_options</code> to <code>exist</code>.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -377,21 +378,18 @@
 				<section>
 					<h2>Internals: Flow for Checking for a Capability</h2>
 
-					<h3 class="signature">current_user_can( <span class="arg-name">'edit_post'</span>, <span class="arg-name">$post_id</span> )</h3>
-
 					<ol>
 						<li class="fragment">
-							<code class="signature" style="display:block;">map_meta_cap( <span class="arg-name">'edit_post'</span>, <span class="arg-name">$user->ID</span>, <span class="arg-name">array( $post_id )</span> )</code> &rarr; <code>array( 'edit_posts' )</code> or <code>array( 'edit_others_posts' )</code> or <code>array( 'edit_published_posts' )</code> or ...
-							<ul>
-								<li><code class="signature" style="display:block;"><span class="hook-func">apply_filters</span>( 'map_meta_cap', <span class="arg-name">array( 'edit_posts' )</span>, <span class="arg-name">'edit_post'</span>, <span class="arg-name">$user->ID</span>, <span class="arg-name">array( $post_id )</span> )</code> &rarr; <code>array( 'edit_posts' )</code></li>
-							</ul>
+							Check for a capability<br><small><code class="signature">current_user_can()</code></small>
 						</li>
-						<li class="fragment"><code class="signature" style="display:block;"><span class="hook-func">apply_filters</span>( 'user_has_cap', <span class="arg-name">$allcaps</span>, <span class="arg-name">array( 'edit_posts' )</span>, <span class="arg-name">array( $post_id )</span>, <span class="arg-name">$user</span> )</code> &rarr; <code>$allcaps</code></li>
 						<li class="fragment">
-							<ul>
-								<li>If <code>$allcaps</code> contains each capability in the array <code>array( 'edit_posts' )</code>, the final result is true, and the user may proceed.</li>
-								<li>If <code>$allcaps</code> is lacking at least one capability from the array <code>array( 'edit_posts' )</code>, the final result is false, and the user cannot proceed.</li>
-							</ul>
+							Check if it is a meta capability and map it to its required primitive capabilities<br><small><code class="signature">map_meta_cap()</code> &rarr; <code class="signature" style="padding-left:0;"><span class="hook-func">apply_filters</span>( 'map_meta_cap' )</code></small>
+						</li>
+						<li class="fragment">
+							Run logic to alter the user's primitive capabilities from the database<br><small><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap' )</code></small>
+						</li>
+						<li class="fragment">
+							If the user's primitive capabilities now include all required primitive capabilities, they can proceed.
 						</li>
 					</ol>
 				</section>
@@ -448,6 +446,13 @@
 add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
 
 					<p><code>add_menu_page()</code> and <code>add_submenu_page()</code> are examples where you <em>have</em> to specify a capability. WordPress will internally use <code>current_user_can()</code> there.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>When you register a post type, you can also specify capabilities WordPress should check for internally. If you don't, it simply uses the existing post capabilities.</li>
+							<li>Going in detail about that would be too much for this talk, but the plugin on GitHub includes a comprehensive example for that with detailed comments.</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
@@ -664,7 +669,7 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 					<h2>Further Resources</h2>
 
 					<ul style="font-size:90%;">
-						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials">github.com/felixarntz/capability-tutorials</a>.</li>
+						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials/blob/master/inc/post-type.php">github.com/felixarntz/capability-tutorials</a>.</li>
 						<li style="margin-bottom:20px;">Unfortunately, WordPress core itself does not a great job of handling capabilities granularly enough in several areas. There are several tickets to improve that though which you can find at <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a>.</li>
 						<li style="margin-bottom:20px;">If you're using a multisite, you may have encountered the term "Super Admin" or "Network Administrator". However, this is not an actual role, it is simply an option, and whichever user it applies to, that user can do everything. Except <code>do_not_allow</code>, of course.</li>
 						<li>There is an experimental plugin for implementing actual network roles for multisite in WordPress, to add support for granular handling on the network level as well. See <a href="https://github.com/felixarntz/wp-network-roles">github.com/felixarntz/wp-network-roles</a>.</li>
