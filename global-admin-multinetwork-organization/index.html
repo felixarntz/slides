@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Global Admin - A Deeper Dive into Multinetwork Organization</title>
+
+		<meta name="description" content="After highlighting benefits and common use-cases of using a multinetwork setup, this talk dives into advanced customization of those environments.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../highlightjs-theme.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>Global Admin</h1>
+
+					<h2>A Deeper Dive into Multinetwork Organization</h2>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+					<h2>Regular Setup</h2>
+
+					<img data-src="assets/site.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>default setup: posts, comments, themes, plugins, users and settings</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Database Schema</h3>
+
+					<ul style="margin-left:0;list-style-type:none;">
+						<li><code>wp_commentmeta</code></li>
+						<li><code>wp_comments</code></li>
+						<li><code>wp_links</code></li>
+						<li><code>wp_options</code></li>
+						<li><code>wp_postmeta</code></li>
+						<li><code>wp_posts</code></li>
+						<li><code>wp_termmeta</code></li>
+						<li><code>wp_terms</code></li>
+						<li><code>wp_term_relationships</code></li>
+						<li><code>wp_term_taxonomy</code></li>
+						<li><code>wp_usermeta</code></li>
+						<li><code>wp_users</code></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>common tables for per-site content, including meta tables for arbitrary data</li>
+							<li>somewhat special are the <code>wp_users</code> and <code>wp_usermeta</code> tables (more in a bit)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multisite Setup <small>(First Try)</small></h2>
+
+					<img data-src="assets/multisite.jpg" class="plain">
+
+					<p class="fragment"><strong>The above is incomplete!</strong></p>
+
+					<aside class="notes">
+						<ul>
+							<li>multiple sites: each one has their own set of the aforementioned database tables</li>
+							<li>additional tables for multisite organization</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Database Schema</h3>
+
+					<h4>Sites</h4>
+
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code>wp_commentmeta</code></li>
+								<li><code>wp_comments</code></li>
+								<li><code>wp_links</code></li>
+								<li><code>wp_options</code></li>
+								<li><code>wp_postmeta</code></li>
+								<li><code>wp_posts</code></li>
+								<li><code>wp_termmeta</code></li>
+								<li><code>wp_terms</code></li>
+								<li><code>wp_term_relationships</code></li>
+								<li><code>wp_term_taxonomy</code></li>
+							</ul>
+						</div>
+						<div style="flex:1;">
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code>wp_2_commentmeta</code></li>
+								<li><code>wp_2_comments</code></li>
+								<li><code>wp_2_links</code></li>
+								<li><code>wp_2_options</code></li>
+								<li><code>wp_2_postmeta</code></li>
+								<li><code>wp_2_posts</code></li>
+								<li><code>wp_2_termmeta</code></li>
+								<li><code>wp_2_terms</code></li>
+								<li><code>wp_2_term_relationships</code></li>
+								<li><code>wp_2_term_taxonomy</code></li>
+							</ul>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>each site gets its own set of tables; all but the initial site's ones are prefixed with the site ID</li>
+							<li><code>wp_users</code> and <code>wp_usermeta</code> are no longer site-related.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Database Schema</h3>
+
+					<h4>Network</h4>
+
+					<ul style="margin-left:0;list-style-type:none;">
+						<li><code>wp_blogs</code></li>
+						<li><code>wp_blog_versions</code></li>
+						<li><code>wp_registration_log</code></li>
+						<li><code>wp_signups</code></li>
+						<li><code>wp_sitemeta</code></li>
+						<li><code>wp_site</code></li>
+						<li><code>wp_usermeta</code></li>
+						<li><code>wp_users</code></li>
+					</ul>
+
+					<p class="fragment"><strong>You can have multiple networks!</strong> 😲</p>
+
+					<aside class="notes">
+						<ul style="font-size:14px;">
+							<li>multisite-specific tables: <code>wp_blog_version</code>, <code>wp_registration_log</code> and <code>wp_signups</code> are utilities and not really important for now.</li>
+							<li>that leaves <code>wp_blogs</code> (for sites), <code>wp_site</code> (for the network definition) and <code>wp_users</code> (for users), plus related metadata tables</li>
+							<li><code>wp_site</code> can store multiple networks! <code>wp_sitemeta</code> stores network settings, but is a metadata table!</li>
+							<li><code>wp_users</code> is taken over from the regular setup, now a multisite table</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork Setup</h2>
+
+					<img data-src="assets/multinetwork.jpg" class="plain">
+
+					<p class="fragment">On the database level, all multisite tables are actually global.</li>
+
+					<aside class="notes">
+						<ul>
+							<li>when having multiple networks, global scope becomes important to manage things that go beyond a network</li>
+							<li>users are global entities, networks are global entities; even sites are technically global entities, but they each belong to a network</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multisite Setup <small>(Second Try)</small></h2>
+
+					<img data-src="assets/multisite-with-global.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>multinetwork doesn't need to be set up like multisite; it's always there</li>
+							<li>even in a multisite setup with just the one network, there is still global scope</li>
+							<li>in a common setup, you usually don't need to worry about what is global vs what is per network, since they are essentially the same</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/umesouthpadre.jpg" class="limited-landscape">
+						<figcaption>Separate sites based on their functionality.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>main network with event organizer site including database of artists, genres etc.</li>
+							<li>separate network for festival sites (similar functionality, different from main site)</li>
+							<li>third network for partner websites</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/washington-state-university.jpg" class="limited-landscape">
+						<figcaption>Complex hierarchies with separate ownerships.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>each faculty can have their own network with distinct administrators and behavior</li>
+							<li>faculties can have many sites, such as for individual classes or projects</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/wordpress-com.jpg" class="limited-landscape">
+						<figcaption>Very custom requirements for managing large environments.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>to my knowledge, wordpress.com has two networks: one for actual wordpress.com sites, and one for mirroring required data for all Jetpack sites</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>WordPress Core Support for Multinetwork</h2>
+
+					<h3>Available Support</h3>
+
+					<ul>
+						<li>database tables <code>wp_site</code> and <code>wp_sitemeta</code></li>
+						<li><code>WP_Network</code> and <code>WP_Network_Query</code> classes</li>
+						<li>Network administration panels per network</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>WordPress Core Support for Multinetwork</h2>
+
+					<h3>Lacking Support</h3>
+
+					<ul>
+						<li>CUD API for networks (the R <em>is</em> supported)</li>
+						<li>CRUD UI for networks</li>
+						<li>user roles and capabilities that go beyond a single network</li>
+						<li>association between users and the networks they are part of</li>
+						<li>switching context to another network</li>
+						<li>link connections between network administration panels</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>several more trivial things are also not supported, such as having a global site count (right now there are only site counts available for each individual network)</li>
+							<li>a lot would also depend on what's considered essential for multinetwork; maybe you would wanna have globally enabled themes or globally activated plugins too</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>So how do I actually get to use Multinetwork?</h2>
+
+					<img data-src="assets/wp-multi-network.jpg" class="limited-landscape">
+
+					<p>Use WP Multi Network, the established way to expose <em>basic</em> multi network functionality with a UI (<a href="https://github.com/stuttter/wp-multi-network">github.com/stuttter/wp-multi-network</a>)</p>
+					<p><small>or build your own custom solution (example: <a href="https://github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks">github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks</a>).</small></p>
+
+					<aside class="notes">
+						<ul>
+							<li>Problem: WP Multi Network is just the very basic foundation (and it probably shouldn't be more opinionated than it is), so additional tweaks are necessary</li>
+							<li>for example, having the networks overview and the ability to create new networks available in the network admin area to each network administrator probably doesn't make sense</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<p><strong>Problem:</strong> Not every network administrator should be able to create new networks.</p>
+
+					<p><strong>Goal:</strong> Handle this functionality in global scope.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>This is where global scope becomes actually valid, even from a logical standpoint.</li>
+							<li>Network administrators should create sites, global administrators should create networks.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Dealing with global scope data</h2>
+
+					<p><strong>Two Alternatives:</strong></p>
+
+					<ul>
+						<li>Use main network as global scope layer (easy solution, but conceptual hack).</li>
+						<li>Implement missing global functionality (clean solution, but technical hack).</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>first approach: use WordPress as before, but store global data in main network and use main network admin as global dashboard</li>
+							<li>second approach: logical and organized approach, but deep dive into WordPress multisite necessary, work around limits in multisite behavior</li>
+							<li>decision depends on many factors like<br>maintainability, experience, budget, finetuning etc.</li>
+							<li>examples for both follow</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Using the main network for global scope functionality</h3>
+
+					<p>
+						<a href="https://github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks">github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks</a><br>
+						<small><strong>Disclaimer:</strong> Most of the plugin is reusable functionality, but a few parts are still specific to the WSU environment.</small>
+					</p>
+
+					<div style="display:flex;justify-content:space-between;">
+						<div style="flex:1;">
+							<img data-src="assets/wsuwp-multiple-networks.jpg">
+						</div>
+						<div style="flex:1;">
+							<!-- TODO: Replace with screenshot of admin bar dropdown menu -->
+							<img data-src="assets/wsuwp-multiple-networks.jpg">
+						</div>
+					</div>
+
+					<ul>
+						<li>global data stored as network settings (in <code>wp_sitemeta</code> table)</li>
+						<li>global admins are network administrators on the main network</li>
+						<li>global UI added as menu/submenu pages in the network administration panel</li>
+						<li>misuses the network administration panel, but ties in with existing WordPress functionality</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>really cool: it's not required to build new UI for most things; themes and plugins for example can just be activated on the network, and just a tiny bit of code is required to use these as globally activated then</li>
+							<li>the main network lists all users, other networks only list that network's users</li>
+							<li>update checks are deactivated anywhere but in the main network to essentially make that functionality global</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Implementing actual global scope functionality</h3>
+
+					<p>
+						<a href="https://github.com/felixarntz/wp-global-options">github.com/felixarntz/wp-global-options</a><br>
+						<a href="https://github.com/felixarntz/wp-global-admin">github.com/felixarntz/wp-global-admin</a><br>
+						<small>(they both integrate with <a href="https://github.com/stuttter/wp-multi-network">github.com/stuttter/wp-multi-network</a>)</small>
+					</p>
+
+					<div style="display:flex;justify-content:space-between;">
+						<div style="flex:1;">
+							<img data-src="assets/wp-global-admin.jpg">
+						</div>
+						<div style="flex:1;">
+							<!-- TODO: Replace with screenshot of admin bar dropdown menu -->
+							<img data-src="assets/wp-global-admin.jpg">
+						</div>
+					</div>
+
+					<ul>
+						<li>global data stored specifically as global settings (in <code>wp_global_options</code> table)</li>
+						<li>global admins are stored as a global setting</li>
+						<li>global UI available in entirely new global administration panel</li>
+						<li>behaves like existing WordPress functionality, but several ugly hacks required to make custom administration panel work</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>global dashboard widgets, global users list table, global settings page</li>
+							<li>global themes and plugins aren't supported yet as this still needs to be implemented</li>
+							<li>updates are only allowed to global administrators, but the UI hasn't been moved over to the global administration panel yet</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<p><strong>Problem:</strong> Network administrators can see all users,<br>even those that are not part of their network.</p>
+
+					<p><strong>Goal:</strong> Store associations between users and their networks<br>so that they can easily be retrieved.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>right now, you would need to run a ridiculous meta query that would check for all site IDs in a network whether that user has capabilities on that site</li>
+							<li>that is obviously super slow and doesn't scale beyond just a few sites</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Store associations between users and networks</h2>
+
+					<p><strong>Two Alternatives:</strong></p>
+
+					<ul>
+						<li>Store network IDs as user metadata (simple solution).</li>
+						<li>Store an empty capabilities array under capability keys for each network as user metadata (somewhat similar, but future-proof).</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:14px;">
+							<li>the second approach makes more sense since it also helps with another issue,<br>but otherwise they're similar</li>
+							<li>WordPress core stores a capability key for each site the user has permissions for as user metadata</li>
+							<li>that's why this approach could easily be applied for networks as well</li>
+							<li>The functionality must be hooked into the respective actions, so whenever a user is added to a site for example, they're also added to the network</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Store associations between users and networks</h2>
+
+					<p>
+						<a href="https://github.com/felixarntz/wp-network-roles">github.com/felixarntz/wp-network-roles</a><br>
+						<small>implements network-wide user roles and thus also stores user-network associations.<br>It integrates well with the aforementioned global scope plugins.</small>
+					</p>
+
+					<p>
+						<a href="https://github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks">github.com/washingtonstateuniversity/WSUWP-Plugin-Multiple-Networks</a><br>
+						<small>includes user-network association as well, storing an empty array under a network's capability key.</small>
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>you can use either here, it mostly depends on which approach you initially decided on, regarding global scope implementation</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<p style="text-align:left;">
+						<strong>Disclaimer:</strong><br>
+						All plugins mentioned here integrate deeply into WordPress core and, although they are regularly maintained, they should be used with care.<br>
+						They're already being used in specific production environments, but it is generally recommended to first experiment on development sites for quite a bit.
+					</p>
+				</section>
+
+				<section>
+					<h2>The Future of Multinetwork and WordPress Core</h2>
+
+					<ul>
+						<li>WordPress core will never add a UI for multiple networks. This should remain plugin territory due to vast differences in how the feature is used today.</li>
+						<li>A very basic and unopinionated CRUD API will be introduced for networks, including REST API support (likely in late 2018 or 2019).</li>
+						<li>Hooks will be introduced and bugs will be fixed to improve multinetwork support where the respective plugins would wanna integrate.</li>
+					</ul>
+
+					<p><strong>Have a larger project to manage? Try Multinetwork today and help us out!</strong></p>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/global-admin-multinetwork-organization/" class="left">Global Admin - A Deeper Dive into Multinetwork Organization</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
