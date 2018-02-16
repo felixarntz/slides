@@ -153,7 +153,7 @@ interface Car_Dealership {
 		return self::$instance;
 	}
 
-	private function __constructor() {
+	private function __construct() {
 		My_Plugin_Settings_Controller::instance()->initialize();
 	}
 }
@@ -175,7 +175,7 @@ interface Car_Dealership {
 					<pre><code class="php">class My_Plugin {
 	private $settings;
 
-	public function __constructor( My_Plugin_Settings_Controller $settings ) {
+	public function __construct( My_Plugin_Settings_Controller $settings ) {
 		$this->settings = $settings;
 
 		$this->settings->initialize();
@@ -237,7 +237,7 @@ interface Car_Dealership {
 	 *
 	 * @param My_Plugin_Settings_Controller Settings controller instance to use.
 	 */
-	public function __constructor( My_Plugin_Settings_Controller $settings ) {
+	public function __construct( My_Plugin_Settings_Controller $settings ) {
 		$this->settings = $settings;
 
 		$this->settings->initialize();
@@ -262,7 +262,7 @@ interface Car_Dealership {
 	 *
 	 * @param My_Plugin_Settings_Controller Settings controller instance to use.
 	 */
-	public function __constructor(MyPluginSettingsController $settings)
+	public function __construct(MyPluginSettingsController $settings)
 	{
 		$this->settings = $settings;
 
