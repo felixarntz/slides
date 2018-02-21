@@ -52,6 +52,11 @@
 					</small>
 
 					<aside class="notes">
+						<ol>
+							<li>brief introduction to multi network, what it is and the basics how it works, use cases</li>
+							<li>brief look at support by WordPress core, what works, what doesn't?</li>
+							<li>why global scope is important and how we can deal with it</li>
+						</ol>
 					</aside>
 				</section>
 
@@ -102,6 +107,7 @@
 
 					<aside class="notes">
 						<ul>
+							<li>multisite = network</li>
 							<li>multiple sites: each one has their own set of the aforementioned database tables</li>
 							<li>additional tables for multisite organization</li>
 						</ul>
@@ -148,6 +154,7 @@
 						<ul>
 							<li>each site gets its own set of tables; all but the initial site's ones are prefixed with the site ID</li>
 							<li><code>wp_users</code> and <code>wp_usermeta</code> are no longer site-related.</li>
+							<li>example: everywhere on wordpress.org, you can log in with the same credentials</li>
 						</ul>
 					</aside>
 				</section>
@@ -174,8 +181,8 @@
 						<ul style="font-size:14px;">
 							<li>multisite-specific tables: <code>wp_blog_version</code>, <code>wp_registration_log</code> and <code>wp_signups</code> are utilities and not really important for now.</li>
 							<li>that leaves <code>wp_blogs</code> (for sites), <code>wp_site</code> (for the network definition) and <code>wp_users</code> (for users), plus related metadata tables</li>
-							<li><code>wp_site</code> can store multiple networks! <code>wp_sitemeta</code> stores network settings, but is a metadata table!</li>
 							<li><code>wp_users</code> is taken over from the regular setup, now a multisite table</li>
+							<li><code>wp_site</code> can store multiple networks! <code>wp_sitemeta</code> stores network settings, but is a metadata table!</li>
 						</ul>
 					</aside>
 				</section>
