@@ -53,10 +53,80 @@
 
 					<aside class="notes">
 						<ol>
-							<li>brief introduction to multi network, what it is and the basics how it works, use cases</li>
+							<li>brief introduction on what it is, use-cases</li>
+							<li>basics how it works</li>
 							<li>brief look at support by WordPress core, what works, what doesn't?</li>
+							<li>how to actually use multinetwork</li>
 							<li>why global scope is important and how we can deal with it</li>
 						</ol>
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is Multinetwork?</h2>
+
+					<ul>
+						<li>multiple multisites in one setup</li>
+						<li class="fragment">i.e. multiple networks</li>
+						<li class="fragment">i.e. multisite = a single network</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>each network has its own set of sites, so essentially it is a way to group sites</li>
+							<li>but it allows to do much more than just grouping, like having different network-wide functionality (network-activated plugins, network-enabled themes, network settings etc.)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/umesouthpadre.jpg" class="limited-landscape">
+						<figcaption>Separate sites based on their functionality.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>music event and festival producer</li>
+							<li>main network with event organizer site including database of artists, genres etc.</li>
+							<li>separate network for festival sites (similar functionality, different from main site)</li>
+							<li>third network for partner websites</li>
+							<li>festival sites can pull in artist data etc. from main site</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/washington-state-university.jpg" class="limited-landscape">
+						<figcaption>Complex hierarchies with separate ownerships.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>universities are a common user of multinetwork</li>
+							<li>each faculty can have their own network with distinct administrators and behavior</li>
+							<li>faculties can have many sites, such as for individual classes or projects</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Multinetwork <small>Use Cases</small></h2>
+
+					<figure>
+						<img data-src="assets/wordpress-com.jpg" class="limited-landscape">
+						<figcaption>Very custom requirements for managing large environments.</figcaption>
+					</figure>
+
+					<aside class="notes">
+						<ul>
+							<li>to my knowledge, wordpress.com has two networks: one for actual wordpress.com sites, and one for mirroring required data for all Jetpack sites</li>
+						</ul>
 					</aside>
 				</section>
 
@@ -212,57 +282,6 @@
 							<li>even in a multisite setup with just the one network, there is still global scope</li>
 							<li>in a common setup, you usually don't need to worry about what is global vs what is per network, since they are essentially the same</li>
 							<li>multinetwork doesn't need to be set up like multisite; it's always there</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Multinetwork <small>Use Cases</small></h2>
-
-					<figure>
-						<img data-src="assets/umesouthpadre.jpg" class="limited-landscape">
-						<figcaption>Separate sites based on their functionality.</figcaption>
-					</figure>
-
-					<aside class="notes">
-						<ul>
-							<li>music event and festival producer</li>
-							<li>main network with event organizer site including database of artists, genres etc.</li>
-							<li>separate network for festival sites (similar functionality, different from main site)</li>
-							<li>third network for partner websites</li>
-							<li>festival sites can pull in artist data etc. from main site</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Multinetwork <small>Use Cases</small></h2>
-
-					<figure>
-						<img data-src="assets/washington-state-university.jpg" class="limited-landscape">
-						<figcaption>Complex hierarchies with separate ownerships.</figcaption>
-					</figure>
-
-					<aside class="notes">
-						<ul>
-							<li>universities are a common user of multinetwork</li>
-							<li>each faculty can have their own network with distinct administrators and behavior</li>
-							<li>faculties can have many sites, such as for individual classes or projects</li>
-						</ul>
-					</aside>
-				</section>
-
-				<section>
-					<h2>Multinetwork <small>Use Cases</small></h2>
-
-					<figure>
-						<img data-src="assets/wordpress-com.jpg" class="limited-landscape">
-						<figcaption>Very custom requirements for managing large environments.</figcaption>
-					</figure>
-
-					<aside class="notes">
-						<ul>
-							<li>to my knowledge, wordpress.com has two networks: one for actual wordpress.com sites, and one for mirroring required data for all Jetpack sites</li>
 						</ul>
 					</aside>
 				</section>
