@@ -226,9 +226,11 @@
 
 					<aside class="notes">
 						<ul>
+							<li>music event and festival producer</li>
 							<li>main network with event organizer site including database of artists, genres etc.</li>
 							<li>separate network for festival sites (similar functionality, different from main site)</li>
 							<li>third network for partner websites</li>
+							<li>festival sites can pull in artist data etc. from main site</li>
 						</ul>
 					</aside>
 				</section>
@@ -243,6 +245,7 @@
 
 					<aside class="notes">
 						<ul>
+							<li>universities are a common user of multinetwork</li>
 							<li>each faculty can have their own network with distinct administrators and behavior</li>
 							<li>faculties can have many sites, such as for individual classes or projects</li>
 						</ul>
@@ -288,11 +291,12 @@
 						<li>association between users and the networks they are part of</li>
 						<li>switching context to another network</li>
 						<li>link connections between network administration panels</li>
+						<li>several more trivial things here or there...</li>
 					</ul>
 
 					<aside class="notes">
 						<ul>
-							<li>several more trivial things are also not supported, such as having a global site count (right now there are only site counts available for each individual network)</li>
+							<li>you may be familiar with <code>switch_to_blog()</code></li>
 							<li>a lot would also depend on what's considered essential for multinetwork; maybe you would wanna have globally enabled themes or globally activated plugins too</li>
 						</ul>
 					</aside>
@@ -308,6 +312,7 @@
 
 					<aside class="notes">
 						<ul>
+							<li>introduces full CRUD API and UI, introduces <code>switch_to_network()</code></li>
 							<li>Problem: WP Multi Network is just the very basic foundation (and it probably shouldn't be more opinionated than it is), so additional tweaks are necessary</li>
 							<li>for example, having the networks overview and the ability to create new networks available in the network admin area to each network administrator probably doesn't make sense</li>
 						</ul>
