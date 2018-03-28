@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="robots" content="noindex,nofollow">
+
+		<title>How To Sustain Long-Term Contributions to WordPress Core</title>
+
+		<meta name="description" content="This session highlights benefits of contributing, provide recommendations on how to find your spot and build trust, and give insights on which traits are particularly valuable to have or pick up for a beneficial long-term relationship as a core contributor.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../highlightjs-theme.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style type="text/css">
+			#speaker-controls {
+				font-size: 16px;
+			}
+
+			.quote-spacer {
+				height: 900px;
+			}
+
+			blockquote.quote {
+				position: absolute;
+				width: 40%;
+				padding: 10px 15px;
+				font-size: 70%;
+				background-color: #d0ffff;
+				border-radius: 20px;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>
+						How To Sustain<br>Long-Term Contributions<br>to WordPress Core
+					</h1>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>we're gonna briefly look at the benefits of contributing and how to start contributing</li>
+							<li>however, the main part of this session is gonna be about following up and contributing more than the first taster</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div class="quote-spacer"></div>
+
+					<blockquote class="quote" style="top:40px;left:0;">
+						<p>Contributing to core sharpens my skills in a lot of ways that people often don’t think about as developers: defensive programming, history and research, and communication in particular.</p>
+						<cite>- Helen Hou-Sandí</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="top:0;right:180px;">
+						<p>Contributing to core has introduced me to some of the most amazing people on the planet. It was like I showed up to fix a software bug and was bitten back by the community bug.</p>
+						<cite>- Joe McGill</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="top:310px;left:75px;">
+						<p>Contributing to WordPress has really been what catapulted my design career. I was able to gain experience working on new design challenges in an open and collaborative environment.</p>
+						<cite>- Mel Choyce</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="top:240px;right:20px;">
+						<p>WordPress helped me get to where I am today. Now I want to give something back to help people do the same.</p>
+						<cite>- Pascal Birchler</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="bottom:0;right:200px;">
+						<p>Contributing sounds scary. Don’t be afraid you are good not enough. We are all insecure people with same passion and motivation to make WordPress the best it can be.</p>
+						<cite>- Rian Rietveld</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="top:440px;right:80px;">
+						<p>I give back to WordPress in hopes that I’m able to impact others with the same generosity and opportunities the project has shared with me in our effort to democratize the web.</p>
+						<cite>- Steven Word</cite>
+					</blockquote>
+
+					<blockquote class="quote" style="top:580px;left:0;">
+						<p>It's rewarding to work on a project that powers over a quarter of the web. Knowing that a new feature or enhancement is going to have an impact on millions of people is a great motivator to contribute to WordPress.</p>
+						<cite>- Weston Ruter</cite>
+					</blockquote>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>before we start, let's look at some benefits of contributing to core</li>
+							<li>community, personal development, career, ...</li>
+							<li>let's move on to how to actually contribute</li>
+							<li>the way we'll do this is I'm gonna tell my story and highlight what I've learned</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wceu-2015.jpg">
+					<h2 style="margin-bottom:500px;">WordCamp Europe 2015</h2>
+
+					<small class="credit">original photo by <a href="https://florianziegler.com/wordcamp-europe-2015-contributor-day/">Florian Ziegler</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>How can I start? My story here:</li>
+							<li>WCEU 2015: first contributor day</li>
+							<li>core table led by Konstantin Obenland (release lead 4.3)</li>
+							<li>task: test the heck out of the new Site Icon feature</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>#16434 🤓</h2>
+
+					<img data-src="assets/first-patch.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>first contribution: small bug-fix that occurred sometimes when having JavaScript disabled</li>
+							<li>modified 16 lines of code out of the hundreds for the feature</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>[32994] 🤓</h2>
+
+					<img data-src="assets/first-props.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>by the end of the day: first props!</li>
+							<li>only a small fix shared with several people, but big feature (motivating!)</li>
+							<li>so eager that I even worked on another ticket later that day while I was in my hotel room for an hour</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<table>
+						<tr>
+							<th>Contributor Day attendee</th>
+							<th>Very disciplined self-learner</th>
+						</tr>
+						<tr>
+							<td>Processes explained at the core table or through a workshop</td>
+							<td>Processes explained in <a href="https://make.wordpress.org/core/handbook/">core handbook</a> or <a href="https://wordpress.tv/tag/contributing+core/">wordpress.tv videos</a></td>
+						</tr>
+						<tr>
+							<td>Questions answered in person</td>
+							<td>Questions answered in new contributors meeting (every Wednesday on Slack)</td>
+						</tr>
+						<tr>
+							<td>Good tickets to be worked on are provided, possibly both major and minor</td>
+							<td>Good tickets to be worked on can be found through the <a href="https://core.trac.wordpress.org/query?status=accepted&status=assigned&status=new&status=reopened&status=reviewing&keywords=~good-first-bug&col=id&col=summary&col=status&col=owner&col=type&col=priority&col=milestone&order=priority"><code>good-first-bug</code> keyword</a></td>
+						</tr>
+					</table>
+
+					<p>&rarr; If possible, attend a contributor day!</p>
+
+					<aside class="notes">
+						<ul>
+							<li>first props either with a small contribution to a major feature</li>
+							<li>or by completing a smaller ticket on your own</li>
+							<li>depends on personal preference, both is equally valuable</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background="assets/more-contributing.jpg" data-transition="slide fade-out">
+					<h2>Mo contributing, mo issues</h2>
+
+					<img data-src="assets/first-ticket-1.png" class="plain fragment" style="background:transparent;">
+
+					<small class="credit">original photo by <a href="https://www.facebook.com/photo.php?fbid=949205005152589">Detlef Heese</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>over the next half year, occasionally worked on tickets here or there</li>
+							<li>sometimes at home, but mostly at WordCamps or related events</li>
+							<li>this is the first one I opened</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background="assets/more-contributing.jpg" data-transition="fade-in fade-out">
+					<h2>Mo contributing, mo issues</h2>
+
+					<img data-src="assets/first-ticket-2.png" class="plain" style="background:transparent;">
+
+					<small class="credit">original photo by <a href="https://www.facebook.com/photo.php?fbid=949205005152589">Detlef Heese</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>very welcoming response; that was important</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background="assets/more-contributing.jpg" data-transition="fade-in slide">
+					<h2>Mo contributing, mo issues</h2>
+
+					<img data-src="assets/first-ticket-3.png" class="plain" style="background:transparent;">
+
+					<small class="credit">original photo by <a href="https://www.facebook.com/photo.php?fbid=949205005152589">Detlef Heese</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>then closed :(</li>
+							<li>BUT: a very elaborate response and reasoning was given (backward-incompatible change)</li>
+							<li>however, when these add up, frustration is waiting around the corner</li>
+							<li>especially when you've put quite some work into a patch before</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Mo contributing, mo rewards</h2>
+
+					<img data-src="assets/first-big-props.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>but I also had very motivating moments</li>
+							<li>first bigger thing, at least to me: <code>WP_Term</code> class</li>
+							<li>very simple class, but I played a significant part in getting a class into core!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Preventing frustration</h2>
+
+					<ul>
+						<li>Don't patch immediately, discuss first.</li>
+						<li>Learn the <a href="https://wordpress.org/about/philosophy/">WordPress philosophies</a> and make them part of your mindset.</li>
+						<li>Place the project's goals ahead of your own.</li>
+						<li>Let others convince you when necessary, convince others when necessary.</li>
+						<li>If you disagree initially, step away, think about it further, and come back later.</li>
+					</ul>
+
+					<a href="https://nacin.com/2014/02/07/how-wordpress-chooses-committers/" class="fragment">
+						Article: The qualities of a great WordPress contributor (Andrew Nacin)
+					</a>
+
+					<aside class="notes">
+						<ul>
+							<li>looking back, I would've been able to prevent some issues if I had been more aware of these things</li>
+							<li>don't be stubborn</li>
+							<li>be open-minded</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Dealing with rejection</h2>
+
+					<ul>
+						<li>If no good reason is given, ask for one explicitly.</li>
+						<li>If you disagree, dig in further, ask for a third opinion.</li>
+						<li>If you still disagree, your thoughts <em>may</em> not comply with the project's philosophies.</li>
+						<li>Always keep your calm and be polite.</li>
+						<li><strong>Don't take anything personally!</strong></li>
+					</ul>
+
+					<a href="https://wordpress.tv/2016/12/23/john-eckman-wpdrama-the-four-agreements-and-the-wordpress-community/" class="fragment">
+						WordCamp Video: WPDrama, The Four Agreements,<br>and the WordPress Community (John Eckman)
+					</a>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>Don't get rude or just walk away.</li>
+							<li>Maybe your reviewer made a mistake. Get over it for now, and have another try later, or if really necessary, ask someone else for their opinion.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wcus-2015.jpg">
+					<h2 style="margin-bottom:500px;">WordCamp US 2015</h2>
+
+					<small class="credit">original photo by <a href="https://www.flickr.com/photos/wordcampunitedstates/23468658874/">Kari Leigh Marucchi</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>at the time I worked for a multinetwork client</li>
+							<li>had watched a wordpress.tv video on it by JJJ</li>
+							<li>at WCUS I briefly talked to him about it</li>
+							<li>in the end he said "Hey, the team there is really small. If you are interested, just go help out there."</li>
+							<li>Alright!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Joining multisite 👋</h2>
+
+					<img data-src="assets/joining-multisite.jpg">
+
+					<aside class="notes">
+						<ul>
+							<li>joined multisite channel</li>
+							<li>followed tickets (notification preferences)</li>
+							<li>worked on only a few things, but generally kept an eye out</li>
+							<li>at some point I was working on a ticket where I didn't receive any feedback</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Joining Slack meetings</h2>
+
+					<img data-src="assets/multisite-slack-meetings.jpg" class="plain">
+
+					<aside class="notes">
+						<ul>
+							<li>had noticed there are multisite meetings</li>
+							<li>so I joined one and expressed my willingness to contribute more</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="slide fade-out">
+					<h2>Direct communication</h2>
+
+					<img data-src="assets/15691-1.jpg" class="plain">
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>Of course I also asked for feedback for the ticket I had been working on.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in fade-out">
+					<h2>Direct communication</h2>
+
+					<img data-src="assets/15691-2.jpg" class="plain">
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>I got my feedback. But that's that.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in slide">
+					<h2>Direct communication</h2>
+
+					<img data-src="assets/15691-3.jpg" class="plain">
+				</section>
+
+				<section>
+					<h2>¯\_(ツ)_/¯</h2>
+
+					<p class="fragment">But still: Be persistent when you don't receive an answer after a while!</p>
+
+					<a href="https://www.youtube.com/watch?v=6cMjq0PbXR8" class="fragment">
+						Hilarious Short Film: You can't just open a pull request and run<br>(C. Michael Nelson &amp; Boone Gorges)
+					</a>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>Of course I also got an actual response.</li>
+							<li>The gist was that the ticket is super-complex and people have been avoiding it.</li>
+							<li>Btw: Ticket is still open as of today.</li>
+							<li>If I had known that back then, I probably would have quit. But you have to learn to step back - I'm sure it will have its time.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Finding your focus</h2>
+
+					<ul>
+						<li>Find out what interests you the most and focus on it.</li>
+						<li>Participate regularly in Slack meetings for that component.</li>
+						<li>Direct communication works much better for discussions than asynchronous.</li>
+						<li>It's perfectly fine to only say "Hi" in the beginning and lurk.</li>
+						<li>By showing up, learning and presenting ideas, you build more trust over time.</li>
+					</ul>
+
+					<p class="fragment">And as a side note: It's usually not a good idea to focus on a very old ticket early on.</p>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>If there's no Slack meeting, contact a maintainer, discuss with them, maybe start one.</li>
+							<li>Regular meetings give you the best idea of what's important for that area right now, you also learn about all the internal processes etc.</li>
+							<li>Side note: Old open tickets are usually still open for a reason (complex, insignifcant, or both).</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wcnbg-2016.jpg">
+					<h2>WordCamp Nürnberg 2016</h2>
+
+					<img data-src="assets/wcnbg-2016-small.jpg" class="fragment" style="max-width:40%;">
+
+					<small class="credit">original photo by <a href="https://hee.se/portfolio/wcnbg/">Detlef Heese</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>I had seen a call for component maintainers on make.wordpress.org</li>
+							<li>at WCNBG I asked Dominik Schilling whether I could be maintainer for Post Thumbnails (smallest component)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/make-components.png" style="max-width:60%;">
+
+					<a href="https://make.wordpress.org/core/components/">https://make.wordpress.org/core/components/</a>
+
+					<aside class="notes">
+						<ul>
+							<li>a bit later I also became maintainer for multisite</li>
+							<li>more responsibility and permissions on Trac</li>
+							<li>Do it better than me: Don't just become a maintainer of a random component because it's small. Become a maintainer of what you're interested in.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Becoming a component maintainer</h2>
+
+					<ul>
+						<li>Once you're more familar with your component, consider becoming a maintainer.</li>
+						<li>Provide responses for new tickets, and make new contributors feel welcome.</li>
+						<li>Focus on others' tickets just as much as on your own ones.</li>
+						<li>Don't be overly critical; think suggestions through before posting feedback.</li>
+						<li>Milestone tickets reasonably.</li>
+					</ul>
+
+					<p class="fragment"><strong>As you become more experienced, accomodate new contributors so that the need for them to deal with all these issues remains as little as possible.</strong></p>
+
+					<aside class="notes">
+						<ul>
+							<li>Don't just milestone because it's your ticket.</li>
+							<li>Be responsible about your new responsibility.</li>
+							<li>See how you are now more on that side of things? We're making progress.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wceu-2016.jpg">
+					<h2 style="margin-bottom:500px;">WordCamp Europe 2016</h2>
+
+					<small class="credit">original photo by <a href="https://florianziegler.com/wordcamp-europe-2016/">Florian Ziegler</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>at WCEU 2016, I met Jeremy Felt and Jonny Harris in person (after working with them on a weekly basis in multisite)</li>
+							<li>very productive to talk about some pain points in person and collaborate directly at contributor day</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Meeting in person</h2>
+
+					<ul>
+						<li>Continue going to WordCamps.</li>
+						<li>Meet and hang out with your fellow contributors.</li>
+						<li class="fragment" data-fragment-index="1">Have a beer with friends from all over the world! 🍻</li>
+					</ul>
+
+					<table class="fragment" data-fragment-index="1">
+						<tr>
+							<td><img data-src="assets/friends-1.jpg"></td>
+							<td><img data-src="assets/friends-2.jpg"></td>
+							<td><img data-src="assets/friends-3.jpg"></td>
+						</tr>
+					</table>
+
+					<aside class="notes">
+						<ul>
+							<li>get to know the people behind all the names and faces</li>
+							<li>in-person discussions, as rare as they happen in our community, are the most productive way of discussing topics</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/rub-1.jpg" data-transition="slide fade-out">
+					<h2>Time for Bachelor Thesis<span style="opacity:0;"> core</span></h2>
+
+					<img data-src="assets/wordpress-logo-white.png" class="plain" style="margin:50px 0;max-width:20%;background:transparent;opacity:0;">
+
+					<small class="credit">original photo by <a href="http://www.ruhr-uni-bochum.de/bilder/">Ruhr-Universität Bochum</a></small>
+
+					<aside class="notes">
+						<ul>
+							<li>after WCEU I started working on my Bachelor thesis in college</li>
+							<li>I took some time off from regular work to focus on it</li>
+							<li>but what actually happened...</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/rub-2.jpg" data-transition="fade-in slide">
+					<h2>Time for <del>Bachelor Thesis</del> core</h2>
+
+					<img data-src="assets/wordpress-logo-white.png" class="plain fragment" style="margin:50px 0;max-width:20%;background:transparent;">
+
+					<small class="credit">original photo by <a href="http://www.ruhr-uni-bochum.de/bilder/">Ruhr-Universität Bochum</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>I didn't spend as much time on my thesis as I probably should have, and contributed to core a lot.</li>
+							<li>new tasks: occasionally writing weekly recap posts for multisite meetings, helping out with the dev-note for 4.6</li>
+							<li>of course I still worked on my thesis quite a bit, through which I learnt a lot about accessibility, exposing a new core area of my interest</li>
+							<li>for 4.6, I received the "Recent Rockstar" status; up to this day I have no real idea what that means, but it felt great!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>It's not just about code</h2>
+
+					<ul>
+						<li>Be open to new tasks.</li>
+						<li>Document changes precisely.</li>
+						<li>Write recaps so that others can keep up to date.</li>
+						<li>Collaborate with other teams like design and accessibility when needed.</li>
+						<li>Sometimes, do work that may not be as enjoyable, but still needs to be done.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>alright, I get it, you might not have the chance to let your work sit for a while</li>
+							<li>I was still in college, had saved some money, plus cost for German college is ridiculously low compared to here</li>
+							<li>you don't need to be a committer to have an important role; by participating and helping out with all these things you're making a significant difference</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-background-image="assets/bachelor-thesis.jpg">
+					<h2>Final thesis day</h2>
+
+					<img data-src="assets/getting-commit.jpg" class="fragment">
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>fast forward end of November 2016 &rarr; last day before handing in my thesis</li>
+							<li>had a hard time falling asleep</li>
+							<li>after laying in bed awake for hours, I looked at my phone &rarr; :o</li>
+							<li>I had not expected this at all; of course I could bury my thoughts of falling asleep</li>
+							<li>I stayed up, read some related parts of the core handbook (so German), went to college, handed in my thesis and had a great day of sleep</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Learning and iterating</h2>
+
+					<ul>
+						<li>You don't need to be a code genius to play an important role in core.</li>
+						<li>Keep contributing, learn from mistakes, improve your skillset over time.</li>
+						<li>You need to be passionate, willing to learn, and understand the core philosophies.</li>
+						<li>Your goal should not be becoming a committer, but a valuable contributor.</li>
+						<li>The latter is very likely to eventually give you commit anyway at some point.</li>
+					</ul>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wcus-2016.jpg">
+					<h2>WordCamp US 2016</h2>
+
+					<img data-src="assets/first-commit.jpg" class="fragment">
+
+					<small class="credit">original photo by <a href="https://www.alainschlesser.com/meeting-us-community/">Alain Schlesser</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>at contributor day I did my first commit</li>
+							<li>it suddenly made sense to me why some of the tickets and patches I had written and pushed for earlier had not been committed as quickly as I would have liked them to</li>
+							<li>it was great to give someone else their first props in my first commit</li>
+							<li>my first commits I would always run by my committer mentor Jeremy Felt, before eventually receiving green light to go by myself</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Pay attention to details</h2>
+
+					<ul>
+						<li>Consider edge cases.</li>
+						<li>Keep in mind that even a small change might break BC at another location.</li>
+						<li>Write precise ticket descriptions and commit messages.</li>
+						<li>Write tests to verify functionality and integrity, don't break any through a commit.</li>
+						<li>Always make sure your code is reviewed by (other) experts in the respective area.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Of course sometimes unit tests break through a commit, but the mindset is you should never break them.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-background-color="#444444" data-background-image="assets/wcbio-2017.jpg">
+					<h2>WordCampMania</h2>
+
+					<img data-src="assets/enhanced-settings-api-project.jpg" class="fragment">
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>went to quite a few WordCamps earlier this year, to keep in touch</li>
+							<li>of course I didn't stop, I've been still contributing regularly</li>
+							<li>started working on an Enhanced Settings API project with the accessibility team</li>
+							<li>started working on Roles/Capabilities more and more (became a maintainer there later)</li>
+						</ul>
+					</aside>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/community-summit-2017.jpg">
+					<h2>Community Summit 2017</h2>
+
+					<img data-src="assets/php-meeting-announcement.jpg" class="fragment">
+
+					<small class="credit">original photo by <a href="https://files.slack.com/files-tmb/T024MFP4J-F5THNCMH8-7d958729c0/dscf0151_1024.jpg">Alex Shiels</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>attended my first Community Summit before WCEU in Paris</li>
+							<li>participated in a few interesting discussions</li>
+							<li>the most important result of some chats there for me personally was the new core PHP team that I started with a few others like Alain Schlesser</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-image="assets/too-many-meetings.jpg">
+					<h2>Too Many Meetings</h2>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>with more involvement, meetings added up</li>
+							<li>when I had four must-attend meetings every week, plus 2 more nice-to-attend ones, I knew I had to step back a little</li>
+							<li>Monday: 18:00 Settings API, 19:00 Multisite Scrub, 20:00 PHP</li>
+							<li>meetings last one hour each, so four hours without writing or reviewing code is really not viable unless you're full-time</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Be reasonable about your time</h2>
+
+					<ul>
+						<li>Don't overestimate what you can do within the hours you are available for core.</li>
+						<li>Don't get involved with too many components, stay focused on just very few ones of your main interest.</li>
+						<li>If the amount of meetings gets too overwhelming, ask yourself and others whether/how the processes can be streamlined.</li>
+						<li>Ask for help with maintenance tasks, split the workload, find supporters.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>I have made the experience that 3-5 hours a week per component is a good rule of thumb</li>
+							<li>you can always do more of course</li>
+							<li>writing meeting recaps takes time; alternate with others in writing them</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section class="has-credit" data-background-color="#444444" data-background-image="assets/wcus-2017.jpg">
+					<h2 style="margin-bottom:200px;">WordCamp US 2017</h2>
+
+					<small class="credit">original photo by <a href="https://twitter.com/_jamieed/status/937380674931130369">Jamie Edwards</a></small>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>at contributor day we finalized the multisite component roadmap for the near future (like next year or so)</li>
+							<li>it is the outcome of months of discussion; basically in all of 2017, we spent much more time on planning the future than writing code for the present</li>
+							<li>this now results in a solid and clear plan, that we can now just execute without getting stuck in a lack of basic decisions</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-background-color="#444444" data-background-image="assets/yoast-core-contributions.jpg">
+					<h2 style="margin-bottom:200px;">Earlier this year...</h2>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>I took a trip to the Netherlands to visit my friends at Yoast, and to work from their offices</li>
+							<li>by the end of the trip, I was very pleased to announce that I'm gonna be working part-time for Yoast</li>
+							<li>I just started this month, and it's already great to see how much more in core I can get done</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Wanna increase your core time?</h2>
+
+					<ul>
+						<li>Making an impact in core development will raise attention.</li>
+						<li>The company you're working for may be open to pay some of your core time.</li>
+						<li>Companies you're not working for may become interested in sponsoring you.</li>
+					</ul>
+
+					<p class="fragment">
+						<strong>You can make a significant impact within a timeframe<br>that doesn't require you to be sponsored.</strong>
+						<br>
+						But if you're interested in doing more, seek such opportunities.
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>Companies like 10up, Human Made, or Yoast (just to name a few) heavily invest into WordPress and its ecosystem.</li>
+							<li>Being sponsored is a great opportunity to spend more time contributing to core.</li>
+							<li>But remember that this is <em>not</em> a necessity.</li>
+						</ul>
+				</section>
+
+				<section>
+					<h2>To be continued...</h2>
+
+					<aside class="notes">
+						<ul>
+							<li>I'm excited where the next part of my journey will take me</li>
+							<li>I'm also excited to hear some of your core contributor stories</li>
+							<li>I hope with this talk I've been able to take some pain points out of your path that I ran into on mine</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Summary</h2>
+
+					<ul>
+						<li>Learn the WordPress philosophies.</li>
+						<li>Always be polite and open-minded.</li>
+						<li>Be persistent, but patient with tickets and patches.</li>
+						<li>Explain issues with as much detail as necessary, but as little as possible.</li>
+						<li>Find an area that interests you and focus on it.</li>
+						<li>Participate in meetings regularly.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:80%;">
+							<li>small anecdote: circling back to #15691: if I had known it would still be open today without much more feedback, I would have felt quite terrible about it</li>
+							<li>today I just accept it: while valuable, it is a complex task and currently not a priority enough to be worth the effort</li>
+							<li>I'm not pushing for it at all atm, there's enough other great things to be worked on</li>
+							<li>last but not least: such tasks not being worked on because they're not a priority can only change with more regular contributors onboard: so attend the contributor day tomorrow!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/sustain-long-term-contributions-wordpress-core/" class="left">How To Sustain Long-Term Contributions to WordPress Core</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
