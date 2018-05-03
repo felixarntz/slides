@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="de-DE">
 
 	<head>
 		<meta charset="utf-8">
 
-		<title>Capability-Driven Development</title>
-		<meta name="robots" content="noindex,nofollow">
+		<title>Berechtigungsgetriebene Entwicklung</title>
 
-		<meta name="description" content="This session explains how to use the WordPress Capabilities API by looking at examples and diving in deeper from there, both from the view of a plugin developer as well as of an external developer who needs to tweak a third-party plugin.">
+		<meta name="description" content="Dieser Vortrag erklärt die genauere Verwendung der WordPress Capabilities API anhand von Beispielen und einer genaueren Betrachtung, sowohl aus Sicht eines Plugin-Entwicklers als auch aus Sicht eines externen Entwicklers, welcher ein Drittanbieter-Plugin anpassen möchte.">
 		<meta name="author" content="Felix Arntz">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -44,30 +43,30 @@
 
 			<div class="slides">
 				<section>
-					<h1>Capability-Driven Development</h1>
+					<h1>Berechtigungsgetriebene Entwicklung</h1>
 
 					<small class="credit">
-						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+						Eine Präsentation von <a href="https://twitter.com/felixarntz">@felixarntz</a>
 					</small>
 				</section>
 
 				<section>
-					<h2>Definitions</h2>
+					<h2>Definitionen</h2>
 
-					<p><strong>Capabilities</strong> in WordPress describe certain tasks<br>a user may or may not be allowed to perform.</p>
+					<p><strong>Berechtigungen</strong> (capabilities) in WordPress beschreiben Aktionen, die ein bestimmter Benutzer durchführen oder nicht durchführen darf.</p>
 
-					<p><strong>Roles</strong> in WordPress are responsible for determining<br>which capabilities a user has or does not have.</p>
+					<p><strong>Rollen</strong> (roles) in WordPress sind dafür verantwortlich festzulegen, über welche Berechtigungen ein Benutzer verfügt oder nicht verfügt.</p>
 
 					<aside class="notes">
 						<ul>
-							<li>In other words, roles define what a user can or cannot do, by the means of granting capabilities.</li>
-							<li>WordPress roles are Administrator, Editor, Author, Contributor and Subscriber, as widely known.</li>
+							<li>Mit anderen Worten, Rollen definieren was ein Benutzer tun oder nicht tun kann, basierend auf den gegebenen Berechtigungen</li>
+							<li>WordPress-Rollen sind Administrator, Redakteur, Autor, Mitarbeiter und Abonnent, wie weitgehend bekannt.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>WordPress Capabilities</h2>
+					<h2>WordPress-Berechtigungen</h2>
 
 					<ul>
 						<li><code>read</code></li>
@@ -80,7 +79,7 @@
 				</section>
 
 				<section>
-					<h2>Custom Capabilities</h2>
+					<h2>Eigene Berechtigungen</h2>
 
 					<ul>
 						<li><code>read_ct_tutorials</code></li>
@@ -91,33 +90,33 @@
 
 					<aside class="notes">
 						<ul>
-							<li>Make sure to prefix everything in plugin space, to prevent conflicts.</li>
-							<li>Let's imagine we write a plugin called "Capability Tutorials", therefore our prefix is <code>ct_</code>.</li>
+							<li>Stelle sicher, dass alle Berechtigungen im Plugin-Bereich mit einem Präfix ausgestattet sind, zur Vorbeugung von Konflikten.</li>
+							<li>Wenn wir zum Beispiel ein Plugin namens "Capability Tutorials" schreiben, könnten wir ein Präfix <code>ct_</code> verwenden.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Why worry about capabilities?</h2>
+					<h2>Warum auf Berechtigungen achten?</h2>
 
 					<ul>
-						<li><strong>Security:</strong> Don't give access to someone who shouldn't have access.</li>
-						<li><strong>Usability:</strong> Only show the areas which the user actually needs.</li>
-						<li><strong>Customizability:</strong> Allow other developers to tweak access to your functionality.</li>
+						<li><strong>Security:</strong> Niemand hat Zugriff, der keinen Zugriff haben soll.</li>
+						<li><strong>Usability:</strong> Nur die Bereiche, die ein Benutzer tatsächlich braucht, werden angezeigt.</li>
+						<li><strong>Customizability:</strong> Andere Entwickler können den Zugriff auf deine Funktionalität anpassen.</li>
 					</ul>
 
 					<aside class="notes">
 						<ul>
-							<li>Ever wanted your client to be able to edit widgets and menus, but not switch the theme or change settings?</li>
+							<li>Wolltest du schon immer deinem Kunden die Möglichkeit geben, Widgets und Menüs zu bearbeiten, aber gleichzeitig nicht das Theme wechseln oder die Theme-Einstellungen bearbeiten zu können?</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Internals: The <code>options</code> Table</h2>
+					<h2>Intern: Die <code>options</code>-Tabelle</h2>
 
-					<p>The available <strong>roles</strong> for a site are stored in the <code>options</code> database table<br>as a serialized array.</p>
-					<p>The <strong>capabilities</strong> that a specific role grants are also part of that array.</p>
+					<p>Die verfügbaren <strong>Rollen</strong> für eine Website sind in der <code>options</code>-Datenbanktabelle als serialisiertes Array gespeichert.</p>
+					<p>Die <strong>Berechtigungen</strong>, die eine Rolle gewährt, sind ebenfalls Teil dieses Arrays.</p>
 
 					<pre class="fragment"><code class="php">array(
 	'administrator' => array(
@@ -236,17 +235,17 @@
 
 					<aside class="notes">
 						<ul>
-							<li>Excluded here are the user levels. WordPress used to have levels instead of capabilities, but that is legacy stuff, not actual capabilities.</li>
-							<li>When looking through this array, you recognize that WordPress user roles are not actually hierarchical. They are just setup that way by default.</li>
+							<li>Nicht enthalten hier sind die Benutzerlevels. WordPress hat früher Levels anstatt von Berechtigungen verwendet, aber das ist Legacy-Funktionalität, keine eigentlichen Berechtigungen.</li>
+							<li>Bei genauerer Betrachtung des Arrays fällt auf, dass WordPress-Benutzerrollen eigentlich nicht hierarchisch sind. Sie sind bloß standardmäßig so eingestellt.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Internals: The <code>usermeta</code> Table</h2>
+					<h2>Intern: Die <code>usermeta</code>-Tabelle</h2>
 
-					<p>The <strong>roles</strong> that a user has are stored in the <code>usermeta</code> database table<br>under that user's ID, also as a serialized array.</p>
-					<p>Additional <strong>capabilities</strong> can <em>theoretically</em> also be part of that array,<br>independent of roles.</p>
+					<p>Die <strong>Rollen</strong>, die ein Benutzer hat, sind in der <code>usermeta</code>-Datenbanktabelle unter der jeweiligen Benutzer-ID als serialisiertes Array gespeichert.</p>
+					<p>Zusätzliche <strong>Berechtigungen</strong> können <em>theoretisch</em> ebenfalls Teil dieses Arrays sein, unabhängig von Rollen.</p>
 
 					<pre class="fragment"><code class="php">array(
 	'editor' => true,
@@ -254,62 +253,62 @@
 
 					<aside class="notes">
 						<ul>
-							<li>A user can technically easily have multiple roles, but WordPress's UI only exposes functionality to have one role per user.</li>
-							<li>Theoretically you don't even need roles, you could just add capabilities for each user. That would easily become messy though.</li>
+							<li>Ein Benutzer kann technisch gesehen sehr einfach mehrere Rollen haben, bloß bietet WordPress keine UI für mehr als eine Rolle pro Benutzer an.</li>
+							<li>Theoretisch braucht man nicht einmal Rollen, man könnte alle Berechtigungen auch pro individuellem Benutzer hinzufügen. Das würde allerdings schnell chaotisch enden.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Guidelines for Plugin Developers</h2>
+					<h2>Richtlinien für Plugin-Entwickler</h2>
 
 					<ol class="h4">
-						<li>Check for capabilities, don't worry about roles.</li>
-						<li class="fragment">Never add capabilities to the database, unless you introduce an entire new role.</li>
-						<li class="fragment">Use custom capabilities for your code instead of existing core capabilities.</li>
+						<li>Immer auf Berechtigungen prüfen, sich dabei nicht mit Rollen beschäftigen.</li>
+						<li class="fragment">Niemals Berechtigungen in der Datenbank anpassen, außer man führt eine komplett neue Rolle ein.</li>
+						<li class="fragment">Eigene Berechtigungen für den eigenen Code verwenden, anstatt sich auf bestehende Core-Berechtigungen zu verlassen.</li>
 					</ol>
 
 					<aside class="notes">
 						<ul>
-							<li>So how do we check for capabilities? That's next.</li>
-							<li>In most cases, basically don't interact with these database tables, like ever.</li>
-							<li>So how do we add new capabilities? That comes later.</li>
+							<li>Also wie prüfen wir auf Berechtigungen? Das kommt als nächstes.</li>
+							<li>In den meisten Fällen solltest du niemals mit den Datenbanktabellen interagieren.</li>
+							<li>Also wie fügen wir neue Berechtigungen hinzu? Das kommt später.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Checking for Capabilities</h2>
+					<h2>Auf Berechtigungen prüfen</h2>
 
 					<p><code class="signature">current_user_can( <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
 
-					<p class="fragment" data-fragment-index="0">or</p>
+					<p class="fragment" data-fragment-index="0">oder</p>
 
 					<p class="fragment" data-fragment-index="0"><code class="signature">user_can( <span class="arg-type">int|WP_User</span> <span class="arg-name">$user</span>, <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
 
 					<aside class="notes">
 						<ul>
-							<li><code>$capability</code> can basically be any string identifying a capability.</li>
-							<li>Capabilities are either handled by WordPress, or they can be custom, meaning you must handle them.</li>
+							<li><code>$capability</code> kann im Prinzip jeglicher String sein, der eine Berechtigung bezeichnet.</li>
+							<li>Berechtigungen werden entweder von WordPress gehandhabt, oder bei eigenen musst du dich um sie kümmern.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h2>Types of Capabilities</h2>
+					<h2>Arten von Berechtigungen</h2>
 
 					<ul>
-						<li>Primitive Capabilities</li>
-						<li>Meta Capabilities</li>
+						<li>Primitive Berechtigungen</li>
+						<li>Meta-Berechtigungen</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Primitive Capabilities</h3>
+					<h3>Primitive Berechtigungen</h3>
 
 					<ul>
-						<li>general capabilities</li>
-						<li>either granted via a role from the database or via the <code>user_has_cap</code> filter</li>
+						<li>allgemeine Berechtigungen</li>
+						<li>gewährt entweder durch eine Rolle aus der Datenbank oder durch den <code>user_has_cap</code>-Filter</li>
 					</ul>
 
 					<pre><code class="php">current_user_can( 'edit_posts' )</code></pre>
@@ -317,18 +316,18 @@
 
 					<aside class="notes">
 						<ul>
-							<li>Again, never change capabilities in the database. Even WordPress core doesn't do that at all. There are enough capabilities in the database to go from there, granting additional capabilities based on those.</li>
-							<li>How to use the <code>user_has_cap</code> filter will be explained in just a bit.</li>
+							<li>Nochmal, niemals die Berechtigungen in der Datenbank verändern. Sogar WordPress Core macht das nicht. Es sind genügend Berechtigungen in der Datenbank vorhanden, um neue Berechtigungen standardmäßig basierend auf diesen zu vergeben.</li>
+							<li>Wie man den <code>user_has_cap</code>-Filter benutzt, wird in Kürze erklärt.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Meta Capabilities</h3>
+					<h3>Meta-Berechtigungen</h3>
 
 					<ul>
-						<li>capabilities specific to a certain item (an object ID, a string identifier, ...)</li>
-						<li>mapped to one or more primitive capabilities via the <code>map_meta_cap</code> filter</li>
+						<li>Berechtigungen, die sich auf eine spezifische Sache beziehen (eine ID eines Posts, ein String-Bezeichner eines Plugins, ...)</li>
+						<li>werden mithilfe des <code>map_meta_cap</code>-Filters in ein oder mehrere primitive Berechtigungen gemappt/aufgelöst</li>
 					</ul>
 
 					<pre><code class="php">current_user_can( 'edit_post', $post_id )</code></pre>
@@ -336,72 +335,72 @@
 
 					<aside class="notes">
 						<ul>
-							<li><code>edit_post</code> is an example where the meta capability is mapped to one or more capabilities.</li>
-							<li><code>activate_plugin</code> is a simpler example.</li>
-							<li>If mapped to multiple primitive capabilities, the user must have all of them.</li>
+							<li><code>edit_post</code> ist ein Beispiel, wo die Meta-Berechtigung auf eine oder mehrere Berechtigungen gemappt wird.</li>
+							<li><code>activate_plugin</code> ist ein einfacheres Beispiel.</li>
+							<li>Falls in mehrere primitive Berechtigungen aufgelöst wird, muss der Benutzer über alle davon verfügen.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Special Capabilities</h3>
+					<h3>Spezielle Berechtigungen</h3>
 
-					<p>The following two capabilities have special handling:</p>
+					<p>Die folgenden Berechtigungen werden gesondert behandelt:</p>
 
 					<ul>
-						<li><code>exist</code>: <strong>Everybody</strong> has this capability, even non logged-in users.</li>
-						<li><code>do_not_allow</code>: <strong>Nobody</strong> has this capability, not even super admins.</li>
+						<li><code>exist</code>: <strong>Jeder</strong> verfügt über diese Berechtigung, sogar ausgeloggte Benutzer.</li>
+						<li><code>do_not_allow</code>: <strong>Niemand</strong> verfügt über diese Berechtigung, nicht einmal Netzwerk-Administratoren.</li>
 					</ul>
 
 					<aside class="notes">
 						<ul>
-							<li>Those only exist to map meta capabilities to them, in rare cases.</li>
-							<li>Be careful: Don't map <code>manage_options</code> to <code>exist</code>.</li>
+							<li>Diese existieren nur für das Mapping von Meta-Berechtigungen, in seltenen Fällen.</li>
+							<li>Vorsicht: Niemals <code>manage_options</code> in <code>exist</code> auflösen.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Naming Conventions</h2>
+					<h3>Namenskonventionen</h2>
 
-					<p><code>{action}_{items}</code> for primitive capabilities</p>
+					<p><code>{action}_{items}</code> für primitive Berechtigungen</p>
 
-					<p><code>{action}_{item}</code> for meta capabilities</p>
+					<p><code>{action}_{item}</code> für Meta-Berechtigungen</p>
 				</section>
 
 				<section>
-					<h2>Internals: Flow for Checking for a Capability</h2>
+					<h2>Intern: Flow der Überprüfung einer Berechtigung</h2>
 
 					<ol>
 						<li class="fragment">
-							Check for a capability<br><small><code class="signature">current_user_can()</code></small>
+							Prüfen auf die Berechtigung<br><small><code class="signature">current_user_can()</code></small>
 						</li>
 						<li class="fragment">
-							Check if it is a meta capability and map it to its required primitive capabilities<br><small><code class="signature">map_meta_cap()</code> &rarr; <code class="signature" style="padding-left:0;"><span class="hook-func">apply_filters</span>( 'map_meta_cap' )</code></small>
+							Prüfen, ob es eine Meta-Berechtigung ist und diese in ihre erforderlichen primitiven Berechtigungen auflösen<br><small><code class="signature">map_meta_cap()</code> &rarr; <code class="signature" style="padding-left:0;"><span class="hook-func">apply_filters</span>( 'map_meta_cap' )</code></small>
 						</li>
 						<li class="fragment">
-							Run logic to alter the user's primitive capabilities from the database<br><small><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap' )</code></small>
+							Logik ausführen, um möglicherweise die primitiven Berechtigungen des Benutzers aus der Datenbank dynamisch zu verändern/erweitern<br><small><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap' )</code></small>
 						</li>
 						<li class="fragment">
-							If the user's primitive capabilities now include all required primitive capabilities, they can proceed.
+							Wenn die primitiven Berechtigungen des Benutzers alle erforderlichen primitiven Berechtigungen umfassen, ist die Überprüfung erfolgreich.
 						</li>
 					</ol>
 				</section>
 
 				<section>
-					<h2>Managing Capabilities<br>in your Plugins</h2>
+					<h2>Verwaltung von Berechtigungen in Plugins</h2>
 				</section>
 
 				<section>
-					<h3>Our Small Plugin: "Capability Tutorials"</h3>
+					<h3>Unser kleines Plugin: "Capability Tutorials"</h3>
 
 					<p><a href="https://github.com/felixarntz/capability-tutorials">github.com/felixarntz/capability-tutorials</a></p>
 
 					<img data-src="assets/plugin.png">
 
 					<ul style="font-size:80%;">
-						<li>adds a tutorial post type</li>
-						<li>adds a settings screen with some options<br>to customize the behavior of the post type</li>
+						<li>fügt einen Tutorial-Post Type hinzu</li>
+						<li>fügt einen Einstellungs-Bildschirm mit einigen Optionen zur Anpassung des Verhaltens des Post Types ein</li>
 					</ul>
 				</section>
 
@@ -410,14 +409,14 @@
 
 					<aside class="notes">
 						<ul>
-							<li>The following code examples will be related to this small settings page for our Tutorials plugin.</li>
-							<li>Three settings fields here: <code>rewrite_slug</code>, <code>supports</code> and <code>has_archive</code>.</li>
+							<li>Die folgenden Codebeispiele beziehen sich auf die kleine Einstellungsseite unseres Tutorial-Plugins.</li>
+							<li>Drei Felder: <code>rewrite_slug</code>, <code>supports</code> and <code>has_archive</code>.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Checking for Capabilities</h3>
+					<h3>Auf Berechtigungen prüfen</h3>
 
 					<p><code class="signature">current_user_can( <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
 
@@ -439,18 +438,18 @@
 }
 add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
 
-					<p><code>add_menu_page()</code> and <code>add_submenu_page()</code> are examples where you <em>have</em> to specify a capability. WordPress will internally use <code>current_user_can()</code> there.</p>
+					<p><code>add_menu_page()</code> und <code>add_submenu_page()</code> sind Beispiele, wo eine Berechtigung angegeben werden <em>muss</em>. WordPress verwendet intern <code>current_user_can()</code> für die entsprechende Überprüfung.</p>
 
 					<aside class="notes">
 						<ul>
-							<li>When you register a post type, you can also specify capabilities WordPress should check for internally. If you don't, it simply uses the existing post capabilities.</li>
-							<li>Going in detail about that would be too much for this talk, but the plugin on GitHub includes a comprehensive example for that with detailed comments.</li>
+							<li>Bei der Registrierung eines Post Types sollten ebenfalls eigene Berechtigungen angegeben werden, auf die WordPress intern prüft. Andernfalls werden die bestehenden Berechtigungen für Beiträge verwendet.</li>
+							<li>Dazu ins Detail zu gehen wäre etwas zu viel für diesen Talk, aber das Plugin auf GitHub beinhaltet ein umfassendes Beispiel dafür, mit ausführlichen Kommentaren.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h4>Without Capability Checks</h4>
+					<h4>Ohne Berechtigungs-Überprüfungen</h4>
 
 					<pre><code class="php">function ct_initialize_settings_page() {
 	add_settings_field( 'rewrite_slug', __( 'Rewrite Slug', 'capability-tutorials' ), 'ct_render_settings_page_rewrite_slug_field', CT_OPTION_GROUP, 'default', array(
@@ -460,7 +459,7 @@ add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
 	add_settings_field( 'has_archive', __( 'Archive', 'capability-tutorials' ), 'ct_render_settings_page_has_archive_field', CT_OPTION_GROUP, 'default' );
 }</code></pre>
 
-					<h4 class="fragment" data-fragment-index="0">With Capability Checks</h4>
+					<h4 class="fragment" data-fragment-index="0">Mit Berechtigungs-Überprüfungen</h4>
 
 					<pre class="fragment" data-fragment-index="0"><code class="php">function ct_initialize_settings_page() {
 	if ( current_user_can( 'manage_ct_option', 'ct_rewrite_slug' ) ) {
@@ -478,23 +477,23 @@ add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
 
 					<aside class="notes">
 						<ul>
-							<li>Be aware that, if you add capability checks here, you also need to add the same capability checks to your sanitization callbacks for these settings.</li>
-							<li>You can see how that can be accomplished in the plugin.</li>
-							<li>Use capabilities as necessary. If it absolutely doesn't make sense for one part to use another capability than another part, keep it simple. On the other hand, try to think beyond what the default behavior of your plugin is.</li>
+							<li>Sei dir bewusst, dass, wenn du hier Berechtigungsprüfungen einfügst, auch die Sanitization-Callbacks für die Optionen entsprechend angepasst werden müssen.</li>
+							<li>Im Plugin-Code kannst du sehen, wie das funktioniert.</li>
+							<li>Verwende Berechtigungen nach Bedarf. Wenn es wirklich absolut sinnlos ist, für zwei Bereiche unterschiedliche Berechtigungen vorauszusetzen, halte es einfach. Versuche andererseits auch weiter zu denken, als was das Standardverhalten deines Plugins betrifft.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h5>What?</h5>
+					<h5>WTF?</h5>
 
 					<img data-src="assets/settings-page-no-access.png" style="max-height:700px;">
 
-					<p class="fragment">&rarr; You still need to grant the capabilities appropriately!</p>
+					<p class="fragment">&rarr; Die Berechtigungen müssen noch passend gewährt werden!</p>
 				</section>
 
 				<section>
-					<h3>Granting Primitive Capabilities</h3>
+					<h3>Primitive Berechtigungen gewähren</h3>
 
 					<p><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap', <span class="arg-type">array</span> <span class="arg-name">$allcaps</span>, <span class="arg-type">array</span> <span class="arg-name">$caps</span>, <span class="arg-type">array</span> <span class="arg-name">$args</span>, <span class="arg-type">WP_User</span> <span class="arg-name">$user</span> )</code></p>
 
@@ -502,10 +501,10 @@ add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
 
 					<aside class="notes">
 						<ul>
-							<li><code>$allcaps</code>: All capabilities the user has</li>
-							<li><code>$caps</code>: Capabilities required for the current check</li>
-							<li>Be aware that the filter fires very often (for every capability check), so if your logic is not trivial, make sure to only run it as necessary.</li>
-							<li>Be aware that the filter may fire <em>really</em> early.</li>
+							<li><code>$allcaps</code>: Alle Berechtigungen, über die der Benutzer verfügt</li>
+							<li><code>$caps</code>: Die für die aktuelle Prüfung erforderlichen Berechtigungen</li>
+							<li>Sei dir bewusst, dass dieser Filter sehr oft getriggert wird, also sollte nicht-triviale Logik nur dann ausgeführt werden falls nötig.</li>
+							<li>Sei dir bewusst, dass der Filter <em>extrem</em> früh getriggert werden kann.</li>
 						</ul>
 					</aside>
 				</section>
@@ -523,15 +522,15 @@ add_filter( 'user_has_cap', 'ct_maybe_grant_capabilities' );</code></pre>
 				</section>
 
 				<section>
-					<h5>What?</h5>
+					<h5>WTF?</h5>
 
 					<img data-src="assets/settings-page-empty.png" style="height:700px;">
 
-					<p class="fragment">&rarr; You still need to map the meta capabilities to primitive capabilities!</p>
+					<p class="fragment">&rarr; Die Meta-Berechtigungen müssen in primitive Berechtigungen aufgelöst werden!</p>
 				</section>
 
 				<section>
-					<h3>Mapping Meta Capabilities</h3>
+					<h3>Meta-Berechtigungen auflösen</h3>
 
 					<p><code class="signature"><span class="hook-func">apply_filters</span>( 'map_meta_cap', <span class="arg-type">array</span> <span class="arg-name">$caps</span>, <span class="arg-type">string</span> <span class="arg-name">$cap</span>, <span class="arg-type">int</span> <span class="arg-name">$user_id</span>, <span class="arg-type">array</span> <span class="arg-name">$args</span> )</code></p>
 
@@ -539,10 +538,10 @@ add_filter( 'user_has_cap', 'ct_maybe_grant_capabilities' );</code></pre>
 
 					<aside class="notes">
 						<ul>
-							<li>If <code>$cap</code> isn't handled in the <code>map_meta_cap()</code> function, <code>$caps</code> only contains <code>$cap</code>.</li>
-							<li>If you're using the <code>$user_id</code> parameter, you're probably doing it wrong.</li>
-							<li>Reminder: The result of this filter will be checked against the user's actual capabilities, and all of them must be present to return true.</li>
-							<li>Reminder: If you have the rare occasion where you wanna just prevent something entirely or grant something without condition, you can use <code>do_not_allow</code> and <code>exist</code> respectively.</li>
+							<li>Wenn <code>$cap</code> nicht in der <code>map_meta_cap()</code>-Funktion behandelt wird, enthält <code>$caps</code> lediglich den Wert von <code>$cap</code>.</li>
+							<li>Wenn du den <code>$user_id</code>-Parameter verwendest, machst du es wahrscheinlich falsch.</li>
+							<li>Erinnerung: Das Resultat dieses Filters wird gegen die eigentlichen Berechtigungen des Benutzers geprüft, und alle müssen vorhanden sein.</li>
+							<li>Erinnerung: Wenn du den seltenen Fall hast, dass du etwas einfach nur komplett verhindern oder andererseits für alle erlauben willst, verwende <code>do_not_allow</code> bzw. <code>exist</code>.</li>
 						</ul>
 					</aside>
 				</section>
@@ -566,9 +565,9 @@ add_filter( 'map_meta_cap', 'ct_map_meta_capabilities', 10, 4 );</code></pre>
 				</section>
 
 				<section>
-					<h2>So what's the benefit of all that?</h3>
+					<h2>Und was soll das alles jetzt?</h3>
 
-					<p>While the default behavior may not be much different compared to if you had not used custom capability checks, you allow other developers to improve:</p>
+					<p>Während das Standardverhalten sich durch die granulare Nutzung von Berechtigungen nicht verändert, erlaubt dies anderen Entwicklern folgende projektspezifische Verbesserungen:</p>
 
 					<ul>
 						<li><strong>Security</strong></li>
@@ -578,15 +577,15 @@ add_filter( 'map_meta_cap', 'ct_map_meta_capabilities', 10, 4 );</code></pre>
 
 					<aside class="notes">
 						<ul>
-							<li>Next, there are some examples of how other developers can tweak your plugin's capabilities to their needs.</li>
+							<li>Als nächstes ein paar Beispiele, wie andere Entwickler die Berechtigungen deines Plugins für ihre Zwecke manipulieren können.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Example 1</h3>
+					<h3>Beispiel 1</h3>
 
-					<p>Instead of using the <code>user_has_cap</code> filter to grant capabilities, add a custom "Tutorial Manager" role and only grant the capabilities to users of that role.</p>
+					<p>Anstatt den <code>user_has_cap</code>-Filter zur Gewährung der Berechtigungen zu verwenden, könnte eine eigene "Tutorial Manager"-Rolle eingeführt werden und diese dann die Berechtigungen allen Benutzern mit dieser Rolle gewähren.</p>
 
 					<pre><code class="php" style="max-height:500px;">function mysetup_add_tutorial_manager_role() {
 	add_role( 'tutorial_manager', __( 'Tutorial Manager', 'my-setup' ), array(
@@ -611,9 +610,9 @@ remove_filter( 'user_has_cap', 'ct_maybe_grant_capabilities' );</code></pre>
 				</section>
 
 				<section>
-					<h3>Example 2</h3>
+					<h3>Beispiel 2</h3>
 
-					<p>When in a multisite, allow changing the rewrite slug only to the network administrator (or someone else who has the <code>manage_network_options</code> capability).</p>
+					<p>In einer Multisite könnte man beispielsweise wollen, dass die Rewrite Slug-Option nur vom Netzwerk-Administrator (oder jemand anderem, der über die <code>manage_network_options</code>-Berechtigung verfügt) verändert werden kann.</p>
 
 					<pre><code class="php">function mysetup_tweak_rewrite_slug_capability( $caps, $cap, $user_id, $args ) {
 	if ( 'manage_ct_option' === $cap ) {
@@ -629,7 +628,7 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 
 					<aside class="notes">
 						<ul>
-							<li>A little dive into multisite in just a bit!</li>
+							<li>Ein kleiner Ausblick auf Multisite folgt in Kürze!</li>
 						</ul>
 					</aside>
 				</section>
@@ -639,22 +638,22 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 				</section>
 
 				<section>
-					<h2>Multisite Support</h3>
+					<h2>Unterstützung von Multisite</h3>
 
-					<p>The <strong>network administrator</strong> (sometimes also called super admin) appears to be an additional role. It is actually just a simple flag, allowing a user to have <em>all</em> capabilities except <code>do_not_allow</code>.</p>
+					<p>Der <strong>Netzwerk-Administrator</strong> (manchmal auch "Super Admin" genannt) scheint erstmal eine zusätzliche Rolle zu sein. Eigentlich ist es jedoch nur eine einfache Flag, die einem Benutzer erlaubt, auf <em>alle</em> Berechtigungen außer <code>do_not_allow</code> zugreifen zu können.</p>
 
-					<p>That being said, still check against <strong>capabilities</strong>, using custom network-related capabilities as needed. Do not use <code>is_super_admin()</code>!</p>
+					<p>Nichtsdestotrotz sollte immer auf <strong>Berechtigungen</strong> geprüft werden, mithilfe eigener multisite-spezifischer Berechtigungen. Niemals <code>is_super_admin()</code> verwenden!</p>
 
 					<aside class="notes">
 						<ul>
-							<li>You'll still find several occurrences of <code>is_super_admin()</code> in core - this is being worked on.</li>
-							<li>At some point, this will allow switching away from the naive flag system and use actual roles for the network as well.</li>
+							<li>In Core wirst du noch einige Vorkommen von <code>is_super_admin()</code> finden - daran wird gearbeitet.</li>
+							<li>Irgendwann wird es dadurch möglich sein, vom naiven System basierend auf der Flag wegzukommen und stattdessen tatsächliche Rollen auch auf der Netzwerk-Ebene zu verwenden.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Primitive Multisite Capabilities in Core</h3>
+					<h3>Primitive Multisite-Berechtigungen im Core</h3>
 
 					<ul>
 						<li><code>manage_sites</code></li>
@@ -670,17 +669,17 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 
 					<aside class="notes">
 						<ul>
-							<li>None of these capabilities are in the database at this point. Remember, that is because the network administrator has all of them anyway.</li>
+							<li>Keine dieser Berechtigungen befindet sich aktuell in der Datenbank. Das ist aber egal, denn der Netzwerk-Administrator hat sie ohnehin alle.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
-					<h3>Differences between Multisite and Single-Site</h3>
+					<h3>Unterschiede zwischen Multisite und Single-Site</h3>
 
-					<p>Often times, on multisite you may wanna grant a capability to network administrators only, while otherwise regular administrators should have it too.</p>
+					<p>Oftmals möchte man in Multisite eine Berechtigung ausschließlich Netzwerk-Administratoren gewähren, während ansonsten auch reguläre Administratoren darauf Zugriff haben sollten.</li>
 
-					<h4 class="fragment" data-fragment-index="1">Not so great</h4>
+					<h4 class="fragment" data-fragment-index="1">Nicht so toll</h4>
 
 					<pre class="fragment" data-fragment-index="1"><code class="php">function map_install_plugin_cap( $caps, $cap, $user_id, $args ) {
 	if ( 'install_plugin' === $cap ) {
@@ -692,7 +691,7 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 	return $caps;
 }</code></pre>
 
-					<h4 class="fragment" data-fragment-index="2">Much better</h4>
+					<h4 class="fragment" data-fragment-index="2">Deutlich besser</h4>
 
 					<pre class="fragment" data-fragment-index="2"><code class="php">function map_install_plugin_cap( $caps, $cap, $user_id, $args ) {
 	if ( 'install_plugin' === $cap ) {
@@ -706,15 +705,15 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 
 					<aside class="notes">
 						<ul>
-							<li>Always remember: This example uses the <code>map_meta_cap</code> filter because <code>install_plugin</code> is a meta capability.</li>
-							<li>If you were gonna do something similar with the related primitive capability <code>install_plugins</code>, the clean approach would be to use the <code>user_has_cap</code> filter.</li>
+							<li>Merken: Dieses Beispiel verwendet den <code>map_meta_cap</code>-Filter, weil <code>install_plugin</code> eine Meta-Berechtigung ist.</li>
+							<li>Falls man dasselbe auch für die primitive Berechtigung <code>install_plugins</code> machen wollte, wäre die saubere Lösung die Verwendung des <code>user_has_cap</code>-Filters.</li>
 						</ul>
 					</aside>
 				</section>
 
 				<section>
 					<h2>
-						Thank you!
+						Vielen Dank!
 					</h2>
 
 					<h3 class="text-right">
@@ -742,18 +741,18 @@ add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</c
 				</section>
 
 				<section>
-					<h2>Further Resources</h2>
+					<h2>Interessiert an noch mehr?</h2>
 
 					<ul style="font-size:90%;">
-						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials/blob/master/inc/post-type.php">github.com/felixarntz/capability-tutorials</a>.</li>
-						<li style="margin-bottom:20px;">Unfortunately, WordPress core itself does not a great job of handling capabilities granularly enough in several areas. There are several tickets to improve that though which you can find at <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a>.</li>
-						<li style="margin-bottom:20px;">Currently, in scope of Gutenberg, a means to detect capabilities for certain actions in JavaScript are being worked on, exposed through the REST API. See <a href="https://github.com/WordPress/gutenberg/pull/6529">github.com/WordPress/gutenberg/pull/6529</a>.</li>
+						<li style="margin-bottom:20px;">Es ist ohne weiteres möglich, granulare eigene Berechtigungen für eigene Post Types zu verwenden. Unser Beispiel-Plugin <a href="https://github.com/felixarntz/capability-tutorials/blob/master/inc/post-type.php">github.com/felixarntz/capability-tutorials</a> zeigt, wie das geht.</li>
+						<li style="margin-bottom:20px;">Leider ist WordPress Core in einigen Bereichen selbst nicht besonders gut darin, Berechtigungen genau genug zu behandeln. Es gibt dazu einige Tickets, die das verbessern wollen, welche unter <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a> zu finden sind.</li>
+						<li style="margin-bottom:20px;">Aktuell wird im Rahmen von Gutenberg daran gearbeitet, das Prüfen von Berechtigung für bestimmte Aktionen auch in JavaScript verfügbar zu machen, bereitgestellt durch die REST API. Mehr dazu unter <a href="https://github.com/WordPress/gutenberg/pull/6529">github.com/WordPress/gutenberg/pull/6529</a>.</li>
 					</ul>
 				</section>
 			</div>
 
 			<aside class="footer" style="background-color:transparent;border-top:0;">
-				<a href="/capability-driven-development-wceu-2018/" class="left">Capability-Driven Development</a>
+				<a href="/berechtigungsgetriebene-entwicklung/" class="left">Berechtigungsgetriebene Entwicklung</a>
 				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
 			</aside>
 
