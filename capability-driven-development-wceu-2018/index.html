@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Capability-Driven Development</title>
+		<meta name="robots" content="noindex,nofollow">
+
+		<meta name="description" content="This session explains how to use the WordPress Capabilities API by looking at examples and diving in deeper from there, both from the view of a plugin developer as well as of an external developer who needs to tweak a third-party plugin.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../highlightjs-theme.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			#speaker-controls {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>Capability-Driven Development</h1>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>Some of this may seem rather complex, particularly because I need to go through it fairly quickly.</li>
+							<li>Therefore, please ask questions also during the presentation in case something isn't clear.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Definitions</h2>
+
+					<p><strong>Capabilities</strong> in WordPress describe certain tasks<br>a user may or may not be allowed to perform.</p>
+
+					<p><strong>Roles</strong> in WordPress are responsible for determining<br>which capabilities a user has or does not have.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>In other words, roles define what a user can or cannot do, by the means of granting capabilities.</li>
+							<li>WordPress roles are Administrator, Editor, Author, Contributor and Subscriber, as widely known.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>WordPress Capabilities</h2>
+
+					<ul>
+						<li><code>read</code></li>
+						<li><code>edit_posts</code></li>
+						<li><code>upload_files</code></li>
+						<li><code>manage_categories</code></li>
+						<li><code>manage_options</code></li>
+						<li>...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Custom Capabilities</h2>
+
+					<ul>
+						<li><code>read_ct_tutorials</code></li>
+						<li><code>edit_ct_tutorials</code></li>
+						<li><code>manage_ct_options</code></li>
+						<li>...</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Make sure to prefix everything in plugin space, to prevent conflicts.</li>
+							<li>Let's imagine we write a plugin called "Capability Tutorials", therefore our prefix is <code>ct_</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Why worry about capabilities?</h2>
+
+					<ul>
+						<li><strong>Security:</strong> Don't give access to someone who shouldn't have access.</li>
+						<li><strong>Usability:</strong> Only show the areas which the user actually needs.</li>
+						<li><strong>Customizability:</strong> Allow other developers to tweak access to your functionality.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Ever wanted your client to be able to edit widgets and menus, but not switch the theme or change settings?</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Internals: The <code>options</code> Table</h2>
+
+					<p>The available <strong>roles</strong> for a site are stored in the <code>options</code> database table<br>as a serialized array.</p>
+					<p>The <strong>capabilities</strong> that a specific role grants are also part of that array.</p>
+
+					<pre class="fragment"><code class="php">array(
+	'administrator' => array(
+		'name'         => 'Administrator',
+		'capabilities' => array(
+			'switch_themes'          => true,
+			'edit_themes'            => true,
+			'activate_plugins'       => true,
+			'edit_plugins'           => true,
+			'edit_users'             => true,
+			'edit_files'             => true,
+			'manage_options'         => true,
+			'moderate_comments'      => true,
+			'manage_categories'      => true,
+			'manage_links'           => true,
+			'upload_files'           => true,
+			'import'                 => true,
+			'unfiltered_html'        => true,
+			'edit_posts'             => true,
+			'edit_others_posts'      => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'edit_pages'             => true,
+			'read'                   => true,
+			'edit_others_pages'      => true,
+			'edit_published_pages'   => true,
+			'publish_pages'          => true,
+			'delete_pages'           => true,
+			'delete_others_pages'    => true,
+			'delete_published_pages' => true,
+			'delete_posts'           => true,
+			'delete_others_posts'    => true,
+			'delete_published_posts' => true,
+			'delete_private_posts'   => true,
+			'edit_private_posts'     => true,
+			'read_private_posts'     => true,
+			'delete_private_pages'   => true,
+			'edit_private_pages'     => true,
+			'read_private_pages'     => true,
+			'delete_users'           => true,
+			'create_users'           => true,
+			'unfiltered_upload'      => true,
+			'edit_dashboard'         => true,
+			'update_plugins'         => true,
+			'delete_plugins'         => true,
+			'install_plugins'        => true,
+			'update_themes'          => true,
+			'install_themes'         => true,
+			'update_core'            => true,
+			'list_users'             => true,
+			'remove_users'           => true,
+			'promote_users'          => true,
+			'edit_theme_options'     => true,
+			'delete_themes'          => true,
+			'export'                 => true,
+		),
+	),
+	'editor'        => array(
+		'name'         => 'Editor',
+		'capabilities' => array(
+			'moderate_comments'      => true,
+			'manage_categories'      => true,
+			'manage_links'           => true,
+			'upload_files'           => true,
+			'unfiltered_html'        => true,
+			'edit_posts'             => true,
+			'edit_others_posts'      => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'edit_pages'             => true,
+			'read'                   => true,
+			'edit_others_pages'      => true,
+			'edit_published_pages'   => true,
+			'publish_pages'          => true,
+			'delete_pages'           => true,
+			'delete_others_pages'    => true,
+			'delete_published_pages' => true,
+			'delete_posts'           => true,
+			'delete_others_posts'    => true,
+			'delete_published_posts' => true,
+			'delete_private_posts'   => true,
+			'edit_private_posts'     => true,
+			'read_private_posts'     => true,
+			'delete_private_pages'   => true,
+			'edit_private_pages'     => true,
+			'read_private_pages'     => true,
+		),
+	),
+	'author'        => array(
+		'name'         => 'Author',
+		'capabilities' => array(
+			'upload_files'           => true,
+			'edit_posts'             => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'read'                   => true,
+			'delete_posts'           => true,
+			'delete_published_posts' => true,
+		),
+	),
+	'contributor'   => array(
+		'name'         => 'Contributor',
+		'capabilities' => array(
+			'edit_posts'   => true,
+			'read'         => true,
+			'delete_posts' => true,
+		),
+	),
+	'subscriber'    => array(
+		'name'         => 'Subscriber',
+		'capabilities' => array(
+			'read'    => true,
+		),
+	),
+);</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Excluded here are the user levels. WordPress used to have levels instead of capabilities, but that is legacy stuff, not actual capabilities.</li>
+							<li>When looking through this array, you recognize that WordPress user roles are not actually hierarchical. They are just setup that way by default.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Internals: The <code>usermeta</code> Table</h2>
+
+					<p>The <strong>roles</strong> that a user has are stored in the <code>usermeta</code> database table<br>under that user's ID, also as a serialized array.</p>
+					<p>Additional <strong>capabilities</strong> can <em>theoretically</em> also be part of that array,<br>independent of roles.</p>
+
+					<pre class="fragment"><code class="php">array(
+	'editor' => true,
+);</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>A user can technically easily have multiple roles, but WordPress's UI only exposes functionality to have one role per user.</li>
+							<li>Theoretically you don't even need roles, you could just add capabilities for each user. That would easily become messy though.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Guidelines for Plugin Developers</h2>
+
+					<ol class="h4">
+						<li>Check for capabilities, don't worry about roles.</li>
+						<li class="fragment">Never add capabilities to the database, unless you introduce an entire new role.</li>
+						<li class="fragment">Use custom capabilities for your code instead of existing core capabilities.</li>
+					</ol>
+
+					<aside class="notes">
+						<ul>
+							<li>So how do we check for capabilities? That's next.</li>
+							<li>In most cases, basically don't interact with these database tables, like ever.</li>
+							<li>So how do we add new capabilities? That comes later.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Checking for Capabilities</h2>
+
+					<p><code class="signature">current_user_can( <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
+
+					<p class="fragment" data-fragment-index="0">or</p>
+
+					<p class="fragment" data-fragment-index="0"><code class="signature">user_can( <span class="arg-type">int|WP_User</span> <span class="arg-name">$user</span>, <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
+
+					<aside class="notes">
+						<ul>
+							<li><code>$capability</code> can basically be any string identifying a capability.</li>
+							<li>Capabilities are either handled by WordPress, or they can be custom, meaning you must handle them.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Types of Capabilities</h2>
+
+					<ul>
+						<li>Primitive Capabilities</li>
+						<li>Meta Capabilities</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Primitive Capabilities</h3>
+
+					<ul>
+						<li>general capabilities</li>
+						<li>either granted via a role from the database or via the <code>user_has_cap</code> filter</li>
+					</ul>
+
+					<pre><code class="php">current_user_can( 'edit_posts' )</code></pre>
+					<pre><code class="php">current_user_can( 'activate_plugins' )</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Again, never change capabilities in the database. Even WordPress core doesn't do that at all. There are enough capabilities in the database to go from there, granting additional capabilities based on those.</li>
+							<li>How to use the <code>user_has_cap</code> filter will be explained in just a bit.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Meta Capabilities</h3>
+
+					<ul>
+						<li>capabilities specific to a certain item (an object ID, a string identifier, ...)</li>
+						<li>mapped to one or more primitive capabilities via the <code>map_meta_cap</code> filter</li>
+					</ul>
+
+					<pre><code class="php">current_user_can( 'edit_post', $post_id )</code></pre>
+					<pre><code class="php">current_user_can( 'activate_plugin', $plugin_basename )</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li><code>edit_post</code> is an example where the meta capability is mapped to one or more capabilities.</li>
+							<li><code>activate_plugin</code> is a simpler example.</li>
+							<li>If mapped to multiple primitive capabilities, the user must have all of them.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Special Capabilities</h3>
+
+					<p>The following two capabilities have special handling:</p>
+
+					<ul>
+						<li><code>exist</code>: <strong>Everybody</strong> has this capability, even non logged-in users.</li>
+						<li><code>do_not_allow</code>: <strong>Nobody</strong> has this capability, not even super admins.</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Those only exist to map meta capabilities to them, in rare cases.</li>
+							<li>Be careful: Don't map <code>manage_options</code> to <code>exist</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Naming Conventions</h2>
+
+					<p><code>{action}_{items}</code> for primitive capabilities</p>
+
+					<p><code>{action}_{item}</code> for meta capabilities</p>
+				</section>
+
+				<section>
+					<h2>Internals: Flow for Checking for a Capability</h2>
+
+					<ol>
+						<li class="fragment">
+							Check for a capability<br><small><code class="signature">current_user_can()</code></small>
+						</li>
+						<li class="fragment">
+							Check if it is a meta capability and map it to its required primitive capabilities<br><small><code class="signature">map_meta_cap()</code> &rarr; <code class="signature" style="padding-left:0;"><span class="hook-func">apply_filters</span>( 'map_meta_cap' )</code></small>
+						</li>
+						<li class="fragment">
+							Run logic to alter the user's primitive capabilities from the database<br><small><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap' )</code></small>
+						</li>
+						<li class="fragment">
+							If the user's primitive capabilities now include all required primitive capabilities, they can proceed.
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Managing Capabilities<br>in your Plugins</h2>
+				</section>
+
+				<section>
+					<h3>Our Small Plugin: "Capability Tutorials"</h3>
+
+					<p><a href="https://github.com/felixarntz/capability-tutorials">github.com/felixarntz/capability-tutorials</a></p>
+
+					<img data-src="assets/plugin.png">
+
+					<ul style="font-size:80%;">
+						<li>adds a tutorial post type</li>
+						<li>adds a settings screen with some options<br>to customize the behavior of the post type</li>
+					</ul>
+				</section>
+
+				<section>
+					<img data-src="assets/settings-page.png" style="height:700px;">
+
+					<aside class="notes">
+						<ul>
+							<li>The following code examples will be related to this small settings page for our Tutorials plugin.</li>
+							<li>Three settings fields here: <code>rewrite_slug</code>, <code>supports</code> and <code>has_archive</code>.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Checking for Capabilities</h3>
+
+					<p><code class="signature">current_user_can( <span class="arg-type">string</span> <span class="arg-name">$capability</span> )</code></p>
+
+					<p><small><a href="https://developer.wordpress.org/reference/functions/current_user_can/">developer.wordpress.org/reference/functions/current_user_can/</a></small></p>
+				</section>
+
+				<section>
+					<pre><code class="php">function ct_add_settings_page() {
+	$hook_suffix = add_submenu_page(
+		'edit.php?post_type=' . CT_POST_TYPE_SINGULAR,
+		__( 'Tutorial Settings', 'capability-tutorials' ),
+		__( 'Settings', 'capability-tutorials' ),
+		'manage_ct_options',
+		'ct_settings_page',
+		'ct_render_settings_page'
+	);
+
+	add_action( "load-{$hook_suffix}", 'ct_initialize_settings_page' );
+}
+add_action( 'admin_menu', 'ct_add_settings_page' );</code></pre>
+
+					<p><code>add_menu_page()</code> and <code>add_submenu_page()</code> are examples where you <em>have</em> to specify a capability. WordPress will internally use <code>current_user_can()</code> there.</p>
+
+					<aside class="notes">
+						<ul>
+							<li>When you register a post type, you can also specify capabilities WordPress should check for internally. If you don't, it simply uses the existing post capabilities.</li>
+							<li>Going in detail about that would be too much for this talk, but the plugin on GitHub includes a comprehensive example for that with detailed comments.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Without Capability Checks</h4>
+
+					<pre><code class="php">function ct_initialize_settings_page() {
+	add_settings_field( 'rewrite_slug', __( 'Rewrite Slug', 'capability-tutorials' ), 'ct_render_settings_page_rewrite_slug_field', CT_OPTION_GROUP, 'default', array(
+		'label_for' => 'ct-rewrite-slug',
+	) );
+	add_settings_field( 'supports', __( 'Supported Features', 'capability-tutorials' ), 'ct_render_settings_page_supports_field', CT_OPTION_GROUP, 'default' );
+	add_settings_field( 'has_archive', __( 'Archive', 'capability-tutorials' ), 'ct_render_settings_page_has_archive_field', CT_OPTION_GROUP, 'default' );
+}</code></pre>
+
+					<h4 class="fragment" data-fragment-index="0">With Capability Checks</h4>
+
+					<pre class="fragment" data-fragment-index="0"><code class="php">function ct_initialize_settings_page() {
+	if ( current_user_can( 'manage_ct_option', 'ct_rewrite_slug' ) ) {
+		add_settings_field( 'rewrite_slug', __( 'Rewrite Slug', 'capability-tutorials' ), 'ct_render_settings_page_rewrite_slug_field', CT_OPTION_GROUP, 'default', array(
+			'label_for' => 'ct-rewrite-slug',
+		) );
+	}
+	if ( current_user_can( 'manage_ct_option', 'ct_supports' ) ) {
+		add_settings_field( 'supports', __( 'Supported Features', 'capability-tutorials' ), 'ct_render_settings_page_supports_field', CT_OPTION_GROUP, 'default' );
+	}
+	if ( current_user_can( 'manage_ct_option', 'ct_has_archive' ) ) {
+		add_settings_field( 'has_archive', __( 'Archive', 'capability-tutorials' ), 'ct_render_settings_page_has_archive_field', CT_OPTION_GROUP, 'default' );
+	}
+}</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Be aware that, if you add capability checks here, you also need to add the same capability checks to your sanitization callbacks for these settings.</li>
+							<li>You can see how that can be accomplished in the plugin.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h5>What?</h5>
+
+					<img data-src="assets/settings-page-no-access.png" style="max-height:700px;">
+
+					<p class="fragment">&rarr; You still need to grant the capabilities appropriately!</p>
+				</section>
+
+				<section>
+					<h3>Granting Primitive Capabilities</h3>
+
+					<p><code class="signature"><span class="hook-func">apply_filters</span>( 'user_has_cap', <span class="arg-type">array</span> <span class="arg-name">$allcaps</span>, <span class="arg-type">array</span> <span class="arg-name">$caps</span>, <span class="arg-type">array</span> <span class="arg-name">$args</span>, <span class="arg-type">WP_User</span> <span class="arg-name">$user</span> )</code></p>
+
+					<p><small><a href="https://developer.wordpress.org/reference/hooks/user_has_cap/">developer.wordpress.org/reference/hooks/user_has_cap/</a></small></p>
+
+					<aside class="notes">
+						<ul>
+							<li><code>$allcaps</code>: All capabilities the user has</li>
+							<li><code>$caps</code>: Capabilities required for the current check</li>
+							<li>Be aware that the filter fires very often (for every capability check), so if your logic is not trivial, make sure to only run it as necessary.</li>
+							<li>Be aware that the filter may fire <em>really</em> early.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<pre><code class="php">function ct_maybe_grant_capabilities( $allcaps ) {
+	// Allow managing plugin options depending on the user having the 'manage_options' capability.
+	if ( isset( $allcaps['manage_options'] ) ) {
+		$allcaps['manage_ct_options'] = $allcaps['manage_options'];
+	}
+
+	return $allcaps;
+}
+add_filter( 'user_has_cap', 'ct_maybe_grant_capabilities' );</code></pre>
+				</section>
+
+				<section>
+					<h5>What?</h5>
+
+					<img data-src="assets/settings-page-empty.png" style="height:700px;">
+
+					<p class="fragment">&rarr; You still need to map the meta capabilities to primitive capabilities!</p>
+				</section>
+
+				<section>
+					<h3>Mapping Meta Capabilities</h3>
+
+					<p><code class="signature"><span class="hook-func">apply_filters</span>( 'map_meta_cap', <span class="arg-type">array</span> <span class="arg-name">$caps</span>, <span class="arg-type">string</span> <span class="arg-name">$cap</span>, <span class="arg-type">int</span> <span class="arg-name">$user_id</span>, <span class="arg-type">array</span> <span class="arg-name">$args</span> )</code></p>
+
+					<p><small><a href="https://developer.wordpress.org/reference/hooks/map_meta_cap/">developer.wordpress.org/reference/hooks/map_meta_cap/</a></small></p>
+
+					<aside class="notes">
+						<ul>
+							<li>If <code>$cap</code> isn't handled in the <code>map_meta_cap()</code> function, <code>$caps</code> only contains <code>$cap</code>.</li>
+							<li>If you're using the <code>$user_id</code> parameter, you're probably doing it wrong.</li>
+							<li>Reminder: The result of this filter will be checked against the user's actual capabilities, and all of them must be present to return true.</li>
+							<li>Reminder: If you have the rare occasion where you wanna just prevent something entirely or grant something without condition, you can use <code>do_not_allow</code> and <code>exist</code> respectively.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<pre><code class="php">function ct_map_meta_capabilities( $caps, $cap, $user_id, $args ) {
+	switch ( $cap ) {
+		// Maps the meta capability for a single option to the primitive capability for options.
+		case 'manage_ct_option':
+			$caps = array( 'manage_ct_options' );
+			break;
+	}
+
+	return $caps;
+}
+add_filter( 'map_meta_cap', 'ct_map_meta_capabilities', 10, 4 );</code></pre>
+				</section>
+
+				<section>
+					<img data-src="assets/settings-page.png" style="height:700px;">
+				</section>
+
+				<section>
+					<h2>So what's the benefit of all that?</h3>
+
+					<p>While the default behavior may not be much different compared to if you had not used custom capability checks, you allow other developers to improve:</p>
+
+					<ul>
+						<li><strong>Security</strong></li>
+						<li><strong>Usability</strong></li>
+						<li><strong>Customizability</strong></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>Next, there are some examples of how other developers can tweak your plugin's capabilities to their needs.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Example 1</h3>
+
+					<p>Instead of using the <code>user_has_cap</code> filter to grant capabilities, add a custom "Tutorial Manager" role and only grant the capabilities to users of that role.</p>
+
+					<pre><code class="php" style="max-height:500px;">function mysetup_add_tutorial_manager_role() {
+	add_role( 'tutorial_manager', __( 'Tutorial Manager', 'my-setup' ), array(
+		'edit_ct_tutorials'             => true,
+		'edit_others_ct_tutorials'      => true,
+		'publish_ct_tutorials'          => true,
+		'read_private_ct_tutorials'     => true,
+		'create_ct_tutorials'           => true,
+		'edit_private_ct_tutorials'     => true,
+		'edit_published_ct_tutorials'   => true,
+		'delete_ct_tutorials'           => true,
+		'delete_others_ct_tutorials'    => true,
+		'delete_private_ct_tutorials'   => true,
+		'delete_published_ct_tutorials' => true,
+		'read_ct_tutorials'             => true,
+		'manage_ct_options'             => true,
+	) );
+}
+register_activation_hook( __FILE__, 'mysetup_add_tutorial_manager_role' );
+
+remove_filter( 'user_has_cap', 'ct_maybe_grant_capabilities' );</code></pre>
+				</section>
+
+				<section>
+					<h3>Example 2</h3>
+
+					<p>When in a multisite, allow changing the rewrite slug only to the network administrator (or someone else who has the <code>manage_network_options</code> capability).</p>
+
+					<pre><code class="php">function mysetup_tweak_rewrite_slug_capability( $caps, $cap, $user_id, $args ) {
+	if ( 'manage_ct_option' === $cap ) {
+		$caps = array( 'manage_ct_options' );
+		if ( ! empty( $args ) && 'ct_rewrite_slug' === $args[0] && is_multisite() ) {
+			$caps[] = 'manage_network_options';
+		}
+	}
+
+	return $caps;
+}
+add_filter( 'map_meta_cap', 'mysetup_tweak_rewrite_slug_capability', 11, 4 );</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>A little dive into multisite in just a bit!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/settings-page-without-rewrite-slug.png" style="height:700px;">
+				</section>
+
+				<section>
+					<h2>Multisite Support</h3>
+
+					<p>The <strong>network administrator</strong> (sometimes also called super admin) appears to be an additional role. It is actually just a simple flag, allowing a user to have <em>all</em> capabilities except <code>do_not_allow</code>.</p>
+
+					<p>That being said, still check against <strong>capabilities</strong>, using custom network-related capabilities as needed. Do not use <code>is_super_admin()</code>!</p>
+
+					<aside class="notes">
+						<ul>
+							<li>You'll still find several occurrences of <code>is_super_admin()</code> in core - this is being worked on.</li>
+							<li>At some point, this will allow switching away from the naive flag system and use actual roles for the network as well.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Primitive Multisite Capabilities in Core</h3>
+
+					<ul>
+						<li><code>manage_sites</code></li>
+						<li><code>create_sites</code></li>
+						<li><code>delete_sites</code></li>
+						<li><code>manage_network</code></li>
+						<li><code>manage_network_themes</code></li>
+						<li><code>manage_network_plugins</code></li>
+						<li><code>manage_network_users</code></li>
+						<li><code>manage_network_options</code></li>
+						<li><code>upgrade_network</code></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>None of these capabilities are in the database at this point. Remember, that is because the network administrator has all of them anyway.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Differences between Multisite and Single-Site</h3>
+
+					<p>Often times, on multisite you may wanna grant a capability to network administrators only, while otherwise regular administrators should have it too.</p>
+
+					<h4 class="fragment" data-fragment-index="1">Not so great</h4>
+
+					<pre class="fragment" data-fragment-index="1"><code class="php">function map_install_plugin_cap( $caps, $cap, $user_id, $args ) {
+	if ( 'install_plugin' === $cap ) {
+		$caps = array( 'install_plugins' );
+		if ( is_multisite() && ! is_super_admin( $user_id ) ) {
+			$caps[] = 'do_not_allow';
+		}
+	}
+	return $caps;
+}</code></pre>
+
+					<h4 class="fragment" data-fragment-index="2">Much better</h4>
+
+					<pre class="fragment" data-fragment-index="2"><code class="php">function map_install_plugin_cap( $caps, $cap, $user_id, $args ) {
+	if ( 'install_plugin' === $cap ) {
+		$caps = array( 'install_plugins' );
+		if ( is_multisite() ) {
+			$caps[] = 'manage_network_plugins';
+		}
+	}
+	return $caps;
+}</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Always remember: This example uses the <code>map_meta_cap</code> filter because <code>install_plugin</code> is a meta capability.</li>
+							<li>If you were gonna do something similar with the related primitive capability <code>install_plugins</code>, the clean approach would be to use the <code>user_has_cap</code> filter.</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Plugin Developer / Core Committer / Freelancer
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://leaves-and-love.net">leaves-and-love.net</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Further Resources</h2>
+
+					<ul style="font-size:90%;">
+						<li style="margin-bottom:20px;">It's easily possible to use granular capabilities for your custom post type during post type registration. Learn more on that by looking at our example plugin <a href="https://github.com/felixarntz/capability-tutorials/blob/master/inc/post-type.php">github.com/felixarntz/capability-tutorials</a>.</li>
+						<li style="margin-bottom:20px;">Unfortunately, WordPress core itself does not a great job of handling capabilities granularly enough in several areas. There are several tickets to improve that though which you can find at <a href="https://core.trac.wordpress.org/query?keywords=~granular-capabilities">core.trac.wordpress.org/query?keywords=~granular-capabilities</a>.</li>
+						<li style="margin-bottom:20px;">Currently, in scope of Gutenberg, a means to detect capabilities for certain actions in JavaScript are being worked on, exposed through the REST API. See <a href="https://github.com/WordPress/gutenberg/pull/6529">github.com/WordPress/gutenberg/pull/6529</a>.</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/capability-driven-development/" class="left">Capability-Driven Development</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
