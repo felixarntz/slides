@@ -142,7 +142,7 @@ body.has-footer .reveal .slides {
 .reveal section > table,
 .reveal section > ul,
 .reveal section > ol {
-	margin-bottom: 20px;
+	margin: 0 120px 20px;
 }
 
 /* Ensure certain elements are never larger than the slide itself */
