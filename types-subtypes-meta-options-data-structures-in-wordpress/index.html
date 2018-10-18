@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Types, Subtypes, Meta, Options - An Abstract View on Data Structures in WordPress</title>
+
+		<meta name="description" content="In this section we'll investigate the different data structures in WordPress, and how it works in an abstract scope.">
+		<meta name="author" content="Felix Arntz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="../wordpress-theme.css" id="theme">
+		<link rel="stylesheet" href="../highlightjs-theme.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? '../components/reveal.js/css/print/pdf.css' : '../components/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style type="text/css">
+			.borderless-table td {
+				border-bottom: 0 !important;
+			}
+
+			.db-table-schema {
+				margin-bottom: 1em !important;
+				max-width: 95% !important;
+				border: 1px solid black !important;
+			}
+
+			.color-legends {
+				text-align: left;
+			}
+
+			.color-legends > li {
+				margin-left: 0;
+				list-style-type: none;
+			}
+
+			.color-legend {
+				display: inline-block;
+				width: 1em;
+				height: 1em;
+				margin-right: 0.5em !important;
+			}
+
+			.group-red {
+				background-color: #ffc5c5;
+			}
+
+			.group-green {
+				background-color: #c5ffc5;
+			}
+
+			.group-blue {
+				background-color: #c5c5ff;
+			}
+
+			.group-yellow {
+				background-color: #ffffc5;
+			}
+
+			.group-special {
+				border: 1px solid #ff25ff !important;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="../components/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="has-footer">
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1 style="font-size:2em;">
+						Types, Subtypes, Meta, Options<br>
+						<span style="font-size:70%;">
+							-<br>
+							An Abstract View on<br>
+							Data Structures in WordPress
+						</span>
+					</h1>
+
+					<small class="credit">
+						A presentation by <a href="https://twitter.com/felixarntz">@felixarntz</a>
+					</small>
+
+					<aside class="notes">
+						<ul>
+							<li>when talking data structures here, they don't mean data structures as in computer science</li>
+							<li>we'll start with the database schema, and then dive in deeper from there into the APIs around that data</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>The WordPress Database Schema</h2>
+				</section>
+
+				<section data-transition="slide-in fade-out">
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<h3>Regular Tables</h3>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code>wp_commentmeta</code></li>
+								<li><code>wp_comments</code></li>
+								<li><code>wp_links</code></li>
+								<li><code>wp_options</code></li>
+								<li><code>wp_postmeta</code></li>
+								<li><code>wp_posts</code></li>
+								<li><code>wp_termmeta</code></li>
+								<li><code>wp_terms</code></li>
+								<li><code>wp_term_relationships</code></li>
+								<li><code>wp_term_taxonomy</code></li>
+								<li><code>wp_usermeta</code></li>
+								<li><code>wp_users</code></li>
+							</ul>
+						</div>
+						<div class="fragment" style="flex:1;">
+							<h3>Additional Multisite Tables</h3>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code>wp_blogmeta</code> (coming in WordPress 5.1)</li>
+								<li><code>wp_blogs</code></li>
+								<li><code>wp_blog_versions</code></li>
+								<li><code>wp_registration_log</code></li>
+								<li><code>wp_signups</code></li>
+								<li><code>wp_sitemeta</code></li>
+								<li><code>wp_site</code></li>
+							</ul>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>12 regular tables</li>
+							<li>let's use `wp_` prefix here for convenience and differentiation</li>
+							<li>7 multisite tables (which are global)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in slide-out">
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<div class="h3">Regular Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_commentmeta</code></li>
+								<li><code>wp_comments</code></li>
+								<li><code>wp_links</code></li>
+								<li><code>wp_options</code></li>
+								<li><code class="group-red">wp_postmeta</code></li>
+								<li><code>wp_posts</code></li>
+								<li><code class="group-red">wp_termmeta</code></li>
+								<li><code>wp_terms</code></li>
+								<li><code>wp_term_relationships</code></li>
+								<li><code>wp_term_taxonomy</code></li>
+								<li><code class="group-red">wp_usermeta</code></li>
+								<li><code>wp_users</code></li>
+							</ul>
+						</div>
+						<div style="flex:1;">
+							<div class="h3">Additional Multisite Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_blogmeta</code> (coming in WordPress 5.1)</li>
+								<li><code>wp_blogs</code></li>
+								<li><code>wp_blog_versions</code></li>
+								<li><code>wp_registration_log</code></li>
+								<li><code>wp_signups</code></li>
+								<li><code class="group-red">wp_sitemeta</code></li>
+								<li><code>wp_site</code></li>
+							</ul>
+
+							<div style="margin-top:1em;">
+								<div class="h4">Legend</div>
+								<ul class="color-legends">
+									<li>
+										<span class="color-legend group-red"></span>
+										Meta Table
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>when looking at these 19 tables, we can at least identify one group at first glance</li>
+							<li>those meta tables look like they are somewhat related</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Metadata Tables</h3>
+
+					<table class="borderless-table" style="margin:auto;">
+						<tbody>
+							<tr>
+								<td><code class="group-red">wp_commentmeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_comments</code></td>
+							</tr>
+							<tr>
+								<td><code class="group-red">wp_postmeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_posts</code></td>
+							</tr>
+							<tr>
+								<td><code class="group-red">wp_termmeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_terms</code></td>
+							</tr>
+							<tr>
+								<td><code class="group-red">wp_usermeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_users</code></td>
+							</tr>
+							<tr>
+								<td><code class="group-red">wp_blogmeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_blogs</code></td>
+							</tr>
+							<tr>
+								<td><code class="group-red">wp_sitemeta</code></td>
+								<td>&rarr;</td>
+								<td><code class="group-green">wp_site</code></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<aside class="notes">
+						<ul>
+							<li>we can see that each of these tables has another table that appears to go with it</li>
+							<li>we will see later that it is actually the other way around</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<div class="h3">Regular Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_commentmeta</code></li>
+								<li><code class="group-green">wp_comments</code></li>
+								<li><code>wp_links</code></li>
+								<li><code>wp_options</code></li>
+								<li><code class="group-red">wp_postmeta</code></li>
+								<li><code class="group-green">wp_posts</code></li>
+								<li><code class="group-red">wp_termmeta</code></li>
+								<li><code class="group-green">wp_terms</code></li>
+								<li><code>wp_term_relationships</code></li>
+								<li><code>wp_term_taxonomy</code></li>
+								<li><code class="group-red">wp_usermeta</code></li>
+								<li><code class="group-green">wp_users</code></li>
+							</ul>
+						</div>
+						<div style="flex:1;">
+							<div class="h3">Additional Multisite Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_blogmeta</code> (coming in WordPress 5.1)</li>
+								<li><code class="group-green">wp_blogs</code></li>
+								<li><code>wp_blog_versions</code></li>
+								<li><code>wp_registration_log</code></li>
+								<li><code>wp_signups</code></li>
+								<li><code class="group-red">wp_sitemeta</code></li>
+								<li><code class="group-green">wp_site</code></li>
+							</ul>
+
+							<div style="margin-top:1em;">
+								<div class="h4">Legend</div>
+								<ul class="color-legends">
+									<li>
+										<span class="color-legend group-red"></span>
+										Meta Table
+									</li>
+									<li>
+										<span class="color-legend group-green"></span>
+										?
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>let's keep it open for now what we call this group of tables</li>
+							<li>finding the common denominator for them will be a major part of this session</li>
+							<li>the names don't get us any further, so we need to look at the table schemas now</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_commentmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>comment_id</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-green">wp_posts</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>ID</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>post_author</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>post_date</strong> datetime</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code>wp_links</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>link_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>link_url</strong> varchar(255)</code></li>
+												<li><code><strong>link_name</strong> varchar(255)</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code>wp_signups</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>signup_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>domain</strong> varchar(200)</code></li>
+												<li><code><strong>path</strong> varchar(100)</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<p class="fragment">
+						&rarr; Entries from all tables are solely identified by a<br>
+						unique numeric auto-incremented ID, <strong>except...</strong>
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>we can see that many tables have a primary ID column by which its entries are identified</li>
+							<li>these are just a few random examples, but it's actually the case for almost all tables</li>
+							<li>yes, naming is hard</li>
+							<li>since this doesn't help us, maybe we can find out something about the exceptions</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<table class="db-table-schema">
+						<tbody>
+							<tr>
+								<td><code class="group-blue">wp_options</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>option_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>option_name</strong> varchar(191) unique</code></li>
+										<li><code><strong>option_value</strong> longtext</code></li>
+										<li><code><strong>autoload</strong> varchar(20)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>entries can alternatively be identified through <code>option_name</code></li>
+							<li>as this is the options table, you may know it is typically accessed that way</li>
+							<li>not much else to detect here, but we'll look at it more towards the end of this session due to an interesting question</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Relationship Tables</h3>
+
+					<table class="db-table-schema">
+						<tbody>
+							<tr>
+								<td><code class="group-yellow">wp_term_relationships</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li><code><strong>object_id</strong> bigint(20) unsigned primary</code></li>
+										<li><code><strong>term_taxonomy_id</strong> bigint(20) unsigned primary</code></li>
+										<li><code><strong>term_order</strong> int(11)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p class="fragment">
+						&rarr; many-to-many relationship
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>only table which does not have a single identifying column, instead both <code>object_id</code> and <code>term_taxonomy_id</code></li>
+							<li>these are both references to other table entries, it's the only relationships table in core</li>
+							<li>typically connects posts with terms (defined via code though), and by the table we can tell it is a many-to-many relationship</li>
+							<li>more on posts and terms later</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Aside: Other Relationships</h4>
+
+					<p>While <code>wp_term_relationships</code> is the only case of a many-to-many relationship in core, here are examples for other relationships:</p>
+
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-green">wp_comments</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li>...</li>
+												<li><code><strong>comment_post_ID</strong></code> &rarr; entries from <code class="group-green">wp_posts</code></li>
+												<li>...</li>
+												<li><code><strong>user_id</strong></code> &rarr; entries from <code class="group-green">wp_users</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-green">wp_posts</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li>...</li>
+												<li><code><strong>post_author</strong></code> &rarr; entries from <code class="group-green">wp_users</code></li>
+												<li>...</li>
+												<li><code><strong>post_parent</strong></code> &rarr; entries from <code class="group-green">wp_posts</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_termmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li>...</li>
+												<li><code><strong>term_id</strong></code> &rarr; entries from <code class="group-green">wp_terms</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-green">wp_blogs</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li>...</li>
+												<li><code><strong>site_id</strong></code> &rarr; entries from <code class="group-green">wp_site</code></li>
+												<li>...</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<p class="fragment">
+						&rarr; one-to-many relationships
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>these are just examples, there are several more, but all are one-to-many relationships</li>
+							<li>all meta tables have a column that points to an entry of the related table</li>
+							<li>usually it's some kind of parent relationship, not only for posts, but also sites and networks (explain naming)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="slide-in fade-out">
+					<table class="db-table-schema">
+						<tbody>
+							<tr>
+								<td><code>wp_term_taxonomy</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>term_taxonomy_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>term_id</strong> bigint(20) unsigned unique</code></li>
+										<li><code><strong>taxonomy</strong> varchar(32) unique</code></li>
+										<li><code><strong>description</strong> longtext</code></li>
+										<li><code><strong>parent</strong> bigint(20) unsigned</code></li>
+										<li><code><strong>count</strong> bigint(20)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table class="db-table-schema fragment" style="margin:0 auto;font-size:70%;">
+						<tbody>
+							<tr>
+								<td><code class="group-green">wp_terms</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>term_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>name</strong> varchar(200)</code></li>
+										<li><code><strong>slug</strong> varchar(200)</code></li>
+										<li><code><strong>term_group</strong> bigint(10)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>entries can alternatively be identified through <code>term_id</code> and <code>taxonomy</code> together</li>
+							<li>this table should actually be one with <code>wp_terms</code>, it only exists for back-compat</li>
+							<li>term splitting (WP 4.2): earlier, a <code>wp_terms</code> entry could be associated with multiple <code>wp_term_taxonomy</code> entries, i.e. a single term could be associated with multiple taxonomies which caused bugs</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in slide-out">
+					<table class="db-table-schema">
+						<tbody>
+							<tr>
+								<td><code class="group-green">wp_term_taxonomy</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>term_taxonomy_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>term_id</strong> bigint(20) unsigned unique</code></li>
+										<li><code><strong>taxonomy</strong> varchar(32) unique</code></li>
+										<li><code><strong>description</strong> longtext</code></li>
+										<li><code><strong>parent</strong> bigint(20) unsigned</code></li>
+										<li><code><strong>count</strong> bigint(20)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<table class="db-table-schema" style="margin:0 auto;font-size:70%;">
+						<tbody>
+							<tr>
+								<td><code class="group-green">wp_terms</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>term_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>name</strong> varchar(200)</code></li>
+										<li><code><strong>slug</strong> varchar(200)</code></li>
+										<li><code><strong>term_group</strong> bigint(10)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>nowadays it's always one term and one taxonomy, therefore the relationship becomes redundant, and we can consider it one table</li>
+							<li>okay, I have to admit we cheated a bit here, since you wouldn't know that from looking at the database schema alone</li>
+							<li>but we're done with that part now anyway</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="slide-in fade-out">
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<div class="h3">Regular Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_commentmeta</code></li>
+								<li><code class="group-green">wp_comments</code></li>
+								<li><code>wp_links</code></li>
+								<li><code>wp_options</code></li>
+								<li><code class="group-red">wp_postmeta</code></li>
+								<li><code class="group-green">wp_posts</code></li>
+								<li><code class="group-red">wp_termmeta</code></li>
+								<li><code class="group-green">wp_terms</code></li>
+								<li><code>wp_term_relationships</code></li>
+								<li><code>wp_term_taxonomy</code></li>
+								<li><code class="group-red">wp_usermeta</code></li>
+								<li><code class="group-green">wp_users</code></li>
+							</ul>
+						</div>
+						<div style="flex:1;">
+							<div class="h3">Additional Multisite Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red">wp_blogmeta</code> (coming in WordPress 5.1)</li>
+								<li><code class="group-green">wp_blogs</code></li>
+								<li><code>wp_blog_versions</code></li>
+								<li><code>wp_registration_log</code></li>
+								<li><code>wp_signups</code></li>
+								<li><code class="group-red">wp_sitemeta</code></li>
+								<li><code class="group-green">wp_site</code></li>
+							</ul>
+
+							<div style="margin-top:1em;opacity:0;">
+								<div class="h4">Legend</div>
+								<ul class="color-legends">
+									<li>
+										<span class="color-legend group-red"></span>
+										Meta Table
+									</li>
+									<li>
+										<span class="color-legend group-green"></span>
+										?
+									</li>
+									<li>
+										<span class="color-legend group-blue"></span>
+										Options Table
+									</li>
+									<li>
+										<span class="color-legend group-yellow"></span>
+										Relationships Table
+									</li>
+									<li>
+										<span class="color-legend group-special"></span>
+										Table with sole unique numeric<br>auto-incremented identifier
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>this brings us to...</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section data-transition="fade-in slide-out">
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<div class="h3">Regular Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red group-special">wp_commentmeta</code></li>
+								<li><code class="group-green group-special">wp_comments</code></li>
+								<li><code class="group-special group-special">wp_links</code></li>
+								<li><code class="group-blue">wp_options</code></li>
+								<li><code class="group-red group-special">wp_postmeta</code></li>
+								<li><code class="group-green group-special">wp_posts</code></li>
+								<li><code class="group-red group-special">wp_termmeta</code></li>
+								<li><code class="group-green group-special">wp_terms</code></li>
+								<li><code class="group-yellow">wp_term_relationships</code></li>
+								<li><code class="group-green">wp_term_taxonomy</code></li>
+								<li><code class="group-red group-special">wp_usermeta</code></li>
+								<li><code class="group-green group-special">wp_users</code></li>
+							</ul>
+						</div>
+						<div style="flex:1;">
+							<div class="h3">Additional Multisite Tables</div>
+							<ul style="margin-left:0;list-style-type:none;">
+								<li><code class="group-red group-special">wp_blogmeta</code> (coming in WordPress 5.1)</li>
+								<li><code class="group-green group-special">wp_blogs</code></li>
+								<li><code class="group-special group-special">wp_blog_versions</code></li>
+								<li><code class="group-special group-special">wp_registration_log</code></li>
+								<li><code class="group-special group-special">wp_signups</code></li>
+								<li><code class="group-red group-special">wp_sitemeta</code></li>
+								<li><code class="group-green group-special">wp_site</code></li>
+							</ul>
+
+							<div style="margin-top:1em;">
+								<div class="h4">Legend</div>
+								<ul class="color-legends">
+									<li>
+										<span class="color-legend group-red"></span>
+										Meta Table
+									</li>
+									<li>
+										<span class="color-legend group-green"></span>
+										?
+									</li>
+									<li>
+										<span class="color-legend group-blue"></span>
+										Options Table
+									</li>
+									<li>
+										<span class="color-legend group-yellow"></span>
+										Relationships Table
+									</li>
+									<li>
+										<span class="color-legend group-special"></span>
+										Table with sole unique numeric<br>auto-incremented identifier
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>I think that is something we can work with</li>
+							<li>we have yet to find a name for the green group though</li>
+							<li>let's now dive into the WordPress codebase to figure it out!</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>How WordPress Uses its Database Tables</h2>
+				</section>
+
+				<section>
+					<h3>The Post ≠ Post Dilemma</h3>
+
+					<table class="db-table-schema" style="font-size:85%;margin:0 auto;">
+						<tbody>
+							<tr>
+								<td><code class="group-green">wp_posts</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li class="group-special"><code><strong>ID</strong> bigint(20) unsigned auto_increment primary</code></li>
+										<li><code><strong>post_author</strong> bigint(20) unsigned</code></li>
+										<li><code><strong>post_date</strong> datetime</code></li>
+										<li><code><strong>post_date_gmt</strong> datetime</code></li>
+										<li><code><strong>post_content</strong> longtext</code></li>
+										<li><code><strong>post_title</strong> text</code></li>
+										<li>...</li>
+										<li class="fragment" data-fragment-index="1"><code><strong>post_type</strong> varchar(20)</code></li>
+										<li class="fragment" data-fragment-index="1">...</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p class="fragment" data-fragment-index="2">
+						When speaking about posts, please clarify what you're referring to:
+					</p>
+					<ul class="fragment" data-fragment-index="2">
+						<li>The overall concept of posts in WordPress?</li>
+						<li>Posts of the post type "post"?</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>at first glance it seems that this table stores posts (from the blog)</li>
+							<li>however, there is no <code>wp_pages</code> table or similar &rarr; every piece of content is a post</li>
+							<li>all posts of all post types have the same schema; the only differentiation is the <code>post_type</code> column</li>
+							<li>everything else that differs lies in the code (<code>register_post_type()</code>)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							TODO: Image of connection between object type "post" and some post types
+						</div>
+						<div class="fragment" style="flex:1;">
+							TODO: Image of connection between object type "term" and some taxonomies
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>it's obviously inconvenient that the name "post" is used for both things, but this should clarify it</li>
+							<li>the same actually applies to terms and their taxonomies; they all have the same schema, there is just a <code>taxonomy</code> column</li>
+							<li>the rest is done through <code>register_taxonomy()</code>; fortunately, there is no taxonomy called "term"</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>How Terms and Posts Relate</h3>
+
+					TODO: Image of sample connections between posts of different post types to terms of different taxonomies
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>terms group posts together by certain taxonomies; when opening a term in the frontend, you don't see original content, but a list of the associated posts</li>
+							<li>a post can be assigned multiple terms, and a term can be assigned to multiple posts, hence the many-to-many <code>wp_term_relationships</code></li>
+							<li>good to know: actually, the connection is not made through <code>term_id</code>, but through <code>term_taxonomy_id</code> (due to mentioned historic reasons)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<table class="db-table-schema">
+						<tbody>
+							<tr>
+								<td><code class="group-yellow">wp_term_relationships</code></td>
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										<li><code><strong>object_id</strong> bigint(20) unsigned primary</code></li>
+										<li><code><strong>term_taxonomy_id</strong> bigint(20) unsigned primary</code></li>
+										<li><code><strong>term_order</strong> int(11)</code></li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p class="fragment">
+						&rarr; In addition to "post types", there are "object types". <strong>And they are not the same.</strong>
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>column for the post ID is called <code>object_id</code></li>
+							<li>that is because in theory terms could be associated with other object types too</li>
+							<li>however most of WordPress expects this to be a post ID, so something else is rather hacky</li>
+							<li>object type, let's have a look what that is</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>What are Object Types?</h3>
+
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							TODO: Image of connection between object type "post" and some post types (same as before)
+						</div>
+						<div style="flex:1;">
+							TODO: Image of connection between object type "term" and some taxonomies (same as before)
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>when I previously said "the overall concept of posts", I should have said "the object type post"</li>
+							<li>we already identified some similarities between the two object types "post" and "term"</li>
+							<li>but to find out more, we need to look at their APIs</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<table>
+						<thead>
+							<tr>
+								<th>Object type "post"</th>
+								<th>Object type "term"</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Class <code>WP_Post</code></td>
+								<td>Class <code>WP_Term</code></td>
+							</tr>
+							<tr>
+								<td>Function <code>get_post()</code></td>
+								<td>Function <code>get_term()</code></td>
+							</tr>
+							<tr>
+								<td>Function <code>wp_insert_post()</code></td>
+								<td>Function <code>wp_insert_term()</code></td>
+							</tr>
+							<tr>
+								<td>Function <code>wp_update_post()</code></td>
+								<td>Function <code>wp_update_term()</code></td>
+							</tr>
+							<tr>
+								<td>Function <code>wp_delete_post()</code></td>
+								<td>Function <code>wp_delete_term()</code></td>
+							</tr>
+							<tr>
+								<td>Function <code>get_posts()</code></td>
+								<td>Function <code>get_terms()</code></td>
+							</tr>
+							<tr>
+								<td>Class <code>WP_<ins>Post_</ins>Query</code></td>
+								<td>Class <code>WP_Term_Query</code></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p class="fragment">
+						&rarr; If WordPress had used interfaces from the beginning,<br>
+						there likely would be one for all of these.
+					</p>
+
+					<aside class="notes">
+						<ul>
+							<li>APIs look similar (except for what should be <code>WP_Post_Query</code>, but who would have known 15 years ago?</li>
+							<li>while there are slight nuances in the APIs, they follow a general structure</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							TODO: Image of connection between object type "post" and some post types (same as before)
+						</div>
+						<div style="flex:1;">
+							TODO: Image of connection between object type "term" and some taxonomies (same as before)
+						</div>
+						<div class="fragment" data-fragment-index="1" style="flex:1;">
+							TODO: Image of object type "comment"
+						</div>
+					</div>
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div class="fragment" data-fragment-index="1" style="flex:1;">
+							TODO: Image of object type "user"
+						</div>
+						<div class="fragment" data-fragment-index="2" style="flex:1;">
+							TODO: Image of object type "site" (internally "blog")
+						</div>
+						<div class="fragment" data-fragment-index="2" style="flex:1;">
+							TODO: Image of object type "network" (internally "site")
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul>
+							<li>when browsing the code further, we can actually see that there are more that follow similar behavior</li>
+							<li>sites and networks only partly have these APIs currently, but adding full support is being worked on</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>So why should we suddenly care about object types?</h3>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>for a long time it wasn't really talked about that these follow similar architectures, aside from a few development-purist Trac tickets that never went anywhere</li>
+							<li>however, it became necessary to think about it a while ago when an interesting challenge regarding the REST API and metadata came up</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>Aside: What is Metadata?</h4>
+
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_commentmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>comment_id</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_usermeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong><del>u</del>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>user_id</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_postmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>post_id</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_blogmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong>meta_id</strong> bigint(20) (unsigned) auto_increment primary</code></li>
+												<li><code><strong>blog_id</strong> bigint(20) (unsigned)</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_termmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>term_id</strong> bigint(20) unsigned</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_sitemeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li><code><strong>meta_id</strong> bigint(20) (unsigned) auto_increment primary</code></li>
+												<li><code><strong>site_id</strong> bigint(20) (unsigned)</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>arbitrary key-value pairs associated with an entry from the connected base table</li>
+							<li>multiple values per key allowed, for example to store array-like data</li>
+							<li>compare: base table name, object ID column name</li>
+							<li>not great in terms of database architecture, but they are what typically makes custom post types feel different from the regular post types (give custom "event" example, and featured images)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>The Abstract Meta API</h4>
+
+					<ul style="margin-left:0;list-style-type:none;font-size:90%;">
+						<li><code class="signature">get_metadata( <span class="arg-type">string</span> <span class="arg-name">$object_type</span>, <span class="arg-type">integer</span> <span class="arg-name">$object_id</span>, <span class="arg-type">string</span> <span class="arg-name">$meta_key</span>, <span class="arg-type">boolean</span> <span class="arg-name">$single</span> )</code></li>
+						<li><code class="signature">add_metadata( <span class="arg-type">string</span> <span class="arg-name">$object_type</span>, <span class="arg-type">integer</span> <span class="arg-name">$object_id</span>, <span class="arg-type">string</span> <span class="arg-name">$meta_key</span>, <span class="arg-type">mixed</span> <span class="arg-name">$meta_value</span> )</code></li>
+						<li><code class="signature">update_metadata( <span class="arg-type">string</span> <span class="arg-name">$object_type</span>, <span class="arg-type">integer</span> <span class="arg-name">$object_id</span>, <span class="arg-type">string</span> <span class="arg-name">$meta_key</span>, <span class="arg-type">mixed</span> <span class="arg-name">$meta_value</span>, <span class="arg-type">mixed</span> <span class="arg-name">$prev_value</span> )</code></li>
+						<li><code class="signature">delete_metadata( <span class="arg-type">string</span> <span class="arg-name">$object_type</span>, <span class="arg-type">integer</span> <span class="arg-name">$object_id</span>, <span class="arg-type">string</span> <span class="arg-name">$meta_key</span>, <span class="arg-type">boolean</span> <span class="arg-name">$delete_all</span> )</code></li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>the meta tables are almost entirely consistent, so contrary to the object types themselves, metadata has an abstract API</li>
+							<li>as developers we don't usually interact with these directly because there are object type-specific wrappers for all of them</li>
+							<li>to be honest, the name of the first parameter is actually <code>$meta_type</code>, however that is the same thing; the object type naming came up just a few months ago</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<p style="font-size:90%;">
+						<code class="signature" style="padding-left:0;text-indent:0;">register_meta( <span class="arg-type">string</span> <span class="arg-name">$object_type</span>, <span class="arg-type">string</span> <span class="arg-name">$meta_key</span>, <span class="arg-type">array</span> <span class="arg-name">$args</span> )</code>
+						<br>
+						<small>(since WordPress 4.6)</small>
+					</p>
+
+					<p class="fragment" style="font-size:90%;">
+						An optional <code class="signature" style="padding-left:0;text-indent:0;"><span class="arg-type">string</span> <span class="arg-name">$object_subtype</span></code> argument can be passed as argument
+						<br>
+						<small>(since WordPress 4.9.8)</small>
+					</p>
+
+					<aside class="notes">
+						<ul style="font-size:14px;">
+							<li>REST API has been dealing with metadata in an abstract way, required a way to register metadata</li>
+							<li>initial version was barely usable for real-world use cases because most metadata used is metadata for the object type "post", and that is almost entirely used per post type (subtype) only (reuse "event" example)</li>
+							<li>it really exposes the object type and object subtype concept to plugin developers for the first time</li>
+							<li>there are some convenience wrappers, but only for the object types that support subtypes</li>
+							<li>this is just the first example of an API that exposes the concept of object types and subtypes</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Definition of an Object Type</h3>
+
+					<blockquote class="fragment">
+						<p>
+							An object type in WordPress specifies a <strong>group of entities of a similar nature</strong>. The <strong>APIs of different object types follow a common structure</strong>, even in case they are technically independent. Entities of an object type are identified by a <strong>numeric ID that is set via an auto-incremented database column</strong>. Object types <strong>may or may not support subtypes</strong>, and they <strong>may or may not support metadata</strong>.
+						</p>
+					</blockquote>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>after having looked into the origin of the term and why it has become necessary to be aware of it, let's get to a definition</li>
+							<li>the technical independence of the APIs is largely due to historic reasons, and they might as well have been implemented using a common interface</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h3>Overview about Core Object Types</h3>
+
+					<table style="margin:0 auto;font-size:50%;white-space:nowrap;">
+						<thead>
+							<tr>
+								<th></th>
+								<th>comment</th>
+								<th>post</th>
+								<th>term</th>
+								<th>user</th>
+								<th>site</th>
+								<th>network</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">class</th>
+								<td><code>WP_Comment</code></td>
+								<td><code>WP_Post</code></td>
+								<td><code>WP_Term</code></td>
+								<td><code>WP_User</code></td>
+								<td><code>WP_Site</code></td>
+								<td><code>WP_Network</code></td>
+							</tr>
+							<tr>
+								<th scope="row">retrieval</th>
+								<td><code>get_comment()</code></td>
+								<td><code>get_post()</code></td>
+								<td><code>get_term()</code></td>
+								<td><code>get_user<del>data</del>()</code></td>
+								<td><code>get_site()</code></td>
+								<td><code>get_network()</code></td>
+							</tr>
+							<tr>
+								<th scope="row">addition</th>
+								<td><code>wp_insert_comment()</code></td>
+								<td><code>wp_insert_post()</code></td>
+								<td><code>wp_insert_term()</code></td>
+								<td><code>wp_insert_user()</code></td>
+								<td><code>wp_insert_site()</code> <sup>1</sup></td>
+								<td><code>wp_insert_network()</code> <sup>2</sup></td>
+							</tr>
+							<tr>
+								<th scope="row">modification</th>
+								<td><code>wp_update_comment()</code></td>
+								<td><code>wp_update_post()</code></td>
+								<td><code>wp_update_term()</code></td>
+								<td><code>wp_update_user()</code></td>
+								<td><code>wp_update_site()</code> <sup>1</sup></td>
+								<td><code>wp_update_network()</code> <sup>2</sup></td>
+							</tr>
+							<tr>
+								<th scope="row">deletion</th>
+								<td><code>wp_delete_comment()</code></td>
+								<td><code>wp_delete_post()</code></td>
+								<td><code>wp_delete_term()</code></td>
+								<td><code>wp_delete_user()</code></td>
+								<td><code>wp_delete_site()</code> <sup>1</sup></td>
+								<td><code>wp_delete_network()</code> <sup>2</sup></td>
+							</tr>
+							<tr>
+								<th scope="row">querying</th>
+								<td><code>get_comments()</code></td>
+								<td><code>get_posts()</code></td>
+								<td><code>get_terms()</code></td>
+								<td><code>get_users()</code></td>
+								<td><code>get_sites()</code></td>
+								<td><code>get_networks()</code></td>
+							</tr>
+							<tr>
+								<th scope="row">query class</th>
+								<td><code>WP_Comment_Query</code></td>
+								<td><code>WP_<ins>Post_</ins>Query</code></td>
+								<td><code>WP_Term_Query</code></td>
+								<td><code>WP_User_Query</code></td>
+								<td><code>WP_Site_Query</code></td>
+								<td><code>WP_Network_Query</code></td>
+							</tr>
+							<tr>
+								<th scope="row">subtypes</th>
+								<td>kinda</td>
+								<td>yes (post types)</td>
+								<td>yes (taxonomies)</td>
+								<td>no</td>
+								<td>no</td>
+								<td>no</td>
+							</tr>
+							<tr>
+								<th scope="row">metadata</th>
+								<td>yes</td>
+								<td>yes</td>
+								<td>yes</td>
+								<td>yes</td>
+								<td>yes <sup>1</sup></td>
+								<td>kinda</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<ul style="margin-top:3em;margin-left:0;list-style-type:none;font-size:50%;">
+						<li><sup>1</sup> coming in WordPress 5.1</li>
+						<li><sup>2</sup> coming in the future</li>
+					</ul>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>explain the two "kinda" things</li>
+							<li>there are no APIs in core to easily implement custom object types, however it's certainly possible</li>
+							<li>add a custom database table, surrounding classes and APIs of a similar nature, and hook into the few integration points in core</li>
+							<li>the only part that can be quickly developed is metadata support</li>
+							<li>theoretically other core DB tables could also be implemented as object types</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					TODO: Comparing Options and Site Metadata
+				</section>
+
+				<section>
+					TODO: Image of bubbles for "object type", "object subtype" (containing "post types" and "taxonomies", and kinda "comment types"), "relationships" (as connector between tables), "metadata" (networks are "kinda"), "options" (dashed connection to sites with "kinda")
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>so after this deep dive into WordPress data structures, here is an overview about what we discovered</li>
+							<li>I hope you don't leave this in <em>total</em> confusion, instead I hope that the confusion that is present leads to further communication and discussion</li>
+							<li>if you have ideas, especially on those "kinda" unclear parts, please share them, in conversation, in a blog post, in a Trac ticket - I'm looking forward to it</li>
+						</ul>
+					</aside>‚
+				</section>
+
+				<section>
+					<h2>
+						Thank you!
+					</h2>
+
+					<h3 class="text-right">
+						Felix Arntz
+					</h3>
+
+					<p class="text-right muted" style="margin-bottom:80px">
+						Open-Source Contributor / WordPress Core Committer<br>
+						Developer Programs Engineer at Google
+					</p>
+
+					<ul class="list-unstyled text-right">
+						<li>
+							<a href="https://felix-arntz.me">felix-arntz.me</a>
+						</li>
+						<li>
+							<a href="https://profiles.wordpress.org/flixos90">profiles.wordpress.org/flixos90</a>
+						</li>
+						<li>
+							<a href="https://github.com/felixarntz">github.com/felixarntz</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/felixarntz">twitter.com/felixarntz</a>
+						</li>
+					</ul>
+				</section>
+			</div>
+
+			<aside class="footer" style="background-color:transparent;border-top:0;">
+				<a href="/types-subtypes-meta-options-data-structures-in-wordpress/" class="left">Types, Subtypes, Meta, Options</a>
+				<a href="https://twitter.com/felixarntz" class="right">@felixarntz</a>
+			</aside>
+
+		</div>
+
+		<script src="../components/reveal.js/lib/js/head.min.js"></script>
+		<script src="../components/reveal.js/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: false,
+				keyboard: true,
+				overview: true,
+				touch: true,
+				loop: false,
+				rtl: false,
+				fragments: true,
+				embedded: false,
+				help: true,
+				showNotes: false,
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				mouseWheel: false,
+				hideAddressBar: true,
+				previewLinks: false,
+				transition: 'slide',
+				transitionSpeed: 'default',
+				backgroundTransition: 'default',
+				viewDistance: 3,
+				width: 1440,
+				height: 900,
+				margin: 0.1,
+				minScale: 0.25,
+				maxScale: 2,
+				dependencies: [
+					{
+						src: '../components/reveal.js/lib/js/classList.js',
+						condition: function() {
+							return !document.body.classList;
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/marked.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/markdown/markdown.js',
+						condition: function() {
+							return !!document.querySelector( '[data-markdown]' );
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function() {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: '../components/reveal.js/plugin/zoom-js/zoom.js',
+						async: true
+					},
+					{
+						src: '../components/reveal.js/plugin/notes/notes.js',
+						async: true
+					}
+				]
+			});
+		</script>
+
+	</body>
+</html>
