@@ -831,10 +831,10 @@
 				<section>
 					<div style="display:flex;justify-content:space-between;font-size:70%;">
 						<div style="flex:1;">
-							TODO: Image of connection between object type "post" and some post types
+							<img data-src="assets/object-type-post.png" class="plain" style="min-width:40%;">
 						</div>
 						<div class="fragment" style="flex:1;">
-							TODO: Image of connection between object type "term" and some taxonomies
+							<img data-src="assets/object-type-term.png" class="plain" style="min-width:40%;">
 						</div>
 					</div>
 
@@ -848,9 +848,9 @@
 				</section>
 
 				<section>
-					<h3>How Terms and Posts Relate</h3>
+					<h3>How Posts and Terms Relate</h3>
 
-					TODO: Image of sample connections between posts of different post types to terms of different taxonomies
+					<img data-src="assets/post-term-relationships.png" class="plain" style="min-width:60%;">
 
 					<aside class="notes">
 						<ul style="font-size:16px;">
@@ -898,10 +898,10 @@
 
 					<div style="display:flex;justify-content:space-between;font-size:70%;">
 						<div style="flex:1;">
-							TODO: Image of connection between object type "post" and some post types (same as before)
+							<img data-src="assets/object-type-post.png" class="plain" style="min-width:40%;">
 						</div>
 						<div style="flex:1;">
-							TODO: Image of connection between object type "term" and some taxonomies (same as before)
+							<img data-src="assets/object-type-term.png" class="plain" style="min-width:40%;">
 						</div>
 					</div>
 
@@ -970,24 +970,24 @@
 				<section>
 					<div style="display:flex;justify-content:space-between;font-size:70%;">
 						<div style="flex:1;">
-							TODO: Image of connection between object type "post" and some post types (same as before)
+							<img data-src="assets/object-type-post.png" class="plain" style="min-width:60%;">
 						</div>
 						<div style="flex:1;">
-							TODO: Image of connection between object type "term" and some taxonomies (same as before)
+							<img data-src="assets/object-type-term.png" class="plain" style="min-width:60%;">
 						</div>
 						<div class="fragment" data-fragment-index="1" style="flex:1;">
-							TODO: Image of object type "comment"
+							<img data-src="assets/object-type-comment.png" class="plain" style="min-width:60%;">
 						</div>
 					</div>
 					<div style="display:flex;justify-content:space-between;font-size:70%;">
 						<div class="fragment" data-fragment-index="1" style="flex:1;">
-							TODO: Image of object type "user"
+							<img data-src="assets/object-type-user.png" class="plain" style="min-width:60%;">
 						</div>
 						<div class="fragment" data-fragment-index="2" style="flex:1;">
-							TODO: Image of object type "site" (internally "blog")
+							<img data-src="assets/object-type-site.png" class="plain" style="min-width:60%;">
 						</div>
 						<div class="fragment" data-fragment-index="2" style="flex:1;">
-							TODO: Image of object type "network" (internally "site")
+							<img data-src="assets/object-type-network.png" class="plain" style="min-width:60%;">
 						</div>
 					</div>
 
@@ -1195,6 +1195,22 @@
 				</section>
 
 				<section>
+					<h4>Reminder</h4>
+
+					<blockquote>
+						<p>
+							The term "object type" is not a synonym of the term "post type". Instead, "post type" is a synonym for the subtype of the "post" object type.
+						</p>
+					</blockquote>
+
+					<aside class="notes">
+						<ul>
+							<li>always keep this in mind</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<h3>Overview about Core Object Types</h3>
 
 					<table style="margin:0 auto;font-size:50%;white-space:nowrap;">
@@ -1311,11 +1327,65 @@
 				</section>
 
 				<section>
-					TODO: Comparing Options and Site Metadata
+					<h3>Comparing Options and Site Metadata</h3>
+
+					<div style="display:flex;justify-content:space-between;font-size:70%;">
+						<div style="flex:1;">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-blue">wp_options</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>option_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>option_name</strong> varchar(191) unique</code></li>
+												<li><code><strong>option_value</strong> longtext</code></li>
+												<li><code><strong>autoload</strong> varchar(20)</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div style="flex:1;" class="fragment">
+							<table class="db-table-schema">
+								<tbody>
+									<tr>
+										<td><code class="group-red">wp_blogmeta</code></td>
+									</tr>
+									<tr>
+										<td>
+											<ul>
+												<li class="group-special"><code><strong>meta_id</strong> bigint(20) unsigned auto_increment primary</code></li>
+												<li><code><strong>blog_id</strong> bigint(20)</code></li>
+												<li><code><strong>meta_key</strong> varchar(255)</code></li>
+												<li><code><strong>meta_value</strong> longtext</code></li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>so far we ignored this, but options is a special case that needs special attention</li>
+							<li>entries are identified by numeric ID, but also by <code>option_name</code></li>
+							<li>that also means there is only one value per key, different from meta</li>
+							<li>however, when looking at it in multisite scope, things get interesting</li>
+							<li>sites can be queried by metadata, but not by options</li>
+							<li>options can get massive, so site metadata would possibly get 10000 times that</li>
+						</ul>
+					</aside>
 				</section>
 
 				<section>
-					TODO: Image of bubbles for "object type", "object subtype" (containing "post types" and "taxonomies", and kinda "comment types"), "relationships" (as connector between tables), "metadata" (networks are "kinda"), "options" (dashed connection to sites with "kinda")
+					<img data-src="assets/wordpress-data-structures.png" class="plain" style="min-width:60%;">
+
+					<p><small>Dashed lines indicate that part is rather unclear at the moment.</small></p>
 
 					<aside class="notes">
 						<ul style="font-size:16px;">
@@ -1323,7 +1393,7 @@
 							<li>I hope you don't leave this in <em>total</em> confusion, instead I hope that the confusion that is present leads to further communication and discussion</li>
 							<li>if you have ideas, especially on those "kinda" unclear parts, please share them, in conversation, in a blog post, in a Trac ticket - I'm looking forward to it</li>
 						</ul>
-					</aside>‚
+					</aside>
 				</section>
 
 				<section>
