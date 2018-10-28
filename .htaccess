@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^slides.leaves-and-love.net$
+  RewriteRule (.*)$ https://slides.felix-arntz.me/$1 [R=301,L]
+</IfModule>
