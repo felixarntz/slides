@@ -99,9 +99,21 @@
 					</small>
 
 					<aside class="notes">
-						<ul>
+						<ul style="font-size:16px;">
 							<li>when talking data structures here, they don't mean data structures as in computer science</li>
+							<li>knowing the ins and outs is crucial for plugin developers and core contributors</li>
 							<li>we'll start with the database schema, and then dive in deeper from there into the APIs around that data</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<img data-src="assets/wordpress-data-structures.png" class="plain" style="min-width:60%;">
+
+					<aside class="notes">
+						<ul style="font-size:16px;">
+							<li>this is a representation of data structures in WordPress - yeah it looks complicated</li>
+							<li>so let's take WordPress apart, and put some sense into what you see here - emphasizing some, because as we all know, WordPress has a lot of legacy code where some things just don't make sense</li>
 						</ul>
 					</aside>
 				</section>
@@ -1180,11 +1192,12 @@
 				<section>
 					<h3>Definition of an Object Type</h3>
 
-					<blockquote class="fragment">
-						<p>
-							An object type in WordPress specifies a <strong>group of entities of a similar nature</strong>. The <strong>APIs of different object types follow a common structure</strong>, even in case they are technically independent. Entities of an object type are identified by a <strong>numeric ID that is set via an auto-incremented database column</strong>. Object types <strong>may or may not support subtypes</strong>, and they <strong>may or may not support metadata</strong>.
-						</p>
-					</blockquote>
+					<ul>
+						<li class="fragment">group of entities of similar nature</li>
+						<li class="fragment">APIs follow a common structure, even in case they are technically independent</li>
+						<li class="fragment">entities are identified by a numeric ID that is set via an auto-incremented database column</li>
+						<li class="fragment">object types may or may not support subtypes, and they may or may not support metadata</li>
+					</ul>
 
 					<aside class="notes">
 						<ul style="font-size:16px;">
